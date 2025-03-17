@@ -57,6 +57,12 @@ O projeto estará disponível em `http://localhost:5173`.
 └-- vite.config.js   # Configuração do Vite
 ```
 
+## 🔀 Estrutura de Branches
+
+- `main`: Contém a versão estável do projeto.
+- `develop`: Branch principal para o desenvolvimento e integração de novas funcionalidades antes de serem mescladas na `main`.
+
+
 ## 🔹 Padrões de Commits e Pull Requests
 
 Para manter um histórico limpo, siga os padrões abaixo:
