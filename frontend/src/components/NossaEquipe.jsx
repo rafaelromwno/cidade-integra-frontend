@@ -38,7 +38,7 @@ const NossaEquipe = () => {
         <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
           <div className="max-w-2xl">
             <h2 className="text-3xl font-bold tracking-tight text-azul-paleta sm:text-4xl">Nossa Equipe</h2>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
+            <p className="mt-6 text-lg leading-8 text-gray-600 text-justify">
               Somos um grupo de estudantes do curso de Desenvolvimento de Software Multiplataforma da FATEC Matão. Este projeto é parte do nosso trabalho acadêmico, nossa equipe está comprometida a utilizar o conhecimento adquirido no curso para desenvolver uma solução eficaz e inovadora que contribua para uma cidade mais limpa e segura.
             </p>
           </div>

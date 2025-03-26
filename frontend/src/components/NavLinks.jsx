@@ -19,10 +19,10 @@ const NavLinks = () => {
         Denúncias
       </Link>
       <Link
-        to="/ajuda"
+        to="/duvidas"
         className="hover:text-verde-paleta hover:shadow duration-500 block"
       >
-        Ajuda
+        Dúvidas
       </Link>
 
       {/* botôes criar conta e login */}
