@@ -24,7 +24,7 @@ const NossosValores = () => {
             className="w-3/4 md:w-1/3 h-auto object-cover" 
             title="Fonte: gerado por Inteligência Artificial Canva em 27/08/2024." 
           />
-          <div className="p-6 text-verde-paleta md:w-2/3">
+          <div className="p-6 text-azul-paleta md:w-2/3">
             <h2 className="text-xl font-bold mb-4">Facilitamos denúncias de problemas ambientais para promover a proteção do nosso planeta.</h2>
           </div>
         </div>
