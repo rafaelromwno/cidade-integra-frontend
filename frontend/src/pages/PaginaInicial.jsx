@@ -3,7 +3,7 @@ import NossosValores from "../components/NossosValores";
 import NossaEquipe from "../components/NossaEquipe";
 import Layout from "../components/Layout";
 
-function PáginaInicial() {
+function PaginaInicial() {
   return (
     <Layout>
       <BemVindo />
@@ -13,4 +13,4 @@ function PáginaInicial() {
   );
 }
 
-export default PáginaInicial;
+export default PaginaInicial;
