@@ -5,9 +5,9 @@ import FormularioCriarConta from '../components/FormularioCriarConta'
 const Denuncia = () => {
   return (
     <Layout>
-        <FormularioCriarConta />
+      <FormularioCriarConta />
     </Layout>
-    
+
   )
 }
 
