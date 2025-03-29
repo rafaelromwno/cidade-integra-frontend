@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const BemVindo = () => {
 
     return (
@@ -10,9 +12,9 @@ const BemVindo = () => {
             <p className="text-lg leading-relaxed">
               Aqui, você pode ajudar a transformar sua cidade ao reportar problemas urbanos como lixo nas ruas e iluminação deficiente. Juntos, vamos tornar nossos <span className="text-verde-paleta">ambientes</span> mais limpos e seguros.
             </p>
-            <a href="/CreateDenuncia" className="inline-block bg-verde-paleta hover:bg-verde-escuro-paleta text-white font-bold py-3 px-4 duration-500 rounded-lg shadow-lg transition mt-4">
+            <Link to="/denuncie" className="inline-block bg-verde-paleta hover:bg-verde-escuro-paleta text-white font-bold py-3 px-4 duration-500 rounded-lg shadow-lg transition mt-4">
               Denuncie Já
-            </a>
+            </Link>
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img 
