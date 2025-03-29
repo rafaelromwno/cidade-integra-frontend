@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';	
 
 
 const FormularioLogin = () => {
@@ -44,12 +45,12 @@ const FormularioLogin = () => {
                             required
                         />
 
-                        <a
-                            href="/esqueci-senha"
+                        <Link
+                            to="/esqueci-senha"
                             className="block text-xs text-gray-200 hover:text-verde-paleta mt-1 duration-500"
                         >
                             Esqueceu a senha?
-                        </a>
+                        </Link>
                     </div>
 
                     {/* Opções adicionais */}
@@ -64,12 +65,12 @@ const FormularioLogin = () => {
                                 Lembrar-me
                             </label>
                         </div>
-                        <a
-                            href="/criar-conta"
+                        <Link
+                            to="/criar-conta"
                             className="text-xs text-verde-paleta hover:text-verde-escuro-paleta duration-500"
                         >
                             Criar Conta
-                        </a>
+                        </Link>
                     </div>
 
                     {/* Botão de Login */}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function CriarConta() {
   const [form, setForm] = useState({
@@ -62,7 +63,7 @@ export default function CriarConta() {
         </form>
 
         <p className="text-center text-gray-400 mt-6">
-          Já possui uma conta? <a href="/login" className="text-verde-paleta hover:text-verde-escuro-paleta duration-500">Entrar</a>
+          Já possui uma conta? <Link to="/entrar" className="text-verde-paleta hover:text-verde-escuro-paleta duration-500">Entrar</Link>
         </p>
       </div>
     </div>
