@@ -1,14 +1,13 @@
-import React from 'react'
-import Layout from '../components/Layout'
-import FormularioLogin from '../components/FormularioLogin'
+import React from "react";
+import Layout from "../components/Layout";
+import FormularioLogin from "../components/FormularioLogin";
 
 const Entrar = () => {
-    return (
-        <Layout>
-            <FormularioLogin />
-        </Layout>
+  return (
+    <Layout>
+      <FormularioLogin />
+    </Layout>
+  );
+};
 
-    )
-}
-
-export default Entrar
+export default Entrar;

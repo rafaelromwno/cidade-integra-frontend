@@ -77,6 +77,7 @@ export const faqData = [
     question: "Como posso entrar em contato com vocês?",
     answer: (
       <p>
+        <a name="contato"></a>
         Utilize nosso email para{" "}
         <a href="mailto:suporte@cidadeunida.com" className="text-green-500">
           suporte@cidadeunida.com

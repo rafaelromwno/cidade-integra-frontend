@@ -1,15 +1,11 @@
-import PaginaInicial from "./pages/PaginaInicial";
-import Duvidas from "./pages/Duvidas";
-import Denuncia from "./pages/Denuncia";
-import CriarConta from "./pages/CriarConta"
-import Entrar from "./pages/Entrar";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   
 
   return (
     <>
-      <Entrar />
+      <AppRoutes />
     </>
   );
 }
