@@ -23,7 +23,7 @@ const Footer = () => {
               to="/"
               className="mx-2 hover:text-verde-paleta hover:shadow duration-500"
             >
-              Home
+              Início
             </Link>
 
             <Link

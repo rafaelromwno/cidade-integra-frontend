@@ -10,7 +10,7 @@ const NavLinks = () => {
         to="/"
         className="hover:text-verde-paleta hover:shadow duration-500 block"
       >
-        Página Inicial
+        Inicío
       </Link>
       <Link
         to="/denuncie"
