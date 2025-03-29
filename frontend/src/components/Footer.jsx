@@ -62,11 +62,7 @@ const Footer = () => {
                 alt="github logo"
               />
             </a>
-            <a
-              target="_blank"
-              href="https://discord.gg/xv8cuVYTKw"
-              className="mx-2"
-            >
+            <a target="_blank" href="#" className="mx-2">
               <img
                 src="https://raw.githubusercontent.com/maurodesouza/profile-readme-generator/master/src/assets/icons/social/linkedin/default.svg"
                 width="40"
@@ -74,7 +70,11 @@ const Footer = () => {
                 alt="linkedin logo"
               />
             </a>
-            <a href="#" className="mx-2">
+            <a
+              target="_blank"
+              href="https://discord.gg/xv8cuVYTKw"
+              className="mx-2"
+            >
               <img
                 src="https://raw.githubusercontent.com/maurodesouza/profile-readme-generator/master/src/assets/icons/social/discord/default.svg"
                 width="40"
