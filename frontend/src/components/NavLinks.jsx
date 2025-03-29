@@ -10,10 +10,10 @@ const NavLinks = () => {
         to="/"
         className="hover:text-verde-paleta hover:shadow duration-500 block"
       >
-        Home
+        Página Inicial
       </Link>
       <Link
-        to="/denuncias"
+        to="/denuncie"
         className="hover:text-verde-paleta hover:shadow duration-500 block"
       >
         Denúncias
@@ -28,7 +28,7 @@ const NavLinks = () => {
       {/* botôes criar conta e login */}
       <div className="space-x-2">
         <Link
-          to="/registro"
+          to="/criar-conta"
           className="bg-verde-paleta hover:bg-verde-escuro-paleta duration-500 text-azul-paleta font-bold py-2 px-4 rounded inline-flex items-center"
         >
           <span className="material-symbols-outlined flex items-center justify-center w-5 h-5 mr-2">
@@ -37,7 +37,7 @@ const NavLinks = () => {
           Criar Conta
         </Link>
         <Link
-          to="/login"
+          to="/"
           className="bg-gray-300 hover:bg-gray-400 duration-500 text-azul-paleta font-bold py-2 px-4 rounded inline-flex items-center"
         >
           <span className="material-symbols-outlined flex items-center justify-center w-5 h-5 mr-2">
