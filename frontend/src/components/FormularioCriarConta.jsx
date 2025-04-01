@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../services/FirebaseConfig"; // Importação correta
 
 export default function CriarConta() {
   const [form, setForm] = useState({
@@ -9,15 +11,31 @@ export default function CriarConta() {
     senha: "",
     confirmarSenha: "",
   });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Dados do formulário:", form);
-    // Aqui você pode integrar com Firebase Authentication
+    if (form.senha !== form.confirmarSenha) {
+      setError("As senhas não coincidem.");
+      return;
+    }
+    try {
+      await createUserWithEmailAndPassword(auth, form.email, form.senha);
+      navigate("/entrar");
+    } catch (err) {
+      if (err.code === "auth/email-already-in-use") {
+        setError("O email já está em uso.");
+      } else if (err.code === "auth/weak-password") {
+        setError("A senha deve ter pelo menos 6 caracteres.");
+      } else {
+        setError("Erro ao cadastrar: " + err.message);
+      }
+    }
   };
 
   return (
@@ -30,13 +48,40 @@ export default function CriarConta() {
           Preencha o formulário abaixo para criar sua conta.
         </p>
 
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+
         <form onSubmit={handleSubmit}>
           {[
-            { label: "Nome Completo", name: "nome", type: "text", placeholder: "Seu Nome Completo" },
-            { label: "E-mail", name: "email", type: "email", placeholder: "lyoto.machida@email.com" },
-            { label: "Telefone", name: "telefone", type: "tel", placeholder: "(11) 99999-9999" },
-            { label: "Senha", name: "senha", type: "password", placeholder: "Digite sua senha" },
-            { label: "Confirmar Senha", name: "confirmarSenha", type: "password", placeholder: "Confirme sua senha" },
+            {
+              label: "Nome Completo",
+              name: "nome",
+              type: "text",
+              placeholder: "Seu Nome Completo",
+            },
+            {
+              label: "E-mail",
+              name: "email",
+              type: "email",
+              placeholder: "lyoto.machida@email.com",
+            },
+            {
+              label: "Telefone",
+              name: "telefone",
+              type: "tel",
+              placeholder: "(11) 99999-9999",
+            },
+            {
+              label: "Senha",
+              name: "senha",
+              type: "password",
+              placeholder: "Digite sua senha",
+            },
+            {
+              label: "Confirmar Senha",
+              name: "confirmarSenha",
+              type: "password",
+              placeholder: "Confirme sua senha",
+            },
           ].map(({ label, name, type, placeholder }) => (
             <div className="mb-4" key={name}>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -63,7 +108,13 @@ export default function CriarConta() {
         </form>
 
         <p className="text-center text-gray-400 mt-6">
-          Já possui uma conta? <Link to="/entrar" className="text-verde-paleta hover:text-verde-escuro-paleta duration-500">Entrar</Link>
+          Já possui uma conta?{" "}
+          <Link
+            to="/entrar"
+            className="text-verde-paleta hover:text-verde-escuro-paleta duration-500"
+          >
+            Entrar
+          </Link>
         </p>
       </div>
     </div>
