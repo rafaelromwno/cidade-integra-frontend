@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../services/FirebaseConfig"; // Importação correta
+import { auth } from "../firebase/config";
 
 export default function CriarConta() {
   const [form, setForm] = useState({
@@ -39,7 +39,7 @@ export default function CriarConta() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen p-6">
       <div className="bg-azul-paleta shadow-md rounded-lg px-8 py-6 max-w-md">
         <h1 className="text-2xl font-bold text-center mb-4 text-gray-200">
           Bem-vindo ao Cidade Unida!
@@ -92,7 +92,7 @@ export default function CriarConta() {
                 name={name}
                 value={form[name]}
                 onChange={handleChange}
-                className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta focus:border-verde-paleta"
                 placeholder={placeholder}
                 required
               />
@@ -101,7 +101,7 @@ export default function CriarConta() {
 
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-verde-paleta hover:bg-verde-escuro-paleta duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-verde-paleta hover:bg-verde-escuro-paleta duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-verde-paleta"
           >
             Criar Conta
           </button>

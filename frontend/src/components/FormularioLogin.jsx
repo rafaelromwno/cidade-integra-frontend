@@ -1,16 +1,38 @@
-import React from 'react';
-import { Link } from 'react-router-dom';	
-
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config";
 
 const FormularioLogin = () => {
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setError("");
+
+        try {
+            await signInWithEmailAndPassword(auth, email, senha);
+            alert("Login realizado com sucesso!");
+            navigate("/");
+        } catch (err) {
+            setError("Erro ao fazer login. Verifique suas credenciais.");
+        }
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center w-full">
             <div className="bg-azul-paleta shadow-lg rounded-lg px-8 py-6 max-w-md w-full">
+                
                 <h1 className="text-2xl font-bold text-center mb-6 text-gray-200">
                     Bem-vindo de volta!
                 </h1>
 
-                <form>
+                {error && <div className="mb-4 text-red-500 text-sm">{error}</div>}
+
+                <form onSubmit={handleLogin}>
                     {/* Campo Email */}
                     <div className="mb-4">
                         <label
@@ -22,11 +44,11 @@ const FormularioLogin = () => {
                         <input
                             id="email"
                             type="email"
-                            className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400"
+                            className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta focus:border-verde-paleta placeholder-gray-400"
                             placeholder="lyoto.machida@email.com"
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-
                     </div>
 
                     {/* Campo Senha */}
@@ -40,9 +62,10 @@ const FormularioLogin = () => {
                         <input
                             id="senha"
                             type="password"
-                            className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400"
+                            className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta focus:border-verde-paleta placeholder-gray-400"
                             placeholder="Digite sua senha"
                             required
+                            onChange={(e) => setSenha(e.target.value)}
                         />
 
                         <Link
@@ -59,9 +82,12 @@ const FormularioLogin = () => {
                             <input
                                 type="checkbox"
                                 id="remember"
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-verde-paleta"
                             />
-                            <label htmlFor="remember" className="ml-2 block text-sm text-gray-300">
+                            <label
+                                htmlFor="remember"
+                                className="ml-2 block text-sm text-gray-300"
+                            >
                                 Lembrar-me
                             </label>
                         </div>
@@ -76,7 +102,7 @@ const FormularioLogin = () => {
                     {/* Botão de Login */}
                     <button
                         type="submit"
-                        className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-verde-escuro-paleta hover:bg-verde-paleta duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-verde-escuro-paleta hover:bg-verde-paleta duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-verde-paleta"
                     >
                         Entrar
                     </button>
