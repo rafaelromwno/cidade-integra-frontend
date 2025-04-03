@@ -92,7 +92,7 @@ export default function CriarConta() {
                 name={name}
                 value={form[name]}
                 onChange={handleChange}
-                className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta focus:border-verde-paleta"
+                className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta placeholder-gray-400 focus:border-verde-paleta"
                 placeholder={placeholder}
                 required
               />
