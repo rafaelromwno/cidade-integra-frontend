@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // importando o contexto de autenticação
 import { signOut } from "firebase/auth"; // importando o método signOut
 import { auth } from "../firebase/config"; // importando a instância de autenticação do Firebase
+import AvatarSuspenso from "./AvatarSuspenso";
 
 const NavLinks = () => {
   const { currentUser } = useAuth(); // obtendo o usuário atual do contexto
@@ -40,26 +41,7 @@ const NavLinks = () => {
 
       {/* botões de logout e perfil - exibidos apenas para usuários logados */}
       {currentUser && (
-        <div className="flex items-center space-x-2">
-          <Link
-            to="/perfil"
-            className="bg-verde-paleta hover:bg-verde-escuro-paleta duration-500 text-azul-paleta font-bold py-2 px-4 rounded inline-flex items-center"
-          >
-            <span className="material-symbols-outlined flex items-center justify-center w-5 h-5 mr-2">
-              person
-            </span>
-            Perfil
-          </Link>
-          <button
-            onClick={handleLogout}
-            className="bg-vermelho-paleta hover:bg-vermelho-escuro-paleta duration-500 text-azul-paleta font-bold py-2 px-4 rounded inline-flex items-center"
-          >
-            <span className="material-symbols-outlined flex items-center justify-center w-5 h-5 mr-2">
-              logout
-            </span>
-            Sair
-          </button>
-        </div>
+        <AvatarSuspenso />
       )}
 
       {/* botôes criar conta e login - exibidos apenas para usuários não logados */}
