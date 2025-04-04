@@ -80,6 +80,7 @@ const FormularioLogin = () => {
               type="password"
               className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta focus:border-verde-paleta placeholder-gray-400"
               placeholder="Digite sua senha"
+              autoComplete="current-password"
               required
               onChange={(e) => setSenha(e.target.value)}
             />
