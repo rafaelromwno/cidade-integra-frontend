@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // importando o contexto de autenticação
+import { useAuth } from "../../context/AuthContext"; // importando o contexto de autenticação
 import { signOut } from "firebase/auth"; // importando o método signOut
-import { auth } from "../firebase/config"; // importando a instância de autenticação do Firebase
+import { auth } from "../../firebase/config"; // importando a instância de autenticação do Firebase
 import AvatarSuspenso from "./AvatarSuspenso";
 
 const NavLinks = () => {
@@ -40,9 +40,7 @@ const NavLinks = () => {
       </Link>
 
       {/* botões de logout e perfil - exibidos apenas para usuários logados */}
-      {currentUser && (
-        <AvatarSuspenso />
-      )}
+      {currentUser && <AvatarSuspenso />}
 
       {/* botôes criar conta e login - exibidos apenas para usuários não logados */}
       {!currentUser && (
