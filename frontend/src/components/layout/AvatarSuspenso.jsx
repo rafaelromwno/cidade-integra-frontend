@@ -56,14 +56,6 @@ export default function AvatarSuspenso() {
                 Perfil
               </Link>
             </li>
-            <li>
-              <Link
-                to="/configuracao"
-                className="block px-4 py-2 hover:bg-[#22C55E] hover:text-white rounded-md"
-              >
-                Configuração
-              </Link>
-            </li>
           </ul>
           <div className="py-1">
             <button
