@@ -105,7 +105,7 @@ const FormularioDenuncia = () => {
               name="descricao"
               value={formData.descricao}
               onChange={handleChange}
-              className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-gray-300  focus:ring-verde-paleta focus:border-verde-paleta sm:text-sm"
+              className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 placeholder-gray-500 shadow-sm ring-1 ring-gray-300  focus:ring-verde-paleta focus:border-verde-paleta sm:text-sm"
               placeholder="Descreva o problema detalhadamente"
             />
           </div>
@@ -124,7 +124,7 @@ const FormularioDenuncia = () => {
               value={formData.categoria}
               onChange={handleSelectChange}
               placeholder="Selecione uma categoria"
-              className="text-gray-900"
+              className="text-gray-900 placeholder-gray-500"
               styles={{
                 control: (base) => ({
                   ...base,
@@ -195,7 +195,7 @@ const FormularioDenuncia = () => {
               value={formData.estado}
               onChange={handleSelectChange}
               placeholder="Selecione um estado"
-              className="text-gray-900"
+              className="text-gray-900 placeholder-gray-500"
               aria-labelledby="estado-label"
               styles={{
                 control: (base) => ({
@@ -228,7 +228,7 @@ const FormularioDenuncia = () => {
               name="observacao"
               value={formData.observacao}
               onChange={handleChange}
-              className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-verde-paleta sm:text-sm"
+              className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 placeholder-gray-500 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-verde-paleta sm:text-sm"
               placeholder="Ex.: Próximo ao mercado, em frente à praça, etc."
             />
           </div>
