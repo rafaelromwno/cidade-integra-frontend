@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "../components/Layout";
-import FormularioEsqueciSenha from "../components/FormularioEsqueciSenha";
+import Layout from "../components/layout/Layout";
+import FormularioEsqueciSenha from "../components/EsqueciSenha/FormularioEsqueciSenha";
 
 const EsqueciSenha = () => {
   return (

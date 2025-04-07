@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "../components/Layout";
-import FormularioLogin from "../components/FormularioLogin";
+import Layout from "../components/layout/Layout";
+import FormularioLogin from "../components/Entrar/FormularioLogin";
 
 const Entrar = () => {
   return (

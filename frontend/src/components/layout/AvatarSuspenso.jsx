@@ -1,8 +1,7 @@
-// filepath: c:\Users\Usuario\Documents\git hub\cidade-unida-frontend\frontend\src\components\AvatarSuspenso.jsx
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext"; // Importando o contexto de autenticação
+import { useAuth } from "../../context/AuthContext"; // Importando o contexto de autenticação
 import { signOut } from "firebase/auth"; // Importando o método de logout do Firebase
-import { auth } from "../firebase/config"; // Importando a instância de autenticação do Firebase
+import { auth } from "../../firebase/config"; // Importando a instância de autenticação do Firebase
 import { useNavigate } from "react-router-dom"; // Para redirecionamento após logout
 import { Link } from "react-router-dom"; // Para navegação entre páginas
 
@@ -41,9 +40,9 @@ export default function AvatarSuspenso() {
       {/* Dropdown Menu */}
       {isDropdownOpen && (
         <div
-        id="userDropdown"
-        className="z-10 divide-y rounded-lg shadow-sm w-44 bg-gray-700 divide-gray-600 absolute top-12 left-0 sm:left-auto sm:right-0"
-      >
+          id="userDropdown"
+          className="z-10 divide-y rounded-lg shadow-sm w-44 bg-gray-700 divide-gray-600 absolute top-12 left-0 sm:left-auto sm:right-0"
+        >
           <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
             <div>{currentUser?.displayName || "Usuário"}</div>
             <div className="font-medium truncate">{currentUser?.email}</div>
@@ -51,10 +50,10 @@ export default function AvatarSuspenso() {
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
             <li>
               <Link
-                to="/painel"
+                to="/perfil"
                 className="block px-4 py-2 hover:bg-[#22C55E] hover:text-white rounded-md"
               >
-                Painel
+                Perfil
               </Link>
             </li>
             <li>
