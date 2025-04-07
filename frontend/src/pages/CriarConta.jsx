@@ -1,6 +1,6 @@
 import React from 'react'
-import Layout from '../components/Layout'
-import FormularioCriarConta from '../components/FormularioCriarConta'
+import Layout from '../components/layout/Layout'
+import FormularioCriarConta from '../components/CriarConta/FormularioCriarConta'
 
 const Denuncia = () => {
   return (

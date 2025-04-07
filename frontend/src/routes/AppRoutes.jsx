@@ -6,6 +6,8 @@ import Entrar from "../pages/Entrar";
 import Paginainicial from "../pages/Paginainicial";
 import NotFound from "../pages/NotFound";
 import EsqueciSenha from "../pages/EsqueciSenha";
+import Perfil from "../pages/Perfil";
+import ProtectedRoute from "../routes/ProtectedRoute";
 
 export default function AppRoutes() {
   return (
@@ -17,6 +19,14 @@ export default function AppRoutes() {
         <Route path="/duvidas" element={<Duvidas />} />
         <Route path="/entrar" element={<Entrar />} />
         <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+        <Route
+          path="/perfil"
+          element={
+            <ProtectedRoute>
+              <Perfil />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
