@@ -28,6 +28,21 @@ export default function CriarConta() {
       return;
     }
 
+    // validação do nome
+    if (form.nome.length < 3) {
+      setError("O nome deve ter pelo menos 3 caracteres.");
+      return;
+    }
+
+    // validação de senha forte
+    const senhaForteRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+    if (!senhaForteRegex.test(form.senha)) {
+      setError(
+        "A senha deve ter pelo menos 6 caracteres, incluindo letras maiúsculas, minúsculas e números."
+      );
+      return;
+    }
+
     // validação de senha
     if (form.senha !== form.confirmarSenha) {
       setError("As senhas não coincidem.");
