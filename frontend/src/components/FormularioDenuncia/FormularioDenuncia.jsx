@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase/config"; 
 import Select from "react-select";
 import { InputField } from "./InputField";
 import { Upload } from "lucide-react";
 
 const FormularioDenuncia = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [formData, setFormData] = useState({
     descricao: "",
     categoria: null,
@@ -17,6 +20,15 @@ const FormularioDenuncia = () => {
     isAnonimo: "0",
     observacao: "",
   });
+
+  // verifica o estado de autenticação do usuário
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user); `false`
+    });
+
+    return () => unsubscribe(); // limpa o listener ao desmontar o componente (limpeza de memória)
+  }, []);
 
   const categoriaOptions = [
     { value: "0", label: "Lixo na Rua ou Calçada" },
@@ -88,11 +100,16 @@ const FormularioDenuncia = () => {
           Relate problemas urbanos ou ambientais preenchendo o formulário
           abaixo. Para denunciar anonimamente, escolha a opção adequada.
         </p>
-        <div className="mb-6">
-          <p className="text-center text-sm font-semibold text-red-500">
-            Nota: Você deve estar logado para realizar uma denúncia.
-          </p>
-        </div>
+
+        {/* exibe o aviso apenas se o usuário não estiver logado */}
+        {!isLoggedIn && (
+          <div className="mb-6">
+            <p className="text-center text-sm font-semibold text-red-500">
+              Nota: Você deve estar logado para realizar uma denúncia.
+            </p>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
             <label
