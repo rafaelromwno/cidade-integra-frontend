@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 
-export const UserInfoCard = ({ name, email, city, photo }) => {
+export const UserInfoCard = ({ name, email, photo }) => {
   const { currentUser } = useAuth();
   const firstLetter =
     currentUser?.displayName?.charAt(0).toUpperCase() ||
@@ -24,7 +24,6 @@ export const UserInfoCard = ({ name, email, city, photo }) => {
       <div>
         <h2 className="text-2xl font-semibold text-azul-paleta">{name}</h2>
         <p className="text-base text-gray-600">{email}</p>
-        <p className="text-sm text-gray-600">{city}</p>
       </div>
     </div>
   );

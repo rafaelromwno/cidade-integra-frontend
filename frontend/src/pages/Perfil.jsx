@@ -13,7 +13,6 @@ const Perfil = () => {
     level: 3,
     medals: 5,
     points: 340,
-    city: 'Matão - SP',
   };
 
   // Simulação de atividades recentes do usuário
@@ -31,7 +30,6 @@ const Perfil = () => {
           <UserInfoCard
             name={currentUser?.displayName || 'Usuário'}
             email={currentUser?.email || 'email@dominio.com'}
-            city={mockStats.city}
             photo={currentUser?.photoURL || ''}
           />
 
