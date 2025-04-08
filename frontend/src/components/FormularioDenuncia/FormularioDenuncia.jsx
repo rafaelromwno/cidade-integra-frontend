@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Select from "react-select";
 import { InputField } from "./InputField";
+import { Upload } from "lucide-react";
 
 const FormularioDenuncia = () => {
   const [formData, setFormData] = useState({
@@ -240,13 +241,19 @@ const FormularioDenuncia = () => {
             >
               Imagens (opcional)
             </label>
-            <input
-              id="imagens"
-              type="file"
-              multiple
-              onChange={handleFileChange}
-              className="block w-full text-gray-300 py-2 px-3 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-verde-paleta sm:text-sm"
-            />
+            <div className="relative">
+              <Upload
+                className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                size={25} 
+              />
+              <input
+                id="imagens"
+                type="file"
+                multiple
+                onChange={handleFileChange}
+                className="block w-full text-gray-300 py-2 pl-3 pr-10 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-verde-paleta sm:text-sm"
+              />              
+            </div>
           </div>
 
           <fieldset className="mb-6">
