@@ -6,10 +6,10 @@ const FormularioDenuncia = () => {
   const [formData, setFormData] = useState({
     descricao: "",
     categoria: null,
+    cep: "",
     rua: "",
     numero: "",
     bairro: "",
-    cep: "",
     cidade: "",
     estado: null,
     imagens: [],
