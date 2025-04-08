@@ -43,11 +43,11 @@ export default function AvatarSuspenso() {
           id="userDropdown"
           className="z-10 divide-y rounded-lg shadow-sm w-44 bg-gray-700 divide-gray-600 absolute top-12 left-0 sm:left-auto sm:right-0"
         >
-          <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+          <div className="px-4 py-3 text-sm text-white">
             <div>{currentUser?.displayName || "Usuário"}</div>
             <div className="font-medium truncate">{currentUser?.email}</div>
           </div>
-          <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+          <ul className="py-2 text-sm text-gray-200">
             <li>
               <Link
                 to="/perfil"

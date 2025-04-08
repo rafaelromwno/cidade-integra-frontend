@@ -21,16 +21,29 @@ export default function CriarConta() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // validação do nome
+    if (form.nome.length < 3) {
+      setError("O nome deve ter pelo menos 3 caracteres.");
+      return;
+    }
+
+    // validação de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      setError("O email deve estar no formato correto.");
+      return;
+    }
+
     // validação do telefone
     const telefoneRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
     if (!telefoneRegex.test(form.telefone)) {
       setError("O telefone deve estar no formato (11) 99999-9999.");
       return;
-    }
+    }    
 
-    // validação do nome
-    if (form.nome.length < 3) {
-      setError("O nome deve ter pelo menos 3 caracteres.");
+    // validação de senha
+    if (form.senha !== form.confirmarSenha) {
+      setError("As senhas não coincidem.");
       return;
     }
 
@@ -41,20 +54,7 @@ export default function CriarConta() {
         "A senha deve ter pelo menos 6 caracteres, incluindo letras maiúsculas, minúsculas e números."
       );
       return;
-    }
-
-    // validação de senha
-    if (form.senha !== form.confirmarSenha) {
-      setError("As senhas não coincidem.");
-      return;
-    }
-
-    // validação de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(form.email)) {
-      setError("O email deve estar no formato correto.");
-      return;
-    }
+    }    
 
     try {
       await createUserWithEmailAndPassword(auth, form.email, form.senha);
