@@ -30,9 +30,9 @@ export default function CriarConta() {
         }
         break;
       case "telefone":
-        const telefoneRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
-        if (!telefoneRegex.test(value)) {
-          error = "O telefone deve estar no formato (11) 99999-9999.";
+        const onlyNumbers = value.replace(/\D/g, ""); // Remove caracteres não numéricos
+        if (onlyNumbers.length < 10 || onlyNumbers.length > 11) {
+          error = "O telefone deve conter 10 ou 11 dígitos.";
         }
         break;
       case "senha":
