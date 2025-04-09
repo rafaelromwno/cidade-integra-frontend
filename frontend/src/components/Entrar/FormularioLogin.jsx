@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   signInWithEmailAndPassword,
@@ -10,9 +10,19 @@ import { auth } from "../../firebase/config";
 const FormularioLogin = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const provider = new GoogleAuthProvider();
+
+  // Recupera o e-mail salvo no localStorage ao carregar a página
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,6 +30,14 @@ const FormularioLogin = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, senha);
+
+      // Salva ou remove o e-mail no localStorage com base no checkbox
+      if (rememberMe) {
+        localStorage.setItem("rememberedEmail", email);
+      } else {
+        localStorage.removeItem("rememberedEmail");
+      }
+
       alert("Login realizado com sucesso!");
       navigate("/");
     } catch (err) {
@@ -62,6 +80,7 @@ const FormularioLogin = () => {
               type="email"
               className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta focus:border-verde-paleta placeholder-gray-400"
               placeholder="lyoto.machida@email.com"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -99,7 +118,9 @@ const FormularioLogin = () => {
               <input
                 type="checkbox"
                 id="remember"
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-verde-paleta"
+                className="h-4 w-4 rounded border-gray-300 text-verde-paleta focus:ring-verde-paleta"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
               />
               <label
                 htmlFor="remember"
@@ -126,18 +147,17 @@ const FormularioLogin = () => {
         </form>
 
         {/* Botão de Login com Google */}
-        <button onClick={handleGoogleLogin} className="flex mt-3 items-center justify-center gap-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-300 duration-500 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all">
-
+        <button
+          onClick={handleGoogleLogin}
+          className="flex mt-3 items-center justify-center gap-2 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-300 duration-500 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all"
+        >
           <img
             src="https://www.svgrepo.com/show/355037/google.svg"
             alt="Google Logo"
             className="w-5 h-5"
           />
-          
           <span>Entrar com Google</span>
-
         </button>
-
       </div>
     </div>
   );
