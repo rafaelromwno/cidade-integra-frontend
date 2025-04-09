@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/config";
+import { Eye, EyeOff } from "lucide-react"; // Importação dos ícones
 
 export default function CriarConta() {
   const [form, setForm] = useState({
@@ -11,61 +12,86 @@ export default function CriarConta() {
     senha: "",
     confirmarSenha: "",
   });
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar senha
   const navigate = useNavigate();
 
+  const validateField = (name, value) => {
+    let error = "";
+
+    switch (name) {
+      case "nome":
+        if (value.length < 3) {
+          error = "O nome deve ter pelo menos 3 caracteres.";
+        }
+        break;
+      case "email":
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          error = "O email deve estar no formato correto.";
+        }
+        break;
+      case "telefone":
+        const onlyNumbers = value.replace(/\D/g, ""); // Remove caracteres não numéricos
+        if (onlyNumbers.length < 10 || onlyNumbers.length > 11) {
+          error = "O telefone deve conter 10 ou 11 dígitos.";
+        }
+        break;
+      case "senha":
+        const senhaForteRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+        if (!senhaForteRegex.test(value)) {
+          error =
+            "A senha deve ter pelo menos 6 caracteres, incluindo letras maiúsculas, minúsculas e números.";
+        }
+        break;
+      case "confirmarSenha":
+        if (value !== form.senha) {
+          error = "As senhas não coincidem.";
+        }
+        break;
+      default:
+        break;
+    }
+
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
+  };
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    // Validação em tempo real
+    validateField(name, value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // validação do nome
-    if (form.nome.length < 3) {
-      setError("O nome deve ter pelo menos 3 caracteres.");
+    // Verifique se há erros antes de enviar
+    const hasErrors = Object.values(errors).some((error) => error);
+    if (hasErrors) {
       return;
     }
-
-    // validação de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(form.email)) {
-      setError("O email deve estar no formato correto.");
-      return;
-    }
-
-    // validação do telefone
-    const telefoneRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
-    if (!telefoneRegex.test(form.telefone)) {
-      setError("O telefone deve estar no formato (11) 99999-9999.");
-      return;
-    }    
-
-    // validação de senha
-    if (form.senha !== form.confirmarSenha) {
-      setError("As senhas não coincidem.");
-      return;
-    }
-
-    // validação de senha forte
-    const senhaForteRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
-    if (!senhaForteRegex.test(form.senha)) {
-      setError(
-        "A senha deve ter pelo menos 6 caracteres, incluindo letras maiúsculas, minúsculas e números."
-      );
-      return;
-    }    
 
     try {
       await createUserWithEmailAndPassword(auth, form.email, form.senha);
       navigate("/entrar");
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {
-        setError("O email já está em uso.");
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "O email já está em uso.",
+        }));
       } else if (err.code === "auth/weak-password") {
-        setError("A senha deve ter pelo menos 6 caracteres.");
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          senha: "A senha deve ter pelo menos 6 caracteres.",
+        }));
       } else {
-        setError("Erro ao cadastrar: " + err.message);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          geral: "Erro ao cadastrar: " + err.message,
+        }));
       }
     }
   };
@@ -80,7 +106,7 @@ export default function CriarConta() {
           Preencha o formulário abaixo para criar sua conta.
         </p>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {errors.geral && <p className="text-red-500 mb-4">{errors.geral}</p>}
 
         <form onSubmit={handleSubmit}>
           {[
@@ -102,24 +128,16 @@ export default function CriarConta() {
               type: "tel",
               placeholder: "(11) 99999-9999",
             },
-            {
-              label: "Senha",
-              name: "senha",
-              type: "password",
-              placeholder: "Digite sua senha",
-            },
-            {
-              label: "Confirmar Senha",
-              name: "confirmarSenha",
-              type: "password",
-              placeholder: "Confirme sua senha",
-            },
           ].map(({ label, name, type, placeholder }) => (
             <div className="mb-4" key={name}>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor={name}
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 {label}
               </label>
               <input
+                id={name}
                 type={type}
                 name={name}
                 value={form[name]}
@@ -128,8 +146,64 @@ export default function CriarConta() {
                 placeholder={placeholder}
                 required
               />
+              {errors[name] && (
+                <p className="text-red-500 text-sm mt-1">{errors[name]}</p>
+              )}
             </div>
           ))}
+
+          {/* Campo de Senha com botão de mostrar/ocultar */}
+          <div className="mb-4 relative">
+            <label
+              htmlFor="senha"
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
+              Senha
+            </label>
+            <input
+              id="senha"
+              type={showPassword ? "text" : "password"}
+              name="senha"
+              value={form.senha}
+              onChange={handleChange}
+              className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta placeholder-gray-400 focus:border-verde-paleta"
+              placeholder="Digite sua senha"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute top-[2.25rem;] right-2 flex items-center text-gray-400 hover:text-verde-paleta"
+            >
+              {showPassword ? <EyeOff size={33} /> : <Eye size={33} />}
+            </button>
+            {errors.senha && (
+              <p className="text-red-500 text-sm mt-1">{errors.senha}</p>
+            )}
+          </div>
+
+          {/* Campo de Confirmar Senha */}
+          <div className="mb-4">
+            <label
+              htmlFor="confirmarSenha"
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
+              Confirmar Senha
+            </label>
+            <input
+              id="confirmarSenha"
+              type="password"
+              name="confirmarSenha"
+              value={form.confirmarSenha}
+              onChange={handleChange}
+              className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta placeholder-gray-400 focus:border-verde-paleta"
+              placeholder="Confirme sua senha"
+              required
+            />
+            {errors.confirmarSenha && (
+              <p className="text-red-500 text-sm mt-1">{errors.confirmarSenha}</p>
+            )}
+          </div>
 
           <button
             type="submit"
