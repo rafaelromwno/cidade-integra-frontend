@@ -11,61 +11,85 @@ export default function CriarConta() {
     senha: "",
     confirmarSenha: "",
   });
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  const validateField = (name, value) => {
+    let error = "";
+
+    switch (name) {
+      case "nome":
+        if (value.length < 3) {
+          error = "O nome deve ter pelo menos 3 caracteres.";
+        }
+        break;
+      case "email":
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          error = "O email deve estar no formato correto.";
+        }
+        break;
+      case "telefone":
+        const telefoneRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+        if (!telefoneRegex.test(value)) {
+          error = "O telefone deve estar no formato (11) 99999-9999.";
+        }
+        break;
+      case "senha":
+        const senhaForteRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+        if (!senhaForteRegex.test(value)) {
+          error =
+            "A senha deve ter pelo menos 6 caracteres, incluindo letras maiúsculas, minúsculas e números.";
+        }
+        break;
+      case "confirmarSenha":
+        if (value !== form.senha) {
+          error = "As senhas não coincidem.";
+        }
+        break;
+      default:
+        break;
+    }
+
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
+  };
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    // Validação em tempo real
+    validateField(name, value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // validação do nome
-    if (form.nome.length < 3) {
-      setError("O nome deve ter pelo menos 3 caracteres.");
+    // Verifique se há erros antes de enviar
+    const hasErrors = Object.values(errors).some((error) => error);
+    if (hasErrors) {
       return;
     }
-
-    // validação de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(form.email)) {
-      setError("O email deve estar no formato correto.");
-      return;
-    }
-
-    // validação do telefone
-    const telefoneRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
-    if (!telefoneRegex.test(form.telefone)) {
-      setError("O telefone deve estar no formato (11) 99999-9999.");
-      return;
-    }    
-
-    // validação de senha
-    if (form.senha !== form.confirmarSenha) {
-      setError("As senhas não coincidem.");
-      return;
-    }
-
-    // validação de senha forte
-    const senhaForteRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
-    if (!senhaForteRegex.test(form.senha)) {
-      setError(
-        "A senha deve ter pelo menos 6 caracteres, incluindo letras maiúsculas, minúsculas e números."
-      );
-      return;
-    }    
 
     try {
       await createUserWithEmailAndPassword(auth, form.email, form.senha);
       navigate("/entrar");
     } catch (err) {
       if (err.code === "auth/email-already-in-use") {
-        setError("O email já está em uso.");
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "O email já está em uso.",
+        }));
       } else if (err.code === "auth/weak-password") {
-        setError("A senha deve ter pelo menos 6 caracteres.");
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          senha: "A senha deve ter pelo menos 6 caracteres.",
+        }));
       } else {
-        setError("Erro ao cadastrar: " + err.message);
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          geral: "Erro ao cadastrar: " + err.message,
+        }));
       }
     }
   };
@@ -80,7 +104,7 @@ export default function CriarConta() {
           Preencha o formulário abaixo para criar sua conta.
         </p>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {errors.geral && <p className="text-red-500 mb-4">{errors.geral}</p>}
 
         <form onSubmit={handleSubmit}>
           {[
@@ -128,6 +152,9 @@ export default function CriarConta() {
                 placeholder={placeholder}
                 required
               />
+              {errors[name] && (
+                <p className="text-red-500 text-sm mt-1">{errors[name]}</p>
+              )}
             </div>
           ))}
 
