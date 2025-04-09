@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react"; // Importa os ícones do Lucide React
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -11,11 +12,11 @@ const FormularioLogin = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar senha
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const provider = new GoogleAuthProvider();
 
-  // Recupera o e-mail salvo no localStorage ao carregar a página
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberedEmail");
     if (savedEmail) {
@@ -31,7 +32,6 @@ const FormularioLogin = () => {
     try {
       await signInWithEmailAndPassword(auth, email, senha);
 
-      // Salva ou remove o e-mail no localStorage com base no checkbox
       if (rememberMe) {
         localStorage.setItem("rememberedEmail", email);
       } else {
@@ -87,7 +87,7 @@ const FormularioLogin = () => {
           </div>
 
           {/* Campo Senha */}
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label
               htmlFor="senha"
               className="block text-sm font-medium text-gray-300 mb-2"
@@ -96,13 +96,20 @@ const FormularioLogin = () => {
             </label>
             <input
               id="senha"
-              type="password"
+              type={showPassword ? "text" : "password"} // Alterna entre "text" e "password"
               className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta focus:border-verde-paleta placeholder-gray-400"
               placeholder="Digite sua senha"
               autoComplete="current-password"
               required
               onChange={(e) => setSenha(e.target.value)}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)} // Alterna o estado
+              className="absolute top-[2.25rem;] right-2 flex items-center text-gray-400 hover:text-verde-paleta"
+            >
+              {showPassword ? <EyeOff size={33} /> : <Eye size={33} />}
+            </button>
 
             <Link
               to="/esqueci-senha"

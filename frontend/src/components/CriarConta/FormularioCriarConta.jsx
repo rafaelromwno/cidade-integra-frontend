@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/config";
+import { Eye, EyeOff } from "lucide-react"; // Importação dos ícones
 
 export default function CriarConta() {
   const [form, setForm] = useState({
@@ -12,6 +13,7 @@ export default function CriarConta() {
     confirmarSenha: "",
   });
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar senha
   const navigate = useNavigate();
 
   const validateField = (name, value) => {
@@ -126,18 +128,6 @@ export default function CriarConta() {
               type: "tel",
               placeholder: "(11) 99999-9999",
             },
-            {
-              label: "Senha",
-              name: "senha",
-              type: "password",
-              placeholder: "Digite sua senha",
-            },
-            {
-              label: "Confirmar Senha",
-              name: "confirmarSenha",
-              type: "password",
-              placeholder: "Confirme sua senha",
-            },
           ].map(({ label, name, type, placeholder }) => (
             <div className="mb-4" key={name}>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -157,6 +147,53 @@ export default function CriarConta() {
               )}
             </div>
           ))}
+
+          {/* Campo de Senha com botão de mostrar/ocultar */}
+          <div className="mb-4 relative">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Senha
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="senha"
+              value={form.senha}
+              onChange={handleChange}
+              className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta placeholder-gray-400 focus:border-verde-paleta"
+              placeholder="Digite sua senha"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute top-[2.25rem;] right-2 flex items-center text-gray-400 hover:text-verde-paleta"
+            >
+              {showPassword ? <EyeOff size={33} /> : <Eye size={33} />}
+            </button>
+            {errors.senha && (
+              <p className="text-red-500 text-sm mt-1">{errors.senha}</p>
+            )}
+          </div>
+
+          {/* Campo de Confirmar Senha */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Confirmar Senha
+            </label>
+            <input
+              type="password"
+              name="confirmarSenha"
+              value={form.confirmarSenha}
+              onChange={handleChange}
+              className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-verde-paleta placeholder-gray-400 focus:border-verde-paleta"
+              placeholder="Confirme sua senha"
+              required
+            />
+            {errors.confirmarSenha && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.confirmarSenha}
+              </p>
+            )}
+          </div>
 
           <button
             type="submit"
