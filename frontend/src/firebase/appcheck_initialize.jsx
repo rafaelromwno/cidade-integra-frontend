@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
-// configuração do Firebase)
+// configuração do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyBgOK-amwIQIOVFlktGsX6pu2LTbeEyL18",
     authDomain: "cidadeunida-3ce06.firebaseapp.com",
