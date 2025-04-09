@@ -5,10 +5,10 @@ import NavLinks from "./NavLinks";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // fecha o menu se a tela for redimensionada para maior que 768px
+  // Fecha o menu se a tela for redimensionada para maior que 1024px
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setMenuOpen(false);
       }
     };
@@ -31,10 +31,10 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* botão de menu para mobile */}
+        {/* Botão de menu para mobile */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden focus:outline-none"
+          className="lg:hidden focus:outline-none"
           aria-label="Menu"
         >
           <svg
@@ -53,15 +53,15 @@ const Header = () => {
           </svg>
         </button>
 
-        {/* navegação desktop */}
-        <nav className="hidden md:flex space-x-9 items-center">
+        {/* Navegação desktop */}
+        <nav className="hidden lg:flex space-x-9 items-center">
           <NavLinks />
         </nav>
       </div>
 
-      {/* menu Mobile */}
+      {/* Menu Mobile */}
       {menuOpen && (
-        <div className="bg-azul-paleta md:hidden">
+        <div className="bg-azul-paleta lg:hidden">
           <nav className="px-4 py-4 space-y-2">
             <NavLinks />
           </nav>
