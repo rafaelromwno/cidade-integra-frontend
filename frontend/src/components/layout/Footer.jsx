@@ -39,13 +39,6 @@ const Footer = () => {
             >
               Dúvidas
             </Link>
-
-            <Link
-              to="/duvidas#contato"
-              className="mx-2 hover:text-verde-paleta hover:shadow duration-500"
-            >
-              Contato
-            </Link>
           </div>
 
           {/* Ícones Sociais */}
@@ -85,9 +78,20 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Informações de Copyright */}
+        {/* Informações de Contato e Copyright */}
         <div className="text-center mt-8">
-          <p>&copy; 2025 Cidade Unida. Todos os direitos reservados.</p>
+          <p className="mb-2 text-sm">
+            Fale conosco em {" "}
+            <a
+              href="mailto:suporte@cidadeunida.com"
+              className="text-verde-paleta hover:text-verde-escuro-paleta duration-300"
+            >
+               suporte@cidadeunida.com
+            </a>
+          </p>
+          <p className="text-xs text-gray-400">
+            &copy; 2025 Cidade Unida. Todos os direitos reservados.
+          </p>
         </div>
       </div>
     </footer>
