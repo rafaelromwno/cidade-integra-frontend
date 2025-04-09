@@ -218,6 +218,8 @@ const FormularioDenuncia = () => {
               >
                 {field === "rua"
                   ? "Rua/Avenida"
+                  : field === "numero"
+                  ? "Número (Opcional)"
                   : field.charAt(0).toUpperCase() + field.slice(1)}
               </label>
               <InputField
@@ -232,6 +234,8 @@ const FormularioDenuncia = () => {
                     ? "Ex.: Centro, Jardim América"
                     : field === "cidade"
                     ? "Ex.: São Paulo, Rio de Janeiro"
+                    : field === "numero"
+                    ? "Ex.: 123"
                     : ""
                 }
                 required={field !== "numero"}
