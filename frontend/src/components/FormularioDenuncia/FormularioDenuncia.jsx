@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase/config"; 
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import { InputField } from "./InputField";
 import { Upload } from "lucide-react";
+import axios from "axios";
 
 const FormularioDenuncia = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -72,9 +73,38 @@ const FormularioDenuncia = () => {
     { value: "TO", label: "Tocantins (TO)" },
   ];
 
+  // função para buscar dados do CEP
+  const fetchAddressByCEP = async (cep) => {
+    try {
+      const sanitizedCEP = cep.replace(/\D/g, ""); // remove caracteres não numéricos
+      if (sanitizedCEP.length === 8) {
+        const response = await axios.get(`https://viacep.com.br/ws/${sanitizedCEP}/json/`);
+        if (!response.data.erro) {
+          const { logradouro, bairro, localidade, uf } = response.data;
+          setFormData((prevData) => ({
+            ...prevData,
+            rua: logradouro || "",
+            bairro: bairro || "",
+            cidade: localidade || "",
+            estado: { value: uf, label: `${uf}` } || null,
+          }));
+        } else {
+          alert("CEP não encontrado.");
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao buscar o CEP:", error);
+      alert("Erro ao buscar o CEP. Verifique o valor e tente novamente.");
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === "cep" && value.length >= 8) {
+      fetchAddressByCEP(value);
+    }
   };
 
   const handleSelectChange = (selectedOption, actionMeta) => {
@@ -162,17 +192,31 @@ const FormularioDenuncia = () => {
             />
           </div>
 
-          {["rua", "numero", "bairro", "cep", "cidade"].map((field) => (
+          {/* Campo de CEP */}
+          <div className="mb-6">
+            <label
+              htmlFor="cep"
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
+              CEP (opcional)
+            </label>
+            <InputField
+              id="cep"
+              name="cep"
+              value={formData.cep}
+              onChange={handleChange}
+              placeholder="Ex.: 12345-678"
+              required={false}
+            />
+          </div>
+
+          {["rua", "numero", "bairro", "cidade"].map((field) => (
             <div key={field} className="mb-6">
               <label
                 htmlFor={field}
                 className="block text-sm font-medium text-gray-300 mb-2"
               >
-                {field === "cep"
-                  ? "CEP (opcional)"
-                  : field === "numero"
-                  ? "Número (opcional)"
-                  : field === "rua"
+                {field === "rua"
                   ? "Rua/Avenida"
                   : field.charAt(0).toUpperCase() + field.slice(1)}
               </label>
@@ -182,11 +226,7 @@ const FormularioDenuncia = () => {
                 value={formData[field]}
                 onChange={handleChange}
                 placeholder={
-                  field === "cep"
-                    ? "Ex.: 12345-678"
-                    : field === "numero"
-                    ? "Ex.: 123"
-                    : field === "rua"
+                  field === "rua"
                     ? "Ex.: Rua das Flores, Avenida Brasil"
                     : field === "bairro"
                     ? "Ex.: Centro, Jardim América"
@@ -194,7 +234,7 @@ const FormularioDenuncia = () => {
                     ? "Ex.: São Paulo, Rio de Janeiro"
                     : ""
                 }
-                required={field !== "cep" && field !== "numero"}
+                required={field !== "numero"}
               />
             </div>
           ))}
