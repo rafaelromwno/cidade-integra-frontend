@@ -130,10 +130,14 @@ export default function CriarConta() {
             },
           ].map(({ label, name, type, placeholder }) => (
             <div className="mb-4" key={name}>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor={name}
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 {label}
               </label>
               <input
+                id={name}
                 type={type}
                 name={name}
                 value={form[name]}
@@ -150,10 +154,14 @@ export default function CriarConta() {
 
           {/* Campo de Senha com botão de mostrar/ocultar */}
           <div className="mb-4 relative">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              htmlFor="senha"
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
               Senha
             </label>
             <input
+              id="senha"
               type={showPassword ? "text" : "password"}
               name="senha"
               value={form.senha}
@@ -176,10 +184,14 @@ export default function CriarConta() {
 
           {/* Campo de Confirmar Senha */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              htmlFor="confirmarSenha"
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
               Confirmar Senha
             </label>
             <input
+              id="confirmarSenha"
               type="password"
               name="confirmarSenha"
               value={form.confirmarSenha}
@@ -189,9 +201,7 @@ export default function CriarConta() {
               required
             />
             {errors.confirmarSenha && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.confirmarSenha}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.confirmarSenha}</p>
             )}
           </div>
 
