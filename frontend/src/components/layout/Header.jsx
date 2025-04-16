@@ -18,8 +18,8 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="bg-azul-paleta text-white">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    <header className="w-full top-0 bg-azul-paleta text-white px-4 py-4">
+      <div className="flex justify-between items-center w-full px-4">
         {/* Logo */}
         <div className="text-2xl font-bold cursor-pointer">
           <Link to="/">
