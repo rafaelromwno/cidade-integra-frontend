@@ -18,8 +18,8 @@ const BemVindo = () => {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img 
-              src="/src/assets/trabalho-equipe.jpg" 
-              alt="Imagem de uma equipe de colaboradores trabalhando em um projeto de melhoria urbana" 
+              src="/src/assets/trabalho-equipe.png" 
+              alt="Imagem de uma pessoa fotografando um buraco na calçada, para posterior denúncia" 
               className="w-full h-auto max-w-sm rounded-lg shadow-lg" 
               title="Imagem gerada por Inteligência Artificial"
             />
