@@ -8,7 +8,7 @@ const Header = () => {
   // Fecha o menu se a tela for redimensionada para maior que 1024px
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth >= 600) {
         setMenuOpen(false);
       }
     };

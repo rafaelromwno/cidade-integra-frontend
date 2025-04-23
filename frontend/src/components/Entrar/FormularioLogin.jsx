@@ -38,7 +38,6 @@ const FormularioLogin = () => {
         localStorage.removeItem("rememberedEmail");
       }
 
-      alert("Login realizado com sucesso!");
       navigate("/");
     } catch (err) {
       setError("Erro ao fazer login. Verifique suas credenciais.");
