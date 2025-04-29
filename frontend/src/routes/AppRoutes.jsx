@@ -3,7 +3,7 @@ import CriarConta from "../pages/CriarConta";
 import Denuncia from "../pages/Denuncia";
 import Duvidas from "../pages/Duvidas";
 import Entrar from "../pages/Entrar";
-import Paginainicial from "../pages/Paginainicial";
+import Paginainicial from "../pages/PaginaInicial";
 import NotFound from "../pages/NotFound";
 import EsqueciSenha from "../pages/EsqueciSenha";
 import Perfil from "../pages/Perfil";
