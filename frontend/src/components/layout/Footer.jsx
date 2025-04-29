@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../assets/logotipo-sem-borda.svg";  
+import Logo from "../../../public/logotipo-sem-borda.svg"; 
 
 const Footer = () => {
   return (
