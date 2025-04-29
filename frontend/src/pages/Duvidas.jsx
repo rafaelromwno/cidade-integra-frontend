@@ -1,5 +1,5 @@
 import React from "react";
-import FAQ from "../components/FAQ/Faq";
+import FAQ from "../components/Faq/Faq";
 import Layout from "../components/layout/Layout";
 
 const Duvidas = () => {
