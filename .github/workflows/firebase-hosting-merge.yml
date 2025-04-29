@@ -36,3 +36,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CIDADEUNIDA_3CE06 }}
           projectId: cidadeunida-3ce06
           channelId: live
+          entryPoint: ./frontend
