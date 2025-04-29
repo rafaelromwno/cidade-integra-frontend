@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import NavLinks from "./NavLinks";
+import Logo from "../assets/logotipo-sem-borda.svg"; 
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ const Header = () => {
         <div className="text-2xl font-bold cursor-pointer">
           <Link to="/">
             <img
-              src="/src/assets/logotipo-sem-borda.svg"
+              src={Logo}
               alt="Logotipo"
               className="w-44"
             />

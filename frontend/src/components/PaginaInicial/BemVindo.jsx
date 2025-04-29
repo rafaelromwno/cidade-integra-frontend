@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import TrabalhoEquipe from "../../assets/imagens/trabalho-em-equipe.jpg";
 
 const BemVindo = () => {
 
@@ -18,8 +19,8 @@ const BemVindo = () => {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <img 
-              src="/src/assets/trabalho-equipe.png" 
-              alt="Imagem de uma pessoa fotografando um buraco na calçada, para posterior denúncia" 
+              src={TrabalhoEquipe}
+              alt="Imagem de uma pessoa fotografando um buraco na calçada, para  denúncia posterior" 
               className="w-full h-auto max-w-sm rounded-lg shadow-lg" 
               title="Imagem gerada por Inteligência Artificial"
             />
