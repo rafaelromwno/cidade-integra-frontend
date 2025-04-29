@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/logotipo-sem-borda.svg";  
 
 const Footer = () => {
   return (
@@ -10,7 +11,7 @@ const Footer = () => {
           <div className="text-center cursor-pointer md:text-left mb-4 md:mb-0">
             <Link to="/">
               <img
-                src="/src/assets/logotipo-sem-borda.svg"
+                src={Logo}
                 alt="Logotipo"
                 className="w-44"
               />
