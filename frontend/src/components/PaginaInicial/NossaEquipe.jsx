@@ -1,8 +1,8 @@
-import Jeronimo from "/src/assets/jeronimo-barbieri.jpg";
-import Rafael from "/src/assets/rafael-romano.jpg";
-import Miguel from "/src/assets/miguel-morandini.jpg";
-import Victor from "/src/assets/victor-hugo.jpg";
-import Pedro from "/src/assets/pedro-ferreira-leite.png";
+import Jeronimo from "../../../public/jeronimo-barbieri.jpg";
+import Rafael from "../../../public/rafael-romano.jpg";
+import Miguel from "../../../public/miguel-morandini.jpg";
+import Victor from "../../../public/victor-hugo.jpg";
+import Pedro from "../../../public/pedro-ferreira-leite.png";
 
 const NossaEquipe = () => {
     
@@ -10,31 +10,31 @@ const NossaEquipe = () => {
       {
         nome: "Jeronimo Barbieri",
         cargo: "Designer UI/UX",
-        imagem: {Jeronimo},
+        imagem: Jeronimo,
         link: "https://www.instagram.com/jbarbieri__/"
       },
       {
         nome: "Rafael Romano Silva",
         cargo: "Gestor de Projeto",
-        imagem: {Rafael},
+        imagem: Rafael,
         link: "https://www.linkedin.com/in/rafael-romano-silva"
       },
       {
         nome: "Miguel Morandini",
         cargo: "Desenvolvedor",
-        imagem: {Miguel},
+        imagem: Miguel,
         link: "https://www.linkedin.com/in/miguel-morandini-19350128a"
       },
       {
         nome: "Pedro Ferreira Leite",
         cargo: "Analista de Dados",
-        imagem: {Pedro},
+        imagem: Pedro,
         link: ""
       },
       {
         nome: "Victor Hugo Testi", 
         cargo: "Desenvolvedor",
-        imagem: {Victor},
+        imagem: Victor,
         link: "https://www.linkedin.com/in/victor-hugo-malipense-testi-994297324/"
       }
     ];

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import TrabalhoEquipe from "../../assets/imagens/trabalho-em-equipe.jpg";
-
+import TrabalhoEquipe from "../../../public/trabalho-equipe.png"; 
 const BemVindo = () => {
 
     return (

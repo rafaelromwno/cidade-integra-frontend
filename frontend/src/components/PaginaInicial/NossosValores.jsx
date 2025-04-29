@@ -1,6 +1,6 @@
-import EscudoPrivacidade from '/src/assets/escudo-privacidade.jpg';
-import CidadeSustentavel from '/src/assets/cidade-sustentavel.jpg';
-import Acessibilidade from '/src/assets/acessibilidade.jpg';
+import EscudoPrivacidade from '../../../public/escudo-privacidade.jpg';
+import CidadeSustentavel from '../../../public/cidade-sustentavel.jpg';
+import Acessibilidade from '../../../public/acessibilidade.jpg';
 
 
 const NossosValores = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import NavLinks from "./NavLinks";
-import Logo from "../assets/logotipo-sem-borda.svg"; 
+import Logo from "../../../public/logotipo-sem-borda.svg"; 
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
