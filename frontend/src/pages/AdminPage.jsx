@@ -1,16 +1,37 @@
-
 import { useState } from "react";
-import { mockDenuncias } from "@/data/mock-data";
+import { mockDenuncias } from "@/data/MockDenunciasComponent";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search, Filter, Eye, CheckCircle, XCircle, AlertCircle, Clock, Shield } from "lucide-react";
+import {
+  Search,
+  Filter,
+  Eye,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  Clock,
+  Shield,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import DenunciaStatusBadge from "@/components/denuncias/DenunciaStatusBadge";
@@ -19,22 +40,25 @@ const AdminPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("todas");
   const { toast } = useToast();
-  
-  const atualizarStatus = (id: number, novoStatus: "pendente" | "em_analise" | "resolvido" | "rejeitado") => {
+
+  const atualizarStatus = (id, novoStatus) => {
     // Aqui seria a lógica real para atualizar o status no backend
     toast({
       title: "Status atualizado",
-      description: `Denúncia #${id} marcada como ${novoStatus.replace("_", " ")}.`,
+      description: `Denúncia #${id} marcada como ${novoStatus.replace(
+        "_",
+        " "
+      )}.`,
       variant: "default",
     });
   };
 
   const filteredDenuncias = mockDenuncias.filter((denuncia) => {
-    const matchesSearch = 
+    const matchesSearch =
       denuncia.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       denuncia.descricao.toLowerCase().includes(searchTerm.toLowerCase()) ||
       denuncia.local.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
     const matchesFilter = filter === "todas" || denuncia.status === filter;
 
     return matchesSearch && matchesFilter;
@@ -42,10 +66,10 @@ const AdminPage = () => {
 
   const estatisticas = {
     total: mockDenuncias.length,
-    pendentes: mockDenuncias.filter(d => d.status === "pendente").length,
-    emAnalise: mockDenuncias.filter(d => d.status === "em_analise").length,
-    resolvidas: mockDenuncias.filter(d => d.status === "resolvido").length,
-    rejeitadas: mockDenuncias.filter(d => d.status === "rejeitado").length,
+    pendentes: mockDenuncias.filter((d) => d.status === "pendente").length,
+    emAnalise: mockDenuncias.filter((d) => d.status === "em_analise").length,
+    resolvidas: mockDenuncias.filter((d) => d.status === "resolvido").length,
+    rejeitadas: mockDenuncias.filter((d) => d.status === "rejeitado").length,
   };
 
   return (
@@ -63,13 +87,15 @@ const AdminPage = () => {
             </p>
           </div>
         </div>
-        
+
         <div className="container mx-auto px-4 py-8">
           {/* Dashboard */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Total de Denúncias</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Total de Denúncias
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{estatisticas.total}</div>
@@ -77,28 +103,40 @@ const AdminPage = () => {
             </Card>
             <Card className="bg-yellow-500/10">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Pendentes</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Pendentes
+                </CardTitle>
               </CardHeader>
               <CardContent className="flex items-center gap-2">
-                <div className="text-2xl font-bold">{estatisticas.pendentes}</div>
+                <div className="text-2xl font-bold">
+                  {estatisticas.pendentes}
+                </div>
                 <Clock className="h-5 w-5 text-yellow-500" />
               </CardContent>
             </Card>
             <Card className="bg-blue-500/10">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Em Análise</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Em Análise
+                </CardTitle>
               </CardHeader>
               <CardContent className="flex items-center gap-2">
-                <div className="text-2xl font-bold">{estatisticas.emAnalise}</div>
+                <div className="text-2xl font-bold">
+                  {estatisticas.emAnalise}
+                </div>
                 <AlertCircle className="h-5 w-5 text-blue-500" />
               </CardContent>
             </Card>
             <Card className="bg-verde/10">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Resolvidas</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Resolvidas
+                </CardTitle>
               </CardHeader>
               <CardContent className="flex items-center gap-2">
-                <div className="text-2xl font-bold">{estatisticas.resolvidas}</div>
+                <div className="text-2xl font-bold">
+                  {estatisticas.resolvidas}
+                </div>
                 <CheckCircle className="h-5 w-5 text-verde" />
               </CardContent>
             </Card>
@@ -109,7 +147,7 @@ const AdminPage = () => {
               <TabsTrigger value="lista">Lista de Denúncias</TabsTrigger>
               <TabsTrigger value="estatisticas">Estatísticas</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="lista">
               <div className="mb-6 flex flex-col sm:flex-row gap-4">
                 <div className="relative flex-grow">
@@ -150,17 +188,26 @@ const AdminPage = () => {
                   <TableBody>
                     {filteredDenuncias.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center py-10 text-muted-foreground">
+                        <TableCell
+                          colSpan={6}
+                          className="text-center py-10 text-muted-foreground"
+                        >
                           Nenhuma denúncia encontrada.
                         </TableCell>
                       </TableRow>
                     ) : (
                       filteredDenuncias.map((denuncia) => (
                         <TableRow key={denuncia.id}>
-                          <TableCell className="font-medium">{denuncia.id}</TableCell>
+                          <TableCell className="font-medium">
+                            {denuncia.id}
+                          </TableCell>
                           <TableCell>{denuncia.titulo}</TableCell>
                           <TableCell>{denuncia.local}</TableCell>
-                          <TableCell>{new Date(denuncia.data).toLocaleDateString('pt-BR')}</TableCell>
+                          <TableCell>
+                            {new Date(denuncia.data).toLocaleDateString(
+                              "pt-BR"
+                            )}
+                          </TableCell>
                           <TableCell>
                             <DenunciaStatusBadge status={denuncia.status} />
                           </TableCell>
@@ -171,22 +218,26 @@ const AdminPage = () => {
                                 Ver
                               </Link>
                             </Button>
-                            
-                            <Button 
+
+                            <Button
                               variant="ghost"
                               size="sm"
                               className="text-verde hover:text-verde hover:bg-verde/10"
-                              onClick={() => atualizarStatus(denuncia.id, "resolvido")}
+                              onClick={() =>
+                                atualizarStatus(denuncia.id, "resolvido")
+                              }
                             >
                               <CheckCircle className="h-4 w-4 mr-1" />
                               Resolver
                             </Button>
-                            
-                            <Button 
+
+                            <Button
                               variant="ghost"
                               size="sm"
                               className="text-vermelho hover:text-vermelho hover:bg-vermelho/10"
-                              onClick={() => atualizarStatus(denuncia.id, "rejeitado")}
+                              onClick={() =>
+                                atualizarStatus(denuncia.id, "rejeitado")
+                              }
                             >
                               <XCircle className="h-4 w-4 mr-1" />
                               Rejeitar
@@ -199,7 +250,7 @@ const AdminPage = () => {
                 </Table>
               </div>
             </TabsContent>
-            
+
             <TabsContent value="estatisticas">
               <Card>
                 <CardHeader>
@@ -208,42 +259,116 @@ const AdminPage = () => {
                 <CardContent>
                   <div className="space-y-6">
                     <div>
-                      <h3 className="font-medium mb-2">Distribuição por Status</h3>
+                      <h3 className="font-medium mb-2">
+                        Distribuição por Status
+                      </h3>
                       <div className="space-y-2">
                         <div>
                           <div className="flex justify-between mb-1">
-                            <span className="text-muted-foreground">Pendentes</span>
-                            <span className="font-medium">{estatisticas.pendentes} ({Math.round((estatisticas.pendentes/estatisticas.total)*100)}%)</span>
+                            <span className="text-muted-foreground">
+                              Pendentes
+                            </span>
+                            <span className="font-medium">
+                              {estatisticas.pendentes} (
+                              {Math.round(
+                                (estatisticas.pendentes / estatisticas.total) *
+                                  100
+                              )}
+                              %)
+                            </span>
                           </div>
                           <div className="w-full bg-muted rounded-full h-2.5">
-                            <div className="bg-yellow-500 h-2.5 rounded-full" style={{ width: `${(estatisticas.pendentes/estatisticas.total)*100}%` }}></div>
+                            <div
+                              className="bg-yellow-500 h-2.5 rounded-full"
+                              style={{
+                                width: `${
+                                  (estatisticas.pendentes /
+                                    estatisticas.total) *
+                                  100
+                                }%`,
+                              }}
+                            ></div>
                           </div>
                         </div>
                         <div>
                           <div className="flex justify-between mb-1">
-                            <span className="text-muted-foreground">Em análise</span>
-                            <span className="font-medium">{estatisticas.emAnalise} ({Math.round((estatisticas.emAnalise/estatisticas.total)*100)}%)</span>
+                            <span className="text-muted-foreground">
+                              Em análise
+                            </span>
+                            <span className="font-medium">
+                              {estatisticas.emAnalise} (
+                              {Math.round(
+                                (estatisticas.emAnalise / estatisticas.total) *
+                                  100
+                              )}
+                              %)
+                            </span>
                           </div>
                           <div className="w-full bg-muted rounded-full h-2.5">
-                            <div className="bg-blue-500 h-2.5 rounded-full" style={{ width: `${(estatisticas.emAnalise/estatisticas.total)*100}%` }}></div>
+                            <div
+                              className="bg-blue-500 h-2.5 rounded-full"
+                              style={{
+                                width: `${
+                                  (estatisticas.emAnalise /
+                                    estatisticas.total) *
+                                  100
+                                }%`,
+                              }}
+                            ></div>
                           </div>
                         </div>
                         <div>
                           <div className="flex justify-between mb-1">
-                            <span className="text-muted-foreground">Resolvidas</span>
-                            <span className="font-medium">{estatisticas.resolvidas} ({Math.round((estatisticas.resolvidas/estatisticas.total)*100)}%)</span>
+                            <span className="text-muted-foreground">
+                              Resolvidas
+                            </span>
+                            <span className="font-medium">
+                              {estatisticas.resolvidas} (
+                              {Math.round(
+                                (estatisticas.resolvidas / estatisticas.total) *
+                                  100
+                              )}
+                              %)
+                            </span>
                           </div>
                           <div className="w-full bg-muted rounded-full h-2.5">
-                            <div className="bg-verde h-2.5 rounded-full" style={{ width: `${(estatisticas.resolvidas/estatisticas.total)*100}%` }}></div>
+                            <div
+                              className="bg-verde h-2.5 rounded-full"
+                              style={{
+                                width: `${
+                                  (estatisticas.resolvidas /
+                                    estatisticas.total) *
+                                  100
+                                }%`,
+                              }}
+                            ></div>
                           </div>
                         </div>
                         <div>
                           <div className="flex justify-between mb-1">
-                            <span className="text-muted-foreground">Rejeitadas</span>
-                            <span className="font-medium">{estatisticas.rejeitadas} ({Math.round((estatisticas.rejeitadas/estatisticas.total)*100)}%)</span>
+                            <span className="text-muted-foreground">
+                              Rejeitadas
+                            </span>
+                            <span className="font-medium">
+                              {estatisticas.rejeitadas} (
+                              {Math.round(
+                                (estatisticas.rejeitadas / estatisticas.total) *
+                                  100
+                              )}
+                              %)
+                            </span>
                           </div>
                           <div className="w-full bg-muted rounded-full h-2.5">
-                            <div className="bg-vermelho h-2.5 rounded-full" style={{ width: `${(estatisticas.rejeitadas/estatisticas.total)*100}%` }}></div>
+                            <div
+                              className="bg-vermelho h-2.5 rounded-full"
+                              style={{
+                                width: `${
+                                  (estatisticas.rejeitadas /
+                                    estatisticas.total) *
+                                  100
+                                }%`,
+                              }}
+                            ></div>
                           </div>
                         </div>
                       </div>

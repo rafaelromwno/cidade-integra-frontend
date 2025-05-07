@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import DenunciaCard, { Denuncia } from "./DenunciaCard";
+import DenunciaCard from "./DenunciaCard";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";

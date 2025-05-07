@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from "react";
-import { mockDenuncias } from "@/data/mock-data";
+import { mockDenuncias } from "@/data/MockDenunciasComponent";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import DenunciasList from "@/components/denuncias/DenunciasList";
@@ -29,7 +28,7 @@ const DenunciasPage = () => {
             </p>
           </div>
         </div>
-        
+
         <div className="container mx-auto px-4 py-10">
           {isLoading ? (
             <div className="flex justify-center py-20">

@@ -1,8 +1,7 @@
-
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { mockDenuncias } from "@/data/mock-data";
-import { Denuncia } from "@/components/denuncias/DenunciaCard";
+import { mockDenuncias } from "@/data/MockDenunciasComponent";
+import DenunciaCard from "@/components/denuncias/DenunciaCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import DenunciaStatusBadge from "@/components/denuncias/DenunciaStatusBadge";
@@ -20,7 +19,7 @@ const DenunciaDetalhes = () => {
   useEffect(() => {
     // Simula o carregamento de dados
     const timer = setTimeout(() => {
-      const found = mockDenuncias.find(d => d.id === Number(id));
+      const found = mockDenuncias.find((d) => d.id === Number(id));
       setDenuncia(found || null);
       setIsLoading(false);
     }, 800);
@@ -69,20 +68,25 @@ const DenunciaDetalhes = () => {
       <main className="flex-grow">
         <div className="bg-azul text-white py-8">
           <div className="container mx-auto px-4">
-            <Link 
-              to="/denuncias" 
+            <Link
+              to="/denuncias"
               className="flex items-center text-cinza hover:text-white mb-4 w-fit"
             >
               <ArrowLeft className="h-4 w-4 mr-1" />
               <span>Voltar para Denúncias</span>
             </Link>
             <div className="flex flex-wrap items-start justify-between gap-4">
-              <h1 className="text-2xl md:text-3xl font-bold">{denuncia.titulo}</h1>
-              <DenunciaStatusBadge status={denuncia.status} className="text-sm" />
+              <h1 className="text-2xl md:text-3xl font-bold">
+                {denuncia.titulo}
+              </h1>
+              <DenunciaStatusBadge
+                status={denuncia.status}
+                className="text-sm"
+              />
             </div>
           </div>
         </div>
-        
+
         <div className="container mx-auto px-4 py-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
@@ -95,18 +99,20 @@ const DenunciaDetalhes = () => {
                   />
                 </div>
               )}
-              
+
               <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
                 <h2 className="text-xl font-semibold mb-4">Descrição</h2>
                 <p className="text-muted-foreground">{denuncia.descricao}</p>
               </div>
-              
+
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-semibold">Comentários</h2>
-                  <span className="text-muted-foreground text-sm">2 comentários</span>
+                  <span className="text-muted-foreground text-sm">
+                    2 comentários
+                  </span>
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="border rounded-lg p-4">
                     <div className="flex items-start gap-3">
@@ -116,15 +122,18 @@ const DenunciaDetalhes = () => {
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="font-medium">Ana Silva</span>
-                          <span className="text-xs text-muted-foreground">há 2 dias</span>
+                          <span className="text-xs text-muted-foreground">
+                            há 2 dias
+                          </span>
                         </div>
                         <p className="mt-1 text-muted-foreground">
-                          Esse problema já está causando transtornos há semanas. Espero que seja resolvido logo!
+                          Esse problema já está causando transtornos há semanas.
+                          Espero que seja resolvido logo!
                         </p>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="border rounded-lg p-4">
                     <div className="flex items-start gap-3">
                       <div className="bg-verde-escuro h-10 w-10 rounded-full flex items-center justify-center">
@@ -132,11 +141,17 @@ const DenunciaDetalhes = () => {
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-medium">Prefeitura Municipal</span>
-                          <span className="text-xs text-muted-foreground">há 1 dia</span>
+                          <span className="font-medium">
+                            Prefeitura Municipal
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            há 1 dia
+                          </span>
                         </div>
                         <p className="mt-1 text-muted-foreground">
-                          Agradecemos o reporte. Uma equipe técnica foi designada para avaliar o problema e tomar as providências necessárias.
+                          Agradecemos o reporte. Uma equipe técnica foi
+                          designada para avaliar o problema e tomar as
+                          providências necessárias.
                         </p>
                       </div>
                     </div>
@@ -144,60 +159,69 @@ const DenunciaDetalhes = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="lg:col-span-1">
               <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
                 <h2 className="text-xl font-semibold mb-4">Informações</h2>
-                
+
                 <div className="space-y-4">
                   <div>
                     <p className="text-sm text-muted-foreground">Categoria</p>
-                    <p className="font-medium">{denuncia.categoria.charAt(0).toUpperCase() + denuncia.categoria.slice(1)}</p>
+                    <p className="font-medium">
+                      {denuncia.categoria.charAt(0).toUpperCase() +
+                        denuncia.categoria.slice(1)}
+                    </p>
                   </div>
-                  
+
                   <Separator />
-                  
+
                   <div className="flex items-start gap-2">
                     <MapPin className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Localização</p>
+                      <p className="text-sm text-muted-foreground">
+                        Localização
+                      </p>
                       <p className="font-medium">{denuncia.local}</p>
                     </div>
                   </div>
-                  
+
                   <Separator />
-                  
+
                   <div className="flex items-start gap-2">
                     <Calendar className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Data de Registro</p>
+                      <p className="text-sm text-muted-foreground">
+                        Data de Registro
+                      </p>
                       <p className="font-medium">
                         {format(denuncia.data, "PPP", { locale: ptBR })}
                       </p>
                     </div>
                   </div>
-                  
+
                   <Separator />
-                  
+
                   <div className="flex items-start gap-2">
                     <User className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Reportado por</p>
+                      <p className="text-sm text-muted-foreground">
+                        Reportado por
+                      </p>
                       <p className="font-medium">{denuncia.usuario}</p>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <h2 className="text-xl font-semibold mb-4">Ações</h2>
-                
+
                 <div className="space-y-4">
                   <Button className="w-full bg-verde hover:bg-verde-escuro">
                     <MessageSquare className="h-4 w-4 mr-2" />
                     <span>Adicionar Comentário</span>
                   </Button>
-                  
+
                   <Button variant="outline" className="w-full">
                     Compartilhar
                   </Button>
