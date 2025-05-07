@@ -4,11 +4,16 @@ import { Bell, CheckCircle, Clock, MapPin } from "lucide-react";
 
 const StatsSection = () => {
   return (
-    <section className="py-16 bg-cinza/20">
+    <section className="py-16">
+
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12 text-azul">Nossa Atuação em Números</h2>
+
+        <h2 className="text-3xl font-bold text-center mb-12 text-azul">
+          Nossa Atuação em Números
+        </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
           <Card>
             <CardContent className="pt-6 flex flex-col items-center">
               <div className="bg-verde/20 p-3 rounded-full mb-4">

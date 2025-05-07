@@ -31,10 +31,10 @@ const formSchema = z.object({
 
 const NovaDenunciaPage = () => {
   const navigate = useNavigate();
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       titulo: "",

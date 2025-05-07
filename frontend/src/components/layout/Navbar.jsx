@@ -1,4 +1,4 @@
-
+import Logo from '../../../public/logotipo-sem-borda.svg';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, MapPin, Bell, Plus, Home, User, LogIn, Shield } from 'lucide-react';
@@ -12,37 +12,43 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-2">
-            <MapPin className="h-6 w-6 text-verde" />
-            <span className="font-bold text-xl">Urban Watch Verde</span>
+            <img className="h-14 text-verde" src={Logo} />
           </Link>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
+            
             <Link to="/" className="hover:text-verde transition-colors flex items-center gap-1">
               <Home size={18} />
               <span>Início</span>
             </Link>
-            <Link to="/login" className="hover:text-verde transition-colors flex items-center gap-1">
-              <LogIn size={18} />
-              <span>Entrar</span>
-            </Link>
+           
             <Link to="/denuncias" className="hover:text-verde transition-colors flex items-center gap-1">
               <Bell size={18} />
               <span>Denúncias</span>
             </Link>
+
             <Link to="/sobre" className="hover:text-verde transition-colors flex items-center gap-1">
               <User size={18} />
               <span>Sobre</span>
             </Link>
+
+            <Link to="/login" className="hover:text-verde transition-colors flex items-center gap-1">
+              <LogIn size={18} />
+              <span>Entrar</span>
+            </Link>
+
             <Link to="/perfil" className="hover:text-verde transition-colors flex items-center gap-1">
               <User size={18} />
               <span>Perfil</span>
             </Link>
+
             <Link to="/admin" className="hover:text-verde transition-colors flex items-center gap-1">
               <Shield size={18} />
               <span>Admin</span>
             </Link>
-            <Button asChild className="bg-verde hover:bg-verde-escuro text-white rounded-full">
+
+            <Button asChild className="bg-verde hover:bg-verde-escuro text-azul font-semibold duration-500 rounded-full">
               <Link to="/nova-denuncia" className="flex items-center gap-1">
                 <Plus className="h-4 w-4" />
                 <span>Nova Denúncia</span>
