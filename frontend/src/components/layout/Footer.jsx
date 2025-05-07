@@ -13,10 +13,14 @@ const Footer = () => {
         <div>
             <h3 className="text-lg font-semibold mb-4 text-verde">Navegue</h3>
             <ul className="space-y-2">
+
               <li><Link to="/" className="text-cinza hover:text-verde transition-colors">Início</Link></li>
-              <li><Link to="/mapa" className="text-cinza hover:text-verde transition-colors">Mapa</Link></li>
+              
               <li><Link to="/denuncias" className="text-cinza hover:text-verde transition-colors">Denúncias</Link></li>
+
               <li><Link to="/nova-denuncia" className="text-cinza hover:text-verde transition-colors">Reportar Problema</Link></li>
+
+              <li><Link to="/sobre" className="text-cinza hover:text-verde transition-colors">Sobre nós</Link></li>             
             </ul>
           </div>
 

@@ -18,7 +18,7 @@ const HowItWorksSection = () => {
 
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 m-6">
 
           <div className="flex flex-col items-center text-center">
 
@@ -46,7 +46,7 @@ const HowItWorksSection = () => {
 
           </div>
           
-          <div className="flex flex-col m-6 items-center text-center">
+          <div className="flex flex-col items-center text-center">
 
             <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">3</Badge>
 
