@@ -124,7 +124,7 @@ const LoginPage = () => {
 
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input id="register-email" type="email" placeholder="seu@email.com" className="pl-10" required />
+                      <Input id="register-email" type="email" placeholder="lyoto@email.com" className="pl-10" required />
                     </div>
                   </div>
 
