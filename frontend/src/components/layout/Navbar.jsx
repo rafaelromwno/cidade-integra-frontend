@@ -1,123 +1,64 @@
-import Logo from '../../../public/logotipo-sem-borda.svg';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X, MapPin, Bell, Plus, Home, User, LogIn, Shield } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import Logo from "../../../public/logotipo-sem-borda.svg";
+import useAuthentication from "@/hooks/UseAuthentication";
+import DesktopMenu from "./DesktopMenu";
+import MobileMenu from "./MobileMenu";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuthentication();
+  const isMobile = useIsMobile();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Erro ao sair:", error);
+      alert("Erro ao sair. Tente novamente.");
+    }
+  };
 
   return (
-    <nav className="bg-azul text-white py-4 shadow-md">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2">
-            <img className="h-14 text-verde" src={Logo} />
-          </Link>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
-            
-            <Link to="/" className="hover:text-verde transition-colors flex items-center gap-1">
-              <Home size={18} />
-              <span>Início</span>
-            </Link>
-           
-            <Link to="/denuncias" className="hover:text-verde transition-colors flex items-center gap-1">
-              <Bell size={18} />
-              <span>Denúncias</span>
-            </Link>
+    <nav className="bg-azul text-white shadow-md">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-2">
+          <img className="h-14" src={Logo} alt="Logo" />
+        </Link>
 
-            <Link to="/sobre" className="hover:text-verde transition-colors flex items-center gap-1">
-              <User size={18} />
-              <span>Sobre</span>
-            </Link>
-
-            <Link to="/login" className="hover:text-verde transition-colors flex items-center gap-1">
-              <LogIn size={18} />
-              <span>Entrar</span>
-            </Link>
-
-            <Link to="/perfil" className="hover:text-verde transition-colors flex items-center gap-1">
-              <User size={18} />
-              <span>Perfil</span>
-            </Link>
-
-            <Link to="/admin" className="hover:text-verde transition-colors flex items-center gap-1">
-              <Shield size={18} />
-              <span>Admin</span>
-            </Link>
-
-            <Button asChild className="bg-verde hover:bg-verde-escuro text-azul font-semibold duration-500 rounded-full">
-              <Link to="/nova-denuncia" className="flex items-center gap-1">
-                <Plus className="h-4 w-4" />
-                <span>Nova Denúncia</span>
-              </Link>
-            </Button>
-          </div>
-          
-          {/* Mobile Navigation Toggle */}
-          <div className="md:hidden">
-            <button 
+        {/* Menu Responsivo */}
+        {isMobile ? (
+          <>
+            {/* Botão de abrir/fechar menu mobile */}
+            <button
               onClick={() => setIsOpen(!isOpen)}
-              className="focus:outline-none"
+              className="focus:outline-none z-50"
+              aria-label="Toggle menu"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
-          </div>
-        </div>
-        
-        {/* Mobile Navigation Menu */}
-        {isOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-4 flex flex-col">
-            <Link to="/" 
-              className="hover:text-verde transition-colors py-2 flex items-center gap-2"
-              onClick={() => setIsOpen(false)}
+
+            {/* Overlay do menu mobile */}
+            <div
+              className={`fixed top-20 left-0 w-full bg-azul z-40 transition-all duration-300 ease-in-out ${
+                isOpen ? "opacity-100 max-h-screen" : "opacity-0 max-h-0 overflow-hidden"
+              }`}
             >
-              <Home size={18} />
-              <span>Início</span>
-            </Link>
-            <Link to="/login" 
-              className="hover:text-verde transition-colors py-2 flex items-center gap-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <LogIn size={18} />
-              <span>Entrar</span>
-            </Link>
-            <Link to="/denuncias" 
-              className="hover:text-verde transition-colors py-2 flex items-center gap-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <Bell size={18} />
-              <span>Denúncias</span>
-            </Link>
-            <Link to="/sobre" 
-              className="hover:text-verde transition-colors py-2 flex items-center gap-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <User size={18} />
-              <span>Sobre</span>
-            </Link>
-            <Link to="/perfil" 
-              className="hover:text-verde transition-colors py-2 flex items-center gap-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <User size={18} />
-              <span>Perfil</span>
-            </Link>
-            <Link to="/admin" 
-              className="hover:text-verde transition-colors py-2 flex items-center gap-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <Shield size={18} />
-              <span>Admin</span>
-            </Link>
-            <Button asChild className="bg-verde hover:bg-verde-escuro text-white w-full">
-              <Link to="/nova-denuncia" className="flex items-center justify-center gap-1" onClick={() => setIsOpen(false)}>
-                <Plus className="h-4 w-4" />
-                <span>Nova Denúncia</span>
-              </Link>
-            </Button>
+              <div className="flex flex-col px-6 py-4 space-y-4">
+                <MobileMenu
+                  onClickItem={() => setIsOpen(false)}
+                  user={user}
+                  onLogout={handleLogout}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="hidden md:flex items-center space-x-4">
+            <DesktopMenu user={user} onLogout={handleLogout} />
           </div>
         )}
       </div>
