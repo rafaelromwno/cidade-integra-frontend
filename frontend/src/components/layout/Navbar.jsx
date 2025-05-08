@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import Logo from "../../../public/logotipo-sem-borda.svg";
@@ -9,17 +9,29 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { user, logout } = useAuthentication();
   const isMobile = useIsMobile();
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     try {
       await logout();
     } catch (error) {
       console.error("Erro ao sair:", error);
       alert("Erro ao sair. Tente novamente.");
+    } finally {
+      setIsLoggingOut(false);
     }
   };
+
+  // Evita rolagem do fundo com menu mobile aberto
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   return (
     <nav className="bg-azul text-white shadow-md">
@@ -32,19 +44,20 @@ const Navbar = () => {
         {/* Menu Responsivo */}
         {isMobile ? (
           <>
-            {/* Botão de abrir/fechar menu mobile */}
+            {/* Botão menu mobile */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="focus:outline-none z-50"
               aria-label="Toggle menu"
+              aria-expanded={isOpen}
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
 
-            {/* Overlay do menu mobile */}
+            {/* Menu mobile animado */}
             <div
-              className={`fixed top-20 left-0 w-full bg-azul z-40 transition-all duration-300 ease-in-out ${
-                isOpen ? "opacity-100 max-h-screen" : "opacity-0 max-h-0 overflow-hidden"
+              className={`fixed top-20 left-0 w-full bg-azul z-40 transition-transform duration-300 ease-in-out transform ${
+                isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
               }`}
             >
               <div className="flex flex-col px-6 py-4 space-y-4">
@@ -52,13 +65,14 @@ const Navbar = () => {
                   onClickItem={() => setIsOpen(false)}
                   user={user}
                   onLogout={handleLogout}
+                  isLoggingOut={isLoggingOut}
                 />
               </div>
             </div>
           </>
         ) : (
           <div className="hidden md:flex items-center space-x-4">
-            <DesktopMenu user={user} onLogout={handleLogout} />
+            <DesktopMenu user={user} onLogout={handleLogout} isLoggingOut={isLoggingOut} />
           </div>
         )}
       </div>
