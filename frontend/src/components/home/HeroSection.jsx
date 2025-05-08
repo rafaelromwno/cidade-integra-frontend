@@ -11,7 +11,7 @@ const HeroSection = () => {
 
         <div className="flex flex-col md:flex-row items-center">
 
-          <div className="md:w-1/2 mb-10 md:mb-0">
+          <div className="md:w-1/2 mb-10 md:mb-0 mr-12">
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               Ajude a <span className='text-verde'>melhorar</span> sua cidade!
@@ -54,7 +54,7 @@ const HeroSection = () => {
             <img 
               src={HeroFoto}
               alt="Imagem de uma moça flexionando os joelhos e registrando a foto de um buraco para denúncia" 
-              className="max-w-full h-auto rounded-lg shadow-xl"
+              className="w-full max-w-md h-auto rounded-lg object-contain md:max-h-[400px]"
               style={{ maxHeight: "400px" }}
             />
           </div>
