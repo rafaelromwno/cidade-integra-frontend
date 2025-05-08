@@ -1,32 +1,57 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CriarConta from "../pages/CriarConta";
-import Denuncia from "../pages/Denuncia";
-import Duvidas from "../pages/Duvidas";
-import Entrar from "../pages/Entrar";
-import Paginainicial from "../pages/PaginaInicial";
+import Index from "../pages/Index";
+import DenunciasPage from "../pages/DenunciasPage";
+import DenunciaDetalhes from "../pages/DenunciaDetalhes";
+import NovaDenunciaPage from "../pages/NovaDenunciaPage";
+import LoginPage from "../pages/LoginPage";
+import SobrePage from "../pages/SobrePage";
+import PerfilUsuarioPage from "../pages/PerfilUsuarioPage";
+import AdminPage from "../pages/AdminPage";
 import NotFound from "../pages/NotFound";
-import EsqueciSenha from "../pages/EsqueciSenha";
-import Perfil from "../pages/Perfil";
-import ProtectedRoute from "../routes/ProtectedRoute";
+import RecuperarSenhaPage from "@/pages/RecuperarSenhaPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Paginainicial />} />
-        <Route path="/criar-conta" element={<CriarConta />} />
-        <Route path="/denuncie" element={<Denuncia />} />
-        <Route path="/duvidas" element={<Duvidas />} />
-        <Route path="/entrar" element={<Entrar />} />
-        <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+
+        {/* rotas publicas */}
+
+        <Route path="/" element={<Index />} />
+        <Route path="/denuncias" element={<DenunciasPage />} />
+        <Route path="/denuncias/:id" element={<DenunciaDetalhes />} />
+        <Route path="/recuperar-senha" element={<RecuperarSenhaPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/sobre" element={<SobrePage />} />
+        
+        {/* rotas protegidas */}
+
+        <Route
+          path="/nova-denuncia"
+          element={
+            <ProtectedRoute>
+              <NovaDenunciaPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/perfil"
           element={
             <ProtectedRoute>
-              <Perfil />
+              <PerfilUsuarioPage />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

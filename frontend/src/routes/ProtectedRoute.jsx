@@ -16,7 +16,7 @@ export default function ProtectedRoute({ children }) {
   if (!user) {
 
     // redireciona para a página de login se o usuário não estiver autenticado
-    return <Navigate to="/entrar" />;
+    return <Navigate to="/login" />;
 
   }
 

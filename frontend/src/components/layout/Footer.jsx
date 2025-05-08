@@ -1,98 +1,51 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Logo from "../../../public/logotipo-sem-borda.svg"; 
+
+import { MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+  
   return (
-    <footer className="bg-azul-paleta text-white py-8">
+    <footer className="bg-azul text-white pt-10 pb-6">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          {/* Logo e Nome do Site */}
-          <div className="text-center cursor-pointer md:text-left mb-4 md:mb-0">
-            <Link to="/">
-              <img
-                src={Logo}
-                alt="Logotipo"
-                className="w-44"
-              />
-            </Link>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div>
+            <h3 className="text-lg font-semibold mb-4 text-verde">Navegue</h3>
+            <ul className="space-y-2">
+
+              <li><Link to="/" className="text-cinza hover:text-verde transition-colors">Início</Link></li>
+              
+              <li><Link to="/denuncias" className="text-cinza hover:text-verde transition-colors">Denúncias</Link></li>
+
+              <li><Link to="/nova-denuncia" className="text-cinza hover:text-verde transition-colors">Reportar Problema</Link></li>
+
+              <li><Link to="/sobre" className="text-cinza hover:text-verde transition-colors">Sobre nós</Link></li>             
+            </ul>
           </div>
 
-          {/* Links de Navegação */}
-          <div className="flex justify-center mb-4 mt-2 md:mb-0">
-            <Link
-              to="/"
-              className="mx-2 hover:text-verde-paleta hover:shadow duration-500"
-            >
-              Início
-            </Link>
-
-            <Link
-              to="/denuncie"
-              className="mx-2 hover:text-verde-paleta hover:shadow duration-500"
-            >
-              Denúncias
-            </Link>
-
-            <Link
-              to="/duvidas"
-              className="mx-2 hover:text-verde-paleta hover:shadow duration-500"
-            >
-              Dúvidas
-            </Link>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="font-bold text-xl">Cidade Unida</span>
+            </div>
+            <p className="text-cinza mb-4">
+              Uma plataforma para cidadãos reportarem problemas urbanos e 
+              contribuírem para uma cidade melhor.
+            </p>
           </div>
-
-          {/* Ícones Sociais */}
-          <div className="flex justify-center">
-            <a
-              target="_blank"
-              href="https://github.com/cidade-unida/cidade-unida-frontend"
-              className="mx-2"
-            >
-              <img
-                src="https://skillicons.dev/icons?i=github"
-                width="40"
-                height="40"
-                alt="github logo"
-              />
-            </a>
-            <a target="_blank" href="#" className="mx-2">
-              <img
-                src="https://raw.githubusercontent.com/maurodesouza/profile-readme-generator/master/src/assets/icons/social/linkedin/default.svg"
-                width="40"
-                height="40"
-                alt="linkedin logo"
-              />
-            </a>
-            <a
-              target="_blank"
-              href="https://discord.gg/xv8cuVYTKw"
-              className="mx-2"
-            >
-              <img
-                src="https://raw.githubusercontent.com/maurodesouza/profile-readme-generator/master/src/assets/icons/social/discord/default.svg"
-                width="40"
-                height="40"
-                alt="discord logo"
-              />
-            </a>
+          
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-verde">Contato</h3>
+            <p className="text-cinza">
+              Para suporte ou informações adicionais:
+              <br />
+              suporte@cidadeunida.com
+            </p>
           </div>
         </div>
-
-        {/* Informações de Contato e Copyright */}
-        <div className="text-center mt-8">
-          <p className="mb-2 text-sm">
-            Fale conosco em {" "}
-            <a
-              href="mailto:suporte@cidadeunida.com"
-              className="text-verde-paleta hover:text-verde-escuro-paleta duration-300"
-            >
-               suporte@cidadeunida.com
-            </a>
-          </p>
-          <p className="text-xs text-gray-400">
-            &copy; 2025 Cidade Unida. Todos os direitos reservados.
-          </p>
+        
+        <div className="border-t border-cinza/30 mt-8 pt-6 text-center text-cinza">
+          <p>&copy; {currentYear} Cidade Unida. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
