@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,6 +7,41 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { MapPin, ShieldCheck } from "lucide-react";
 
 const DenunciaFormFields = ({ form }) => {
+  const [isFetching, setIsFetching] = useState(false);
+
+  const handleCepBlur = async (cep) => {
+
+    if (!cep || cep.length < 8) return;
+
+    setIsFetching(true);
+    
+    try {
+
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+
+      const data = await response.json();
+
+      if (data.erro) {
+
+        alert("CEP não encontrado.");
+
+        return;
+      }
+
+
+      form.setValue("local", `${data.logradouro}, ${data.bairro} - ${data.localidade}/${data.uf}`);
+
+    } catch (error) {
+
+      console.error("Erro ao buscar o CEP:", error);
+
+    } finally {
+
+      setIsFetching(false);
+
+    }
+  };
+
   return (
     <>
       <FormField
@@ -84,18 +118,14 @@ const DenunciaFormFields = ({ form }) => {
           name="cep"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>CEP</FormLabel>
+              <FormLabel htmlFor="cep">CEP</FormLabel>
               <FormControl>
-                <div className="flex">
-                  <Input
-                    placeholder="Ex: 00000-000"
-                    {...field}
-                    className="rounded-r-none"
-                  />
-                  <div className="flex items-center justify-center px-3 border border-l-0 rounded-r-md bg-muted">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
-                  </div>
-                </div>
+                <Input
+                  id="cep"
+                  placeholder="Ex: 00000-000"
+                  {...field}
+                  onBlur={(e) => handleCepBlur(e.target.value.replace("-", ""))}
+                />
               </FormControl>
               <FormDescription>
                 Informe o CEP da localidade.
@@ -110,9 +140,14 @@ const DenunciaFormFields = ({ form }) => {
           name="local"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Endereço</FormLabel>
+              <FormLabel htmlFor="local">Endereço</FormLabel>
               <FormControl>
-                <Input placeholder="Ex: Rua das Flores, 123 - Centro" {...field} />
+                <Input
+                  id="local"
+                  placeholder="Ex: Rua das Flores, 123 - Centro"
+                  {...field}
+                  disabled={isFetching}
+                />
               </FormControl>
               <FormDescription>
                 Informe o endereço onde o problema está localizado.
@@ -121,7 +156,6 @@ const DenunciaFormFields = ({ form }) => {
             </FormItem>
           )}
         />
-
 
       </div>
 

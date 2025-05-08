@@ -108,11 +108,11 @@ function mapAuthError(error) {
   const code = error.code;
   const messages = {
     'auth/user-not-found': 'Usuário não encontrado.',
-    'auth/wrong-password': 'Senha incorreta.',
+    'auth/invalid-credential': 'Credenciais inválidas. Verifique e tente novamente.',
     'auth/email-already-in-use': 'Este e-mail já está em uso.',
     'auth/invalid-email': 'E-mail inválido.',
-    'auth/weak-password': 'A senha é muito fraca.',
+    'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres.',
     'auth/popup-closed-by-user': 'Login cancelado pelo usuário.',
   };
-  return messages[code] || 'Erro desconhecido. Tente novamente.';
+  return messages[code] || 'Erro desconhecido. Tente novamente.'
 }
