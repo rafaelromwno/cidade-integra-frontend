@@ -57,7 +57,9 @@ const Navbar = () => {
             {/* Menu mobile animado */}
             <div
               className={`fixed top-20 left-0 w-full bg-azul z-40 transition-transform duration-300 ease-in-out transform ${
-                isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+                isOpen
+                  ? "translate-y-0 opacity-100"
+                  : "-translate-y-full opacity-0"
               }`}
             >
               <div className="flex flex-col px-6 py-4 space-y-4">
@@ -72,7 +74,11 @@ const Navbar = () => {
           </>
         ) : (
           <div className="hidden md:flex items-center space-x-4">
-            <DesktopMenu user={user} onLogout={handleLogout} isLoggingOut={isLoggingOut} />
+            <DesktopMenu
+              user={user}
+              onLogout={handleLogout}
+              isLoggingOut={isLoggingOut}
+            />
           </div>
         )}
       </div>
