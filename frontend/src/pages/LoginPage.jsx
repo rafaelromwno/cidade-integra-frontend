@@ -12,6 +12,7 @@ import Footer from "@/components/layout/Footer";
 import useAuthentication from "@/hooks/UseAuthentication";
 import { useAuth } from "@/context/AuthContext";
 
+
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isEmailLoading, setIsEmailLoading] = useState(false);
@@ -96,7 +97,11 @@ const LoginPage = () => {
     setIsGoogleLoading(false);
 
     if (result.success) {
-      toast({ title: "Login com Google realizado com sucesso." });
+      toast({
+        title: "Login realizado com sucesso.",
+        description: "Bem-vindo de volta!",
+        status: "success",
+      });
       navigate("/");
     } else {
       setError(result.error || "Erro ao fazer login com o Google.");

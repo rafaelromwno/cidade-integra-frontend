@@ -103,7 +103,9 @@ const RecuperarSenhaPage = () => {
         </div>
       </main>
       <Footer />
+      
     </div>
+    
   );
 };
 
