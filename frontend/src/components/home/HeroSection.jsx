@@ -1,4 +1,4 @@
-import HeroFoto from '../../../public/hero-foto.png'
+import HeroFoto from '/hero-foto.avif'
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { MapPin, ArrowRight } from "lucide-react";
