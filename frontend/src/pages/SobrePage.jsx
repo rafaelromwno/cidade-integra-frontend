@@ -1,79 +1,10 @@
 import StudentCard from "@/components/sobre/StudentCard";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import Jeronimo from "../../public/jeronimo-barbieri.jpg";
-import Rafael from "../../public/rafael-romano.jpg";
-import Miguel from "../../public/miguel-morandini.jpg";
-import Victor from "../../public/victor-hugo.jpg";
-import Pedro from "../../public/pedro-ferreira-leite.png";
+import { equipe } from "@/data/equipe";
 
 const SobrePage = () => {
-  const equipe = [
-    {
-      name: "Jeronimo Barbieri",
-      role: "Designer UI/UX",
-      avatar: Jeronimo,
-      description: "",
-      github: "",
-      linkedin: "https://www.instagram.com/jbarbieri__/",
-      email: "",
-    },
-    {
-      name: "Rafael Romano Silva",
-      role: "Gestor de Projeto",
-      avatar: Rafael,
-      description: "",
-      github: "",
-      linkedin: "https://www.linkedin.com/in/rafael-romano-silva",
-      email: "",
-    },
-    {
-      name: "Miguel Morandini",
-      role: "Desenvolvedor FullStack",
-      avatar: Miguel,
-      description: "",
-      github: "",
-      linkedin: "https://www.linkedin.com/in/miguel-morandini-19350128a",
-      email: "",
-    },
-    {
-      name: "Pedro Ferreira Leite",
-      role: "Designer UI/UX",
-      avatar: Pedro,
-      description: "",
-      github: "",
-      linkedin: "",
-      email: "",
-    },
-    {
-      name: "Victor Hugo Testi",
-      role: "Desenvolvedor FullStack",
-      avatar: Victor,
-      description: "",
-      github: "",
-      linkedin:
-        "https://www.linkedin.com/in/victor-hugo-malipense-testi-994297324/",
-      email: "",
-    },
-    {
-      name: "Luiz Felipe",
-      role: "Mentor",
-      avatar: "",
-      description: "",
-      github: "",
-      linkedin: "",
-      email: "",
-    },
-    {
-      name: "Lemuel",
-      role: "Mentor",
-      avatar: "",
-      description: "",
-      github: "",
-      linkedin: "",
-      email: "",
-    },
-  ];
+  
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
