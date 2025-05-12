@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import Logo from "../../../public/logotipo-sem-borda.svg";
+import Logo from "/logotipo-sem-borda.svg";
 import useAuthentication from "@/hooks/UseAuthentication";
 import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
