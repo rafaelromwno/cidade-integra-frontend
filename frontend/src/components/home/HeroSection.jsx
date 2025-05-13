@@ -53,38 +53,34 @@ const HeroSection = () => {
           <div className="md:w-1/2 flex justify-center">
 
             <picture>
-
               <source
-                srcSet="
-                  /hero-foto-400.avif 400w,
-                  /hero-foto-800.avif 800w,
-                  /hero-foto.avif 1200w
-                "
-                sizes="(max-width: 768px) 100vw, 50vw"
+                srcSet="/hero-foto-800.avif"
                 type="image/avif"
+                media="(min-width: 768px)"
               />
-
               <source
-                srcSet="
-                  /hero-foto-480.webpb 480w,
-                  /hero-foto-800.webpb 800w,
-                  /hero-foto.webpb 1200w
-                "
-                sizes="(max-width: 768px) 100vw, 50vw"
+                srcSet="/hero-foto-800.webp"
                 type="image/webp"
+                media="(min-width: 768px)"
               />
-
+              <source
+                srcSet="/hero-foto-400.avif"
+                type="image/avif"
+                media="(max-width: 767px)"
+              />
+              <source
+                srcSet="/hero-foto-400.webp"
+                type="image/webp"
+                media="(max-width: 767px)"
+              />
               <img
-                src="/hero-foto-800.avif"
-                alt="Imagem de uma moça registrando um buraco para denúncia"
-                width={400}
-                height={300}
+                src="/hero-foto-800.webp"
+                alt="Imagem de uma moça flexionando os joelhos e registrando a foto de um buraco para denúncia"
                 className="w-full max-w-md h-auto rounded-lg object-contain md:max-h-[400px]"
+                fetchpriority="high"
                 decoding="async"
-                fetchPriority="high"
               />
             </picture>
-
 
           </div>
 
