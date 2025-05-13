@@ -6,24 +6,41 @@ import useAuthentication from "@/hooks/UseAuthentication";
 import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useToast } from "@/hooks/use-toast";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { user, logout } = useAuthentication();
   const isMobile = useIsMobile();
+  const { toast } = useToast();
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
+  
     try {
       await logout();
+  
+      toast({
+        title: "👋 Você saiu da conta.",
+        description: "Esperamos vê-lo em breve!",
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000)
     } catch (error) {
       console.error("Erro ao sair:", error);
-      alert("Erro ao sair. Tente novamente.");
+  
+      toast({
+        title: "🚨 Erro ao sair",
+        description: "Ocorreu um problema ao encerrar sua sessão. Tente novamente.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoggingOut(false);
     }
-  };
+  }; 
 
   // Evita rolagem do fundo com menu mobile aberto
   useEffect(() => {
