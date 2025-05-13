@@ -51,7 +51,6 @@ const HeroSection = () => {
           </div>
 
           <div className="md:w-1/2 flex justify-center">
-
             <picture>
               <source
                 srcSet="/hero-foto-800.avif"
@@ -81,6 +80,7 @@ const HeroSection = () => {
                 decoding="async"
               />
             </picture>
+
 
           </div>
 
