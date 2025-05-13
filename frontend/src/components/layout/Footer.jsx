@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { BookOpen } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -23,7 +22,6 @@ const Footer = () => {
 
               <li>
                 <Link to="/duvidas" className="hover:text-verde transition-colors flex items-center gap-1">
-                  <BookOpen size={18} />
                   <span>Dúvidas</span>
                 </Link>
               </li>
