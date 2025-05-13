@@ -1,4 +1,3 @@
-// src/hooks/useAuth.js
 import { useState, useEffect } from "react";
 import {
   signInWithEmailAndPassword,
@@ -13,8 +12,6 @@ import { auth, googleProvider } from "@/firebase/config";
 export default function useAuth() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const clearError = () => setError(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -25,13 +22,12 @@ export default function useAuth() {
 
   const loginWithEmail = async (email, password) => {
     setLoading(true);
-    setError(null);
     try {
       await signInWithEmailAndPassword(auth, email, password);
       return { success: true };
     } catch (err) {
-      setError(mapAuthError(err));
-      return { success: false };
+      const message = mapAuthError(err);
+      return { success: false, error: message };
     } finally {
       setLoading(false);
     }
@@ -39,13 +35,12 @@ export default function useAuth() {
 
   const registerWithEmail = async (email, password) => {
     setLoading(true);
-    setError(null);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       return { success: true };
     } catch (err) {
-      setError(mapAuthError(err));
-      return { success: false };
+      const message = mapAuthError(err);
+      return { success: false, error: message };
     } finally {
       setLoading(false);
     }
@@ -53,14 +48,12 @@ export default function useAuth() {
 
   const loginWithGoogle = async () => {
     setLoading(true);
-    setError(null);
     try {
       await signInWithPopup(auth, googleProvider);
       return { success: true };
     } catch (err) {
-      const mappedError = mapAuthError(err);
-      setError(mappedError);
-      return { success: false, error: mappedError };
+      const message = mapAuthError(err);
+      return { success: false, error: message };
     } finally {
       setLoading(false);
     }
@@ -68,13 +61,12 @@ export default function useAuth() {
 
   const logout = async () => {
     setLoading(true);
-    setError(null);
     try {
       await signOut(auth);
       return { success: true };
     } catch (err) {
-      setError(mapAuthError(err));
-      return { success: false };
+      const message = mapAuthError(err);
+      return { success: false, error: message };
     } finally {
       setLoading(false);
     }
@@ -82,13 +74,12 @@ export default function useAuth() {
 
   const resetPassword = async (email) => {
     setLoading(true);
-    setError(null);
     try {
       await sendPasswordResetEmail(auth, email);
       return { success: true };
     } catch (err) {
-      setError(mapAuthError(err));
-      return { success: false };
+      const message = mapAuthError(err);
+      return { success: false, error: message };
     } finally {
       setLoading(false);
     }
@@ -97,13 +88,11 @@ export default function useAuth() {
   return {
     user,
     loading,
-    error,
     loginWithEmail,
     registerWithEmail,
     loginWithGoogle,
     logout,
     resetPassword,
-    clearError,
   };
 }
 

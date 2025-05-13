@@ -2,30 +2,45 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import useAuthentication from "@/hooks/UseAuthentication";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 const GoogleLoginButton = ({ setGoogleError }) => {
   const { loginWithGoogle } = useAuthentication();
   const { toast } = useToast();
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
     setGoogleError(null);
 
-    const result = await loginWithGoogle();
-    setIsGoogleLoading(false);
-
-    if (result.success) {
-      toast({ title: "Login com Google realizado com sucesso." });
-    } else {
-      const errorMessage = result.error || "Erro ao fazer login com o Google.";
+    try {
+      const result = await loginWithGoogle();
+      if (result.success) {
+        toast({
+          title: "🎉 Login bem-sucedido!",
+          description: "Você foi autenticado com sucesso. Seja bem-vindo!",
+        });
+        navigate("/");
+      } else {
+        const errorMessage = result.error || "Erro ao fazer login com o Google.";
+        toast({
+          title: "⚠️ Não foi possível fazer login",
+          description: `${errorMessage} Por favor, tente novamente ou use outro método.`,
+          variant: "destructive",
+        });
+        setGoogleError(errorMessage);
+      }
+    } catch (err) {
+      const fallbackMessage = "Erro inesperado durante o login.";
       toast({
-        title: "Falha no login com o Google",
-        description: errorMessage,
+        title: "🚨 Erro inesperado",
+        description: "Ocorreu um problema ao tentar fazer login. Por favor, verifique sua conexão ou tente novamente em instantes.",
         variant: "destructive",
       });
-      setGoogleError(errorMessage);
+      setGoogleError(fallbackMessage);
+    } finally {
+      setIsGoogleLoading(false);
     }
   };
 
