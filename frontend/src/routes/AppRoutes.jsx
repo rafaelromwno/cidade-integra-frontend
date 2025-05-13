@@ -12,6 +12,7 @@ import RecuperarSenhaPage from "@/pages/RecuperarSenhaPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { Toaster } from "@/components/ui/toaster"
 import { ToastProvider } from "@radix-ui/react-toast";
+import FAQPage from "@/pages/FAQPage";
 
 export default function AppRoutes() {
   return (
@@ -28,7 +29,8 @@ export default function AppRoutes() {
           <Route path="/recuperar-senha" element={<RecuperarSenhaPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sobre" element={<SobrePage />} />
-          
+          <Route path="/duvidas" element={<FAQPage />} />
+
           {/* rotas protegidas */}
   
           <Route

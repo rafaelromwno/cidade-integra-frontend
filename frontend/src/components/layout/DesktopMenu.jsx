@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Home, Bell, User, LogIn, Shield, LogOut, Plus } from 'lucide-react';
+import { Home, Bell, User, LogIn, Shield, LogOut, Plus, BookOpen } from 'lucide-react';
 
 const DesktopMenu = ({ user, onLogout, isLoggingOut }) => {
   return (
@@ -18,6 +18,11 @@ const DesktopMenu = ({ user, onLogout, isLoggingOut }) => {
       <Link to="/sobre" className="hover:text-verde transition-colors flex items-center gap-1">
         <User size={18} />
         <span>Sobre</span>
+      </Link>
+
+      <Link to="/duvidas" className="hover:text-verde transition-colors flex items-center gap-1">
+        <BookOpen size={18} />
+        <span>Dúvidas</span>
       </Link>
 
       {!user && (
