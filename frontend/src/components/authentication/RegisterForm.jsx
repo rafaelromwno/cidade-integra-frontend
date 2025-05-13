@@ -13,7 +13,7 @@ const RegisterForm = ({ resetTrigger }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [registerError, setRegisterError] = useState(null);
 
-  const { registerWithEmail, error: authError } = useAuthentication();
+  const { registerWithEmail } = useAuthentication();
   const { toast } = useToast();
   const navigate = useNavigate();
 

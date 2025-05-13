@@ -14,7 +14,7 @@ const LoginForm = ({ resetTrigger }) => {
   const [loginError, setLoginError] = useState(null);
   const [googleError, setGoogleError] = useState(null);
   const [isEmailLoading, setIsEmailLoading] = useState(false);
-  const { loginWithEmail, error: authError } = useAuthentication();
+  const { loginWithEmail } = useAuthentication();
   const { toast } = useToast();
   const navigate = useNavigate();
 

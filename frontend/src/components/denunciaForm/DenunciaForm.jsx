@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -34,7 +33,7 @@ const DenunciaForm = () => {
     setTimeout(() => {
       console.log(values);
       toast({
-        title: "Denúncia enviada com sucesso!",
+        title: "🌳 Denúncia enviada com sucesso!",
         description: "Sua denúncia foi registrada e será analisada em breve.",
       });
       setIsSubmitting(false);
