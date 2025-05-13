@@ -6,8 +6,8 @@ export const faqCategories = [
     items: [
       {
         id: "item-1",
-        question: "O que é o Urban Watch Verde?",
-        answer: "O Urban Watch Verde é uma plataforma que permite aos cidadãos reportar problemas ambientais e urbanos em sua cidade. Nossa missão é conectar a comunidade aos órgãos responsáveis para solucionar questões como poluição, descarte irregular de lixo, problemas de infraestrutura urbana e outros desafios ambientais."
+        question: "O que é o Cidade Unida?",
+        answer: "O Cidade Unida é uma plataforma que permite aos cidadãos reportar problemas ambientais e urbanos em sua cidade. Nossa missão é conectar a comunidade aos órgãos responsáveis para solucionar questões como poluição, descarte irregular de lixo, problemas de infraestrutura urbana e outros desafios ambientais."
       },
       {
         id: "item-2",
@@ -16,8 +16,8 @@ export const faqCategories = [
       },
       {
         id: "item-3",
-        question: "É necessário pagar para usar o Urban Watch Verde?",
-        answer: "Não! O Urban Watch Verde é uma plataforma totalmente gratuita para todos os cidadãos. Nosso objetivo é facilitar a comunicação entre a população e os órgãos públicos responsáveis por solucionar os problemas reportados."
+        question: "É necessário pagar para usar o Cidade Unida?",
+        answer: "Não! O Cidade Unida é uma plataforma totalmente gratuita para todos os cidadãos. Nosso objetivo é facilitar a comunicação entre a população e os órgãos públicos responsáveis por solucionar os problemas reportados."
       }
     ]
   },
@@ -48,7 +48,7 @@ export const faqCategories = [
     items: [
       {
         id: "item-1",
-        question: "Como criar uma conta no Urban Watch Verde?",
+        question: "Como criar uma conta no Cidade Unida?",
         answer: "Para criar uma conta, clique em \"Entrar\" no menu superior e depois selecione a opção \"Cadastrar\". Você precisará fornecer seu nome, email e criar uma senha. Também é possível se cadastrar utilizando sua conta do Google ou Facebook para maior praticidade."
       },
       {
