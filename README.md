@@ -94,6 +94,3 @@ Tipos comuns:
    git push origin feature/nome-da-feature
    ```
 4. **Abra um Pull Request** e aguarde a revisão da equipe.
-
-
-
