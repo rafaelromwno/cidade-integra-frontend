@@ -7,6 +7,7 @@ import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,7 @@ const Navbar = () => {
   const { user, logout } = useAuthentication();
   const isMobile = useIsMobile();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -42,7 +44,7 @@ const Navbar = () => {
     }
   }; 
 
-  // Evita rolagem do fundo com menu mobile aberto
+  // evita rolagem do fundo com menu mobile aberto
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
