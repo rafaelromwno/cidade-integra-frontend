@@ -49,12 +49,12 @@ const RegisterForm = ({ resetTrigger }) => {
     const password = e.target["register-password"].value;
     const confirmPassword = e.target["confirm-password"].value;
 
-    // Validando os dados com Zod
+    // validando os dados com Zod
     try {
       const validatedData = registerSchema.parse({ name, email, password, confirmPassword });
 
       // Se a validação passar, continue com o processo de registro
-      const result = await registerWithEmail(validatedData.email, validatedData.password);
+      const result = await registerWithEmail(validatedData.email, validatedData.password, validatedData.name);
 
       if (result.success) {
         toast({
