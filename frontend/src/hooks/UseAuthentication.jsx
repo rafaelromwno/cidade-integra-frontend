@@ -7,15 +7,41 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth, googleProvider } from "@/firebase/config";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
+import { auth, googleProvider, db } from "@/firebase/config";
+import { formatISO } from "date-fns";
+import { updateProfile } from "firebase/auth";
 
 export default function useAuth() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const userRef = doc(db, "users", currentUser.uid);
+        await updateDoc(userRef, {
+          lastLoginAt: formatISO(new Date()),
+        }).catch(() => {
+          setDoc(userRef, {
+            displayName: currentUser.displayName || "",
+            email: currentUser.email,
+            photoURL: currentUser.photoURL || "",
+            role: "user",
+            createdAt: formatISO(new Date()),
+            score: 0,
+            reportCount: 0,
+            lastLoginAt: formatISO(new Date()),
+            region: "",
+            verified: false,
+            bio: "",
+          });
+        });
+
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -33,10 +59,33 @@ export default function useAuth() {
     }
   };
 
-  const registerWithEmail = async (email, password) => {
+  const registerWithEmail = async (email, password, displayName = "") => {
     setLoading(true);
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      const user = cred.user;
+
+      // Atualize o displayName no Auth
+      if (displayName) {
+        await updateProfile(user, { displayName });
+      }
+
+      const userDoc = {
+        displayName: displayName || user.displayName || "",
+        email: user.email,
+        photoURL: user.photoURL || "",
+        role: "user",
+        createdAt: formatISO(new Date()),
+        score: 0,
+        reportCount: 0,
+        lastLoginAt: formatISO(new Date()),
+        region: "",
+        verified: false,
+        bio: "",
+      };
+
+      await setDoc(doc(db, "users", user.uid), userDoc);
+
       return { success: true };
     } catch (err) {
       const message = mapAuthError(err);
@@ -49,7 +98,31 @@ export default function useAuth() {
   const loginWithGoogle = async () => {
     setLoading(true);
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          displayName: user.displayName || "",
+          email: user.email,
+          photoURL: user.photoURL || "",
+          role: "user",
+          createdAt: formatISO(new Date()),
+          score: 0,
+          reportCount: 0,
+          lastLoginAt: formatISO(new Date()),
+          region: "",
+          verified: false,
+          bio: "",
+        });
+      } else {
+        await updateDoc(userRef, {
+          lastLoginAt: formatISO(new Date()),
+        });
+      }
+
       return { success: true };
     } catch (err) {
       const message = mapAuthError(err);
