@@ -15,6 +15,8 @@ import { ToastProvider } from "@radix-ui/react-toast";
 import FAQPage from "@/pages/FAQPage";
 import AccessDeniedPage from "../pages/AccessDeniedPage"
 import AdminRoute from "./AdminRoute";
+import AdminDashboardPage from "../pages/AdminDashboardPage";
+import UsersAdminPage from "../pages/UsersAdminPage";
 
 export default function AppRoutes() {
   return (
@@ -54,6 +56,8 @@ export default function AppRoutes() {
             }
           />
 
+        {/* rotas protegidas para administradores */}
+
           <Route
             path="/admin"
             element={
@@ -62,8 +66,27 @@ export default function AppRoutes() {
               </AdminRoute>
             }
           />
+
+          <Route
+            path="/admin-dashboard"
+            element={
+              <AdminRoute>
+                <AdminDashboardPage />
+              </AdminRoute>
+            }
+          />
+
+          <Route
+           path="/admin/usuarios"
+            element={
+              <AdminRoute>
+                <UsersAdminPage />
+              </AdminRoute>
+            }
+          />
   
           <Route path="*" element={<NotFound />} />
+          
         </Routes>
       </ToastProvider>
     </BrowserRouter>
