@@ -8,11 +8,13 @@ import MobileMenu from "./MobileMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const { user, logout } = useAuthentication();
+  const { logout } = useAuthentication();
+  const { currentUser: user } = useAuth();
   const isMobile = useIsMobile();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ const Navbar = () => {
       });
 
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 1000)
     } catch (error) {
       console.error("Erro ao sair:", error);
