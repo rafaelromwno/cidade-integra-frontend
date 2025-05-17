@@ -2,44 +2,74 @@
 
 Este repositório contém o código-fonte do **frontend** da plataforma **Cidade Unida**, desenvolvido pela equipe **frontend-team**. O projeto utiliza **React**, **Tailwind CSS** e **Firebase** para oferecer uma experiência moderna e responsiva aos usuários.
 
+## 🌍 Sobre o Projeto
+
+O **Cidade Unida** é uma plataforma online que permite aos cidadãos registrarem denúncias urbanas, facilitando a comunicação entre a população e as autoridades responsáveis. O projeto está alinhado ao **Objetivo de Desenvolvimento Sustentável (ODS) 11 da ONU**, que visa tornar as cidades mais **inclusivas, seguras, resilientes e sustentáveis**.
+
+### 🚩 Objetivo
+
+Nosso objetivo é desenvolver um site funcional que aplique os conhecimentos adquiridos ao longo do curso, promovendo boas práticas de desenvolvimento web, design e colaboração em equipe.
+
+### 🎯 Qual o Problema a ser Resolvido?
+
+Atualmente, a comunicação entre os cidadãos e os serviços públicos muitas vezes é ineficiente, descentralizada ou inacessível, dificultando a resolução de problemas urbanos cotidianos. Isso gera frustração na população, acúmulo de demandas não atendidas e degradação do espaço público.
+
+### ✅ Solução Proposta
+
+O **Cidade Unida** propõe uma **plataforma web responsiva** e de fácil uso, onde os cidadãos possam:
+
+-   Registrar e acompanhar denúncias urbanas;
+    
+-   Interagir com atualizações das autoridades ou administradores do sistema.
+
+### 🧑‍🤝‍🧑 Público-Alvo
+
+A plataforma é voltada principalmente para:
+
+-   **Cidadãos** que desejam reportar problemas urbanos de forma prática e transparente;
+    
+-   **Órgãos públicos municipais** interessados em aprimorar a gestão de demandas urbanas;
+
+## ⚙️ Funcionalidades
+
+-   📌 **Cadastro de denúncias:** com campos para descrição, localização via mapa e upload de imagens;
+    
+-   🔍 **Consulta pública:** listagem das denúncias por região, status ou categoria;
+    
+-   👤 **Sistema de autenticação:** para usuários e administradores;
+    
+-   🧭 **Painel administrativo:** para acompanhamento, priorização e resposta das denúncias;
+    
+-   📝 **Histórico de atualizações** das denúncias (timeline);
+    
+
+Esse modelo visa **centralizar a comunicação**, **organizar dados úteis para as prefeituras** e **fortalecer a cultura da cidadania ativa**.
+
+## 🧑‍💻 Boas Práticas Adotadas
+
+O desenvolvimento do projeto é guiado por boas práticas que garantem a qualidade, organização e sustentabilidade do código:
+
+-   ✅ **Versionamento com Git** e organização por branches (`main`, `develop`, `feature/*`)
+    
+-   ✅ **Commits semânticos** utilizando [Conventional Commits](https://www.conventionalcommits.org/)
+    
+-   ✅ **Código limpo** com padronização e uso de linters
+    
+-   ✅ **Documentação clara** em arquivos README, Wiki e comentários no código
+    
+-   ✅ **Componentização** no frontend (React)
+    
+-   ✅ **Separação de responsabilidades** entre frontend, backend e banco de dados
+    
+-   ✅ **Testes unitários e de integração** (a ser implementado)
+    
+-   ✅ **Adoção de princípios SOLID e DRY** quando aplicável
+
 ## 🚀 Tecnologias Utilizadas
 
 - **React** – Biblioteca para construção da interface do usuário.
 - **Tailwind CSS** – Framework CSS para estilização eficiente.
 - **Firebase** – Autenticação, banco de dados e hospedagem.
-
-## 📦 Instalação e Configuração
-
-Para rodar o projeto localmente, siga os passos abaixo:
-
-1. **Clone o repositório:**
-   ```bash
-   git clone https://github.com/cidade-unida/cidade-unida-frontend.git
-   cd frontend
-   ```
-
-2. **Instale as dependências:**
-   ```bash
-   npm install
-   ```
-
-3. **Configure as variáveis de ambiente:**
-   Crie um arquivo `.env` na raiz do projeto e adicione suas credenciais do Firebase:
-   ```
-   REACT_APP_FIREBASE_API_KEY=...
-   REACT_APP_FIREBASE_AUTH_DOMAIN=...
-   REACT_APP_FIREBASE_PROJECT_ID=...
-   REACT_APP_FIREBASE_STORAGE_BUCKET=...
-   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=...
-   REACT_APP_FIREBASE_APP_ID=...
-   ```
-
-4. **Inicie o servidor de desenvolvimento:**
-   ```bash
-   npm run dev
-   ```
-
-O projeto estará disponível em `http://localhost:5173`.
 
 ## 🛠 Estrutura do Projeto
 
