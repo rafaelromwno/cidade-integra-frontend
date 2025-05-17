@@ -13,6 +13,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import { Toaster } from "@/components/ui/toaster"
 import { ToastProvider } from "@radix-ui/react-toast";
 import FAQPage from "@/pages/FAQPage";
+import AccessDeniedPage from "../pages/AccessDeniedPage"
+import AdminRoute from "./AdminRoute";
 
 export default function AppRoutes() {
   return (
@@ -30,6 +32,7 @@ export default function AppRoutes() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sobre" element={<SobrePage />} />
           <Route path="/duvidas" element={<FAQPage />} />
+          <Route path="/acesso-negado" element={<AccessDeniedPage />} />
 
           {/* rotas protegidas */}
   
@@ -41,6 +44,7 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
+          
           <Route
             path="/perfil"
             element={
@@ -49,12 +53,13 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/admin"
             element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <AdminPage />
-              </ProtectedRoute>
+              </AdminRoute>
             }
           />
   
