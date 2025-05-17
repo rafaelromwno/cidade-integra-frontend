@@ -53,7 +53,7 @@ const AdminDashboardPage = () => {
               </CardContent>
               <CardFooter className="bg-gray-50 border-t">
                 <Button asChild className="w-full bg-verde hover:bg-verde-escuro duration-500">
-                  <Link to="/admin" className="flex items-center justify-center">
+                  <Link to="/admin/denuncias" className="flex items-center justify-center">
                     Acessar Gestão de Denúncias
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>

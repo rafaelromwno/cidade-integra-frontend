@@ -65,6 +65,7 @@ const DesktopMenu = ({ user, onLogout, isLoggingOut }) => {
             <User size={18} />
             <span>Perfil</span>
           </Link>
+          
           {user.role === "admin" && (
             <Link
               to="/admin"

@@ -59,7 +59,7 @@ export default function AppRoutes() {
         {/* rotas protegidas para administradores */}
 
           <Route
-            path="/admin"
+            path="/admin/denuncias"
             element={
               <AdminRoute>
                 <AdminPage />
@@ -68,7 +68,7 @@ export default function AppRoutes() {
           />
 
           <Route
-            path="/admin-dashboard"
+            path="/admin"
             element={
               <AdminRoute>
                 <AdminDashboardPage />
