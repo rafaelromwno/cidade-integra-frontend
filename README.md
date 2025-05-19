@@ -1,10 +1,10 @@
-# 🌐 Cidade Unida - Frontend
+# 🌐 Cidade Integra - Frontend
 
-Este repositório contém o código-fonte do **frontend** da plataforma **Cidade Unida**, desenvolvido pela equipe **frontend-team**. O projeto utiliza **React**, **Tailwind CSS** e **Firebase** para oferecer uma experiência moderna e responsiva aos usuários.
+Este repositório contém o código-fonte do **frontend** da plataforma **Cidade Integra**, desenvolvido pela equipe **frontend-team**. O projeto utiliza **React**, **Tailwind CSS** e **Firebase** para oferecer uma experiência moderna e responsiva aos usuários.
 
 ## 🌍 Sobre o Projeto
 
-O **Cidade Unida** é uma plataforma online que permite aos cidadãos registrarem denúncias urbanas, facilitando a comunicação entre a população e as autoridades responsáveis. O projeto está alinhado ao **Objetivo de Desenvolvimento Sustentável (ODS) 11 da ONU**, que visa tornar as cidades mais **inclusivas, seguras, resilientes e sustentáveis**.
+O **Cidade Integra** é uma plataforma online que permite aos cidadãos registrarem denúncias urbanas, facilitando a comunicação entre a população e as autoridades responsáveis. O projeto está alinhado ao **Objetivo de Desenvolvimento Sustentável (ODS) 11 da ONU**, que visa tornar as cidades mais **inclusivas, seguras, resilientes e sustentáveis**.
 
 ### 🚩 Objetivo
 
@@ -16,7 +16,7 @@ Atualmente, a comunicação entre os cidadãos e os serviços públicos muitas v
 
 ### ✅ Solução Proposta
 
-O **Cidade Unida** propõe uma **plataforma web responsiva** e de fácil uso, onde os cidadãos possam:
+O **Cidade Integra** propõe uma **plataforma web responsiva** e de fácil uso, onde os cidadãos possam:
 
 -   Registrar e acompanhar denúncias urbanas;
     
