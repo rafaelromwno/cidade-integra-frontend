@@ -1,30 +1,13 @@
 import React from "react";
 import { FileText } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
-  PaginationLink,
-} from "@/components/ui/pagination";
 import DenunciaCard from "@/components/denuncias/DenunciaCard";
 import { useUserReports } from "@/hooks/useUserReports";
 import { useAuth } from "@/context/AuthContext";
 
 const MinhasDenuncias = () => {
   const { currentUser: user, loading: authLoading } = useAuth();
-  const {
-    reports: denuncias,
-    loading,
-    error,
-    fetchNextPage,
-    fetchPrevPage,
-    canGoBack,
-    canGoNext,
-    currentPage,
-  } = useUserReports(user?.uid || null);
+  const { reports: denuncias, loading, error } = useUserReports(user?.uid || null);
 
   if (authLoading) {
     return <p>Carregando autenticação...</p>;
@@ -53,59 +36,11 @@ const MinhasDenuncias = () => {
           </CardContent>
         </Card>
       ) : (
-        <>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {denuncias.map((denuncia) => (
-              <DenunciaCard key={denuncia.reportId} denuncia={denuncia} />
-            ))}
-          </div>
-
-          <Pagination className="mt-6 justify-center cursor-pointer">
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={fetchPrevPage}
-                  className={
-                    !canGoBack || loading
-                      ? "pointer-events-none opacity-50"
-                      : ""
-                  }
-                />
-              </PaginationItem>
-
-              {canGoBack && (
-                <PaginationItem>
-                  <PaginationLink onClick={fetchPrevPage}>
-                    {currentPage - 1}
-                  </PaginationLink>
-                </PaginationItem>
-              )}
-
-              <PaginationItem>
-                <PaginationLink isActive>{currentPage}</PaginationLink>
-              </PaginationItem>
-
-              {canGoNext && (
-                <PaginationItem>
-                  <PaginationLink onClick={fetchNextPage}>
-                    {currentPage + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              )}
-
-              <PaginationItem>
-                <PaginationNext
-                  onClick={fetchNextPage}
-                  className={
-                    !canGoNext || loading
-                      ? "pointer-events-none opacity-50"
-                      : ""
-                  }
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {denuncias.map((denuncia) => (
+            <DenunciaCard key={denuncia.reportId} denuncia={denuncia} />
+          ))}
+        </div>
       )}
     </>
   );
