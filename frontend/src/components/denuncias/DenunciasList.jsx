@@ -32,6 +32,7 @@ const DenunciasList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("todas");
 
+  // Carregar as denúncias iniciais
   useEffect(() => {
     const fetchData = async () => {
       const { reports, lastVisible } = await getInitialReports(ITEMS_PER_PAGE);
@@ -45,6 +46,7 @@ const DenunciasList = () => {
     fetchData();
   }, []);
 
+  // Carregar mais denúncias
   const handleLoadMore = async () => {
     if (!lastVisible || !hasMore) return;
 
@@ -60,6 +62,7 @@ const DenunciasList = () => {
     setHasMore(more.length === ITEMS_PER_PAGE);
   };
 
+  // Carregar a página anterior
   const handlePreviousPage = async () => {
     if (pageHistory.length === 0) return;
 
@@ -77,16 +80,17 @@ const DenunciasList = () => {
     setHasMore(true);
   };
 
+  // Filtrando as denúncias
   const filteredDenuncias = denuncias.filter((denuncia) => {
+    // Comparando título, descrição e local com o termo de pesquisa
     const matchesSearch =
-      (denuncia.titulo || "")
+      (denuncia.title || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (denuncia.description || "")
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      (denuncia.descricao || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      (denuncia.local || "").toLowerCase().includes(searchTerm.toLowerCase());
+      (denuncia.location?.address || "").toLowerCase().includes(searchTerm.toLowerCase());
 
+    // Filtrando pelas categorias de status
     const matchesFilter = filter === "todas" || denuncia.status === filter;
 
     return matchesSearch && matchesFilter;
@@ -111,10 +115,9 @@ const DenunciasList = () => {
           <SelectContent>
             <SelectItem value="todas">Todas</SelectItem>
             <SelectItem value="pending">Pendentes</SelectItem>
-            <SelectItem value="em_analise">Em Análise</SelectItem>
+            <SelectItem value="review">Em Análise</SelectItem>
             <SelectItem value="resolved">Resolvidas</SelectItem>
             <SelectItem value="rejected">Rejeitadas</SelectItem>
-            <SelectItem value="archived">Arquivadas</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -136,11 +139,7 @@ const DenunciasList = () => {
               <PaginationItem>
                 <PaginationPrevious
                   onClick={handlePreviousPage}
-                  className={
-                    pageHistory.length === 0 || loading
-                      ? "pointer-events-none opacity-50"
-                      : "cursor-pointer"
-                  }
+                  className={pageHistory.length === 0 || loading ? "pointer-events-none opacity-50" : "cursor-pointer"}
                 />
               </PaginationItem>
 
@@ -177,11 +176,7 @@ const DenunciasList = () => {
               <PaginationItem>
                 <PaginationNext
                   onClick={handleLoadMore}
-                  className={
-                    !hasMore || loading
-                      ? "pointer-events-none opacity-50"
-                      : "cursor-pointer"
-                  }
+                  className={!hasMore || loading ? "pointer-events-none opacity-50" : "cursor-pointer"}
                 />
               </PaginationItem>
             </PaginationContent>

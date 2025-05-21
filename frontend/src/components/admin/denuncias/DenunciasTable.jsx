@@ -1,22 +1,52 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import { Eye, CheckCircle, XCircle } from "lucide-react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
-import DenunciaStatusBadge from "@/components/denuncias/DenunciaStatusBadge"
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Eye, CheckCircle, XCircle, Loader2 } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import DenunciaStatusBadge from "@/components/denuncias/DenunciaStatusBadge";
+import { useReport } from "@/hooks/useReport";
 
-const DenunciasTable = ({ denuncias }) => {
-  const { toast } = useToast()
+const DenunciasTable = ({ denuncias, setDenuncias }) => {
+  const { markAsResolved, markAsRejected, markAsInReview, loading } = useReport();
+  const { toast } = useToast();
 
-  const atualizarStatus = (id, novoStatus) => {
-    // hook para atualizar o status da denúncia
-    toast({
-      title: "Status atualizado",
-      description: `Denúncia #${id} marcada como ${novoStatus.replace("_", " ")}.`,
-      variant: "default",
-    })
-  }
+  // função para lidar com a atualização do status
+  const handleUpdateStatus = async (id, status) => {
+    if (loading) return; // impede múltiplos cliques enquanto o status está sendo atualizado
+
+    try {
+      // Atualiza o status no banco de dados
+      if (status === "resolved") {
+        await markAsResolved(id);
+      } else if (status === "review") {
+        await markAsInReview(id);
+      } else if (status === "rejected") {
+        await markAsRejected(id);
+      }
+
+      // Atualiza o estado local para refletir a mudança imediatamente
+      setDenuncias((prevDenuncias) =>
+        prevDenuncias.map((denuncia) =>
+          denuncia.reportId === id ? { ...denuncia, status } : denuncia
+        )
+      );
+
+      // Exibe mensagem de sucesso
+      toast({
+        title: "Status atualizado",
+        description: `Denúncia #${id} marcada como ${status}.`,
+        variant: "default",
+      });
+    } catch (error) {
+      // Exibe mensagem de erro se algo der errado
+      toast({
+        title: "Erro",
+        description: `Não foi possível atualizar a denúncia #${id}. Tente novamente mais tarde.`,
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="rounded-md border">
@@ -40,39 +70,52 @@ const DenunciasTable = ({ denuncias }) => {
             </TableRow>
           ) : (
             denuncias.map((denuncia) => (
-              <TableRow key={denuncia.id}>
-                <TableCell className="font-medium">{denuncia.id}</TableCell>
-                <TableCell>{denuncia.titulo}</TableCell>
-                <TableCell>{denuncia.local}</TableCell>
-                <TableCell>{new Date(denuncia.data).toLocaleDateString('pt-BR')}</TableCell>
+              <TableRow key={denuncia.reportId}> {/* Alterado para 'reportId' */}
+                <TableCell className="font-medium">{denuncia.reportId}</TableCell>
+                <TableCell>{denuncia.title}</TableCell>
+                <TableCell>{denuncia.location?.address}</TableCell>
+                <TableCell>{new Date(denuncia.createdAt?.seconds * 1000).toLocaleDateString('pt-BR')}</TableCell>
                 <TableCell>
                   <DenunciaStatusBadge status={denuncia.status} />
                 </TableCell>
                 <TableCell className="text-right flex flex-col space-y-2">
                   <Button variant="ghost" size="sm" asChild>
-                    <Link to={`/denuncias/${denuncia.id}`}>
+                    <Link to={`/denuncias/${denuncia.reportId}`}>
                       <Eye className="h-4 w-4 mr-1" />
                       Ver
                     </Link>
                   </Button>
-                  
-                  <Button 
+
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-blue-500 hover:bg-blue-500/10 hover:text-blue-500"
+                    onClick={() => handleUpdateStatus(denuncia.reportId, "review")}
+                    disabled={loading} // desabilita o botão enquanto o status está sendo atualizado
+                  >
+                    {loading ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <XCircle className="h-4 w-4 mr-1" />}
+                    Em Análise
+                  </Button>
+
+                  <Button
                     variant="ghost"
                     size="sm"
                     className="text-verde hover:text-verde hover:bg-verde/10"
-                    onClick={() => atualizarStatus(denuncia.id, "resolvido")}
+                    onClick={() => handleUpdateStatus(denuncia.reportId, "resolved")}
+                    disabled={loading} // desabilita o botão enquanto o status está sendo atualizado
                   >
-                    <CheckCircle className="h-4 w-4 mr-1" />
+                    {loading ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <CheckCircle className="h-4 w-4 mr-1" />}
                     Resolver
                   </Button>
-                  
-                  <Button 
+
+                  <Button
                     variant="ghost"
                     size="sm"
                     className="text-vermelho hover:text-vermelho hover:bg-vermelho/10"
-                    onClick={() => atualizarStatus(denuncia.id, "rejeitado")}
+                    onClick={() => handleUpdateStatus(denuncia.reportId, "rejected")}
+                    disabled={loading} // desabilita o botão enquanto o status está sendo atualizado
                   >
-                    <XCircle className="h-4 w-4 mr-1" />
+                    {loading ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <XCircle className="h-4 w-4 mr-1" />}
                     Rejeitar
                   </Button>
                 </TableCell>
@@ -82,7 +125,7 @@ const DenunciasTable = ({ denuncias }) => {
         </TableBody>
       </Table>
     </div>
-  )
-}
+  );
+};
 
-export default DenunciasTable
+export default DenunciasTable;

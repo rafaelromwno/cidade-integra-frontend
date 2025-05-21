@@ -6,7 +6,7 @@ const DenunciaStatusBadge = ({ status, className = "" }) => {
       color: "bg-yellow-500",
       text: "Pendente"
     },
-    em_analise: {
+    review: {
       color: "bg-blue-500",
       text: "Em Análise"
     },

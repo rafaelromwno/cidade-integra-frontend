@@ -185,33 +185,37 @@ export function useReport() {
     }
   }
 
-  // atualizar status da denúncia
+  // atualizar o status da denúncia
   const updateStatus = async (reportId, status) => {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
 
     try {
       const update = {
         status,
         updatedAt: Timestamp.now(),
-      }
+      };
+
+      // adicionar resolvedAt somente se a denúncia for marcada como "resolvida"
       if (status === "resolved") {
-        update.resolvedAt = Timestamp.now()
+        update.resolvedAt = Timestamp.now();
       }
-      await updateDoc(doc(db, REPORT_COLLECTION, reportId), update)
+
+      // atualizando a denúncia no Firestore
+      await updateDoc(doc(db, REPORT_COLLECTION, reportId), update);
     } catch (err) {
-      setError(err)
+      console.error("Erro ao atualizar o status:", err);
+      setError("Ocorreu um erro ao atualizar o status da denúncia.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  // marcar denúncia como resolvida
-  const markAsResolved = (id) => updateStatus(id, "resolved")
-
-  // marcar denúncia como arquivada
-  const markAsArchived = (id) => updateStatus(id, "archived")
-
+  // funções para atualizar o status de cada denúncia
+  const markAsResolved = (id) => updateStatus(id, "resolved");
+  const markAsInReview = (id) => updateStatus(id, "review");
+  const markAsRejected = (id) => updateStatus(id, "rejected");
+  
   return {
     loading,
     error,
@@ -221,7 +225,8 @@ export function useReport() {
     updateReport,
     deleteReport,
     markAsResolved,
-    markAsArchived,
+    markAsInReview,
+    markAsRejected,
     getInitialReports,
     getMoreReports,
   }

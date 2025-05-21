@@ -38,7 +38,7 @@ const DenunciaCard = ({ denuncia }) => {
     switch (status) {
       case "pending":
         return "bg-yellow-500"
-      case "in_review":
+      case "review":
         return "bg-blue-500"
       case "resolved":
         return "bg-green-500"
@@ -53,7 +53,7 @@ const DenunciaCard = ({ denuncia }) => {
     switch (status) {
       case "pending":
         return "Pendente"
-      case "in_review":
+      case "review":
         return "Em Análise"
       case "resolved":
         return "Resolvido"
