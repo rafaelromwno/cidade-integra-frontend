@@ -3,6 +3,7 @@ import {
   query,
   orderBy,
   limit,
+  getDoc,
   getDocs,
   startAfter,
   doc,
@@ -11,6 +12,7 @@ import {
   Timestamp,
   addDoc,
   increment,
+  where,
 } from "firebase/firestore"
 import { db } from "../firebase/config"
 import { useState } from "react"
@@ -50,7 +52,7 @@ export function useReport() {
     } catch (err) {
       setError(err)
       console.error("Erro ao criar denúncia:", err)
-      throw err 
+      throw err
     } finally {
       setLoading(false)
     }
@@ -62,7 +64,7 @@ export function useReport() {
     setError(null)
 
     try {
-      const docSnap = await getDocs(doc(db, REPORT_COLLECTION, id))
+      const docSnap = await getDoc(doc(db, REPORT_COLLECTION, id))
       if (docSnap.exists()) {
         return { reportId: docSnap.id, ...docSnap.data() }
       }
@@ -103,6 +105,7 @@ export function useReport() {
     }
   }
 
+  // buscar as primeiras denúncias
   const getInitialReports = async (limitCount) => {
     try {
       const q = query(
@@ -125,6 +128,7 @@ export function useReport() {
     }
   }
 
+  // buscar mais denúncias
   const getMoreReports = async (lastDoc, limitCount) => {
     try {
       const q = query(
@@ -158,8 +162,10 @@ export function useReport() {
         ...updates,
         updatedAt: Timestamp.now(),
       })
+      return true
     } catch (err) {
       setError(err)
+      return false
     } finally {
       setLoading(false)
     }
@@ -179,40 +185,32 @@ export function useReport() {
     }
   }
 
+  // atualizar status da denúncia
+  const updateStatus = async (reportId, status) => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const update = {
+        status,
+        updatedAt: Timestamp.now(),
+      }
+      if (status === "resolved") {
+        update.resolvedAt = Timestamp.now()
+      }
+      await updateDoc(doc(db, REPORT_COLLECTION, reportId), update)
+    } catch (err) {
+      setError(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   // marcar denúncia como resolvida
-  const markAsResolved = async (reportId) => {
-    setLoading(true)
-    setError(null)
+  const markAsResolved = (id) => updateStatus(id, "resolved")
 
-    try {
-      await updateDoc(doc(db, REPORT_COLLECTION, reportId), {
-        status: "resolved",
-        resolvedAt: Timestamp.now(),
-        updatedAt: Timestamp.now(),
-      })
-    } catch (err) {
-      setError(err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  // marcar denúncia como arquivada (inativa)
-  const markAsArchived = async (reportId) => {
-    setLoading(true)
-    setError(null)
-
-    try {
-      await updateDoc(doc(db, REPORT_COLLECTION, reportId), {
-        status: "archived",
-        updatedAt: Timestamp.now(),
-      })
-    } catch (err) {
-      setError(err)
-    } finally {
-      setLoading(false)
-    }
-  }
+  // marcar denúncia como arquivada
+  const markAsArchived = (id) => updateStatus(id, "archived")
 
   return {
     loading,

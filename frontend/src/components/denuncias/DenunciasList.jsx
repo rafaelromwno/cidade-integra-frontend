@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import DenunciaCard from "./DenunciaCard";
 import { Input } from "@/components/ui/input";
@@ -20,79 +19,68 @@ const DenunciasList = ({ denuncias }) => {
   const [filter, setFilter] = useState("todas");
   const [currentPage, setCurrentPage] = useState(1);
 
+  // filtra denúncias pelo termo e pelo status selecionado
   const filteredDenuncias = denuncias.filter((denuncia) => {
-    const matchesSearch = 
-      denuncia.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      denuncia.descricao.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      denuncia.local.toLowerCase().includes(searchTerm.toLowerCase());
-      
-    const matchesFilter = filter === "todas" || denuncia.status === filter;
+  const matchesSearch = 
+    (denuncia.titulo || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (denuncia.descricao || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (denuncia.local || "").toLowerCase().includes(searchTerm.toLowerCase());
+    
+  const matchesFilter = filter === "todas" || denuncia.status === filter;
 
-    return matchesSearch && matchesFilter;
-  });
+  return matchesSearch && matchesFilter;
+});
 
-   // Calculate pagination
+  // Paginação
   const totalItems = filteredDenuncias.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedDenuncias = filteredDenuncias.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  // Generate page numbers for pagination
+  // Gera números das páginas para paginação
   const getPageNumbers = () => {
     const pages = [];
     const maxPagesToShow = 5;
     
     if (totalPages <= maxPagesToShow) {
-      // Show all pages if we have less than maxPagesToShow
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Always include first page
       pages.push(1);
       
-      // Add pages around current page
       let startPage = Math.max(2, currentPage - 1);
       let endPage = Math.min(totalPages - 1, currentPage + 1);
       
-      // Adjust if we're near the beginning
       if (currentPage <= 2) {
         endPage = Math.min(totalPages - 1, 3);
       }
       
-      // Adjust if we're near the end
       if (currentPage >= totalPages - 1) {
         startPage = Math.max(2, totalPages - 2);
       }
       
-      // Add ellipsis if needed
       if (startPage > 2) {
-        pages.push('...');
+        pages.push("...");
       }
       
-      // Add the middle pages
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);
       }
       
-      // Add ellipsis if needed
       if (endPage < totalPages - 1) {
-        pages.push('...');
+        pages.push("...");
       }
       
-      // Always include last page
       pages.push(totalPages);
     }
     
     return pages;
   };
 
-  // Handle page change
   const handlePageChange = (page) => {
-    // Ensure we're within valid page range
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
-      // Scroll to top of the list
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -122,7 +110,7 @@ const DenunciasList = ({ denuncias }) => {
           </SelectContent>
         </Select>
       </div>
-      
+
       {filteredDenuncias.length === 0 ? (
         <div className="text-center py-10 text-muted-foreground">
           <p>Nenhuma denúncia encontrada.</p>
@@ -131,7 +119,7 @@ const DenunciasList = ({ denuncias }) => {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {paginatedDenuncias.map((denuncia) => (
-              <DenunciaCard key={denuncia.id} denuncia={denuncia} />
+              <DenunciaCard key={denuncia.reportId} denuncia={denuncia} />
             ))}
           </div>
           
