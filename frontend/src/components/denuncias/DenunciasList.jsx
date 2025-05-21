@@ -1,89 +1,96 @@
-import { useState } from "react";
-import DenunciaCard from "./DenunciaCard";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search } from "lucide-react";
-import { 
-  Pagination, 
-  PaginationContent, 
-  PaginationItem, 
-  PaginationLink, 
-  PaginationNext, 
-  PaginationPrevious 
-} from "@/components/ui/pagination";
+import { useEffect, useState } from "react"
+import DenunciaCard from "./DenunciaCard"
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Search } from "lucide-react"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationLink,
+} from "@/components/ui/pagination"
+import { useReport } from "@/hooks/useReport"
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 6
 
-const DenunciasList = ({ denuncias }) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState("todas");
-  const [currentPage, setCurrentPage] = useState(1);
+const DenunciasList = () => {
+  const { getInitialReports, getMoreReports, loading } = useReport()
 
-  // filtra denúncias pelo termo e pelo status selecionado
+  const [denuncias, setDenuncias] = useState([])
+  const [lastVisible, setLastVisible] = useState(null)
+  const [pageHistory, setPageHistory] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [filter, setFilter] = useState("todas")
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { reports, lastVisible } = await getInitialReports(ITEMS_PER_PAGE)
+      setDenuncias(reports)
+      setLastVisible(lastVisible)
+      setPageHistory([])
+      setCurrentPage(1) // reinicia página 
+      setHasMore(reports.length === ITEMS_PER_PAGE)
+    }
+
+    fetchData()
+  }, [])
+
+  const handleLoadMore = async () => {
+    if (!lastVisible || !hasMore) return
+
+    const { reports: more, lastVisible: newLast } = await getMoreReports(
+      lastVisible,
+      ITEMS_PER_PAGE
+    )
+
+    setPageHistory((prev) => [...prev, lastVisible])
+    setDenuncias(more)
+    setLastVisible(newLast)
+    setCurrentPage((prev) => prev + 1) // avança página 
+    setHasMore(more.length === ITEMS_PER_PAGE)
+  }
+
+  const handlePreviousPage = async () => {
+    if (pageHistory.length === 0) return
+
+    const newHistory = [...pageHistory]
+    const previousDoc = newHistory[newHistory.length - 2] ?? null
+
+    const { reports: previousReports, lastVisible: newLast } = previousDoc
+      ? await getMoreReports(previousDoc, ITEMS_PER_PAGE)
+      : await getInitialReports(ITEMS_PER_PAGE)
+
+    setDenuncias(previousReports)
+    setLastVisible(newLast)
+    setPageHistory(newHistory.slice(0, -1))
+    setCurrentPage((prev) => Math.max(prev - 1, 1)) // volta página 
+    setHasMore(true)
+  }
+
   const filteredDenuncias = denuncias.filter((denuncia) => {
-  const matchesSearch = 
-    (denuncia.titulo || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (denuncia.descricao || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (denuncia.local || "").toLowerCase().includes(searchTerm.toLowerCase());
-    
-  const matchesFilter = filter === "todas" || denuncia.status === filter;
+    const matchesSearch =
+      (denuncia.titulo || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (denuncia.descricao || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (denuncia.local || "").toLowerCase().includes(searchTerm.toLowerCase())
 
-  return matchesSearch && matchesFilter;
-});
+    const matchesFilter = filter === "todas" || denuncia.status === filter
 
-  // Paginação
-  const totalItems = filteredDenuncias.length;
-  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedDenuncias = filteredDenuncias.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-
-  // Gera números das páginas para paginação
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxPagesToShow = 5;
-    
-    if (totalPages <= maxPagesToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      pages.push(1);
-      
-      let startPage = Math.max(2, currentPage - 1);
-      let endPage = Math.min(totalPages - 1, currentPage + 1);
-      
-      if (currentPage <= 2) {
-        endPage = Math.min(totalPages - 1, 3);
-      }
-      
-      if (currentPage >= totalPages - 1) {
-        startPage = Math.max(2, totalPages - 2);
-      }
-      
-      if (startPage > 2) {
-        pages.push("...");
-      }
-      
-      for (let i = startPage; i <= endPage; i++) {
-        pages.push(i);
-      }
-      
-      if (endPage < totalPages - 1) {
-        pages.push("...");
-      }
-      
-      pages.push(totalPages);
-    }
-    
-    return pages;
-  };
-
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
+    return matchesSearch && matchesFilter
+  })
 
   return (
     <div>
@@ -103,10 +110,11 @@ const DenunciasList = ({ denuncias }) => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="todas">Todas</SelectItem>
-            <SelectItem value="pendente">Pendentes</SelectItem>
+            <SelectItem value="pending">Pendentes</SelectItem>
             <SelectItem value="em_analise">Em Análise</SelectItem>
-            <SelectItem value="resolvido">Resolvidas</SelectItem>
-            <SelectItem value="rejeitado">Rejeitadas</SelectItem>
+            <SelectItem value="resolved">Resolvidas</SelectItem>
+            <SelectItem value="rejected">Rejeitadas</SelectItem>
+            <SelectItem value="archived">Arquivadas</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -118,50 +126,44 @@ const DenunciasList = ({ denuncias }) => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {paginatedDenuncias.map((denuncia) => (
+            {filteredDenuncias.map((denuncia) => (
               <DenunciaCard key={denuncia.reportId} denuncia={denuncia} />
             ))}
           </div>
-          
-          {totalPages > 1 && (
-            <Pagination className="mt-8">
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious 
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                  />
-                </PaginationItem>
-                
-                {getPageNumbers().map((page, index) => (
-                  <PaginationItem key={index}>
-                    {page === '...' ? (
-                      <span className="flex h-9 w-9 items-center justify-center">...</span>
-                    ) : (
-                      <PaginationLink
-                        onClick={() => handlePageChange(page)}
-                        isActive={currentPage === page}
-                        className="cursor-pointer"
-                      >
-                        {page}
-                      </PaginationLink>
-                    )}
-                  </PaginationItem>
-                ))}
-                
-                <PaginationItem>
-                  <PaginationNext 
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          )}
+
+          <Pagination className="mt-8">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={handlePreviousPage}
+                  className={
+                    pageHistory.length === 0 || loading
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+
+              <PaginationItem>
+                <PaginationLink isActive>{currentPage}</PaginationLink>
+              </PaginationItem>
+
+              <PaginationItem>
+                <PaginationNext
+                  onClick={handleLoadMore}
+                  className={
+                    !hasMore || loading
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default DenunciasList;
+export default DenunciasList
