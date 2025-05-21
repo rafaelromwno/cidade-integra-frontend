@@ -20,6 +20,7 @@ export function useCreateUser() {
         score: userData.score || 0,
         reportCount: userData.reportCount || 0,
         verified: userData.verified || false,
+        status: userData.status || "active",
       })
 
     } catch (err) {

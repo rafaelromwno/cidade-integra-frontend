@@ -35,6 +35,7 @@ export default function useAuth() {
             region: "",
             verified: false,
             bio: "",
+            status: "active",
           });
         });
 
@@ -82,6 +83,7 @@ export default function useAuth() {
         region: "",
         verified: false,
         bio: "",
+        status: "active",
       };
 
       await setDoc(doc(db, "users", user.uid), userDoc);
@@ -116,6 +118,7 @@ export default function useAuth() {
           region: "",
           verified: false,
           bio: "",
+          status: "active",
         });
       } else {
         await updateDoc(userRef, {
