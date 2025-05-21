@@ -1,7 +1,6 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
-
+import React from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Star } from "lucide-react"
 
 const EstatisticasCard = ({ pontuacao, totalDenuncias, porcentagemResolvidas }) => {
   return (
@@ -43,7 +42,7 @@ const EstatisticasCard = ({ pontuacao, totalDenuncias, porcentagemResolvidas }) 
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default EstatisticasCard;
+export default EstatisticasCard

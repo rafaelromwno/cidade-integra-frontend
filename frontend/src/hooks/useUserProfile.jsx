@@ -1,0 +1,119 @@
+import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
+import useAuth from "@/hooks/UseAuthentication"
+import { useFetchUser } from "@/hooks/useFetchUser"
+import { useUpdateUser } from "@/hooks/useUpdateUser"
+import {
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updateEmail,
+  updateProfile,
+} from "firebase/auth"
+import { doc, updateDoc } from "firebase/firestore"
+import { auth, db } from "@/firebase/config"
+import { mapAuthError } from "@/utils/mapAuthError"
+
+export default function useUserProfile() {
+  const { toast } = useToast()
+  const { user } = useAuth()
+  const {
+    user: usuarioData,
+    loading: userLoading,
+    error,
+  } = useFetchUser(user?.uid)
+  const { updateUser, loading: updateLoading } = useUpdateUser()
+
+  const [minhasDenuncias, setMinhasDenuncias] = useState([]) // Substitua pelo hook real de denúncias
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isPasswordAlertOpen, setIsPasswordAlertOpen] = useState(false)
+
+  const calcularPorcentagemResolvidas = () => {
+    const resolvidas = minhasDenuncias.filter(
+      (d) => d.status === "resolvido"
+    ).length
+    return minhasDenuncias.length > 0
+      ? Math.round((resolvidas / minhasDenuncias.length) * 100)
+      : 0
+  }
+
+  const handleEditProfile = async (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const nome = formData.get("nome")
+    const email = formData.get("email")
+    const bio = formData.get("bio")
+    const senhaAtual = formData.get("senha-atual")
+    const novaSenha = formData.get("nova-senha")
+    const confirmarNovaSenha = formData.get("confirmar-senha")
+
+    const currentUser = auth.currentUser
+
+    try {
+      // Atualiza senha, se necessário
+      if (senhaAtual && novaSenha && confirmarNovaSenha) {
+        if (novaSenha !== confirmarNovaSenha) {
+          setIsPasswordAlertOpen(true)
+          return
+        }
+        const credential = EmailAuthProvider.credential(
+          currentUser.email,
+          senhaAtual
+        )
+        await reauthenticateWithCredential(currentUser, credential)
+        await updatePassword(currentUser, novaSenha)
+        toast({
+          title: "Senha atualizada",
+          description: "Sua senha foi atualizada com sucesso.",
+        })
+      }
+
+      // Atualiza o e-mail, se mudou
+      if (email !== currentUser.email) {
+        await updateEmail(currentUser, email)
+      }
+
+      // Atualiza o displayName no Auth
+      if (nome !== currentUser.displayName) {
+        await updateProfile(currentUser, { displayName: nome })
+      }
+
+      // Atualiza dados no Firestore
+      const userRef = doc(db, "users", currentUser.uid)
+      await updateDoc(userRef, {
+        displayName: nome,
+        email: email,
+        bio: bio,
+      })
+
+      toast({
+        title: "Perfil atualizado",
+        description: "Suas informações foram salvas com sucesso.",
+      })
+
+      setIsEditDialogOpen(false)
+    } catch (err) {
+      console.error("Erro ao atualizar perfil:", err)
+      const msg = mapAuthError(err)
+      toast({
+        title: "Erro ao atualizar perfil",
+        description: msg || "Tente novamente mais tarde.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  return {
+    usuarioData,
+    isEditDialogOpen,
+    setIsEditDialogOpen,
+    isPasswordAlertOpen,
+    setIsPasswordAlertOpen,
+    minhasDenuncias,
+    setMinhasDenuncias,
+    calcularPorcentagemResolvidas,
+    handleEditProfile,
+    loading: userLoading || updateLoading,
+    error,
+  }
+}

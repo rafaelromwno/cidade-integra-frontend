@@ -37,7 +37,7 @@ const EditarPerfilForm = ({
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="nome">Nome</Label>
-            <Input id="nome" name="nome" defaultValue={usuario.nome} />
+            <Input id="nome" name="nome" defaultValue={usuario.displayName} />
           </div>
           
           <div className="space-y-2">
@@ -73,7 +73,7 @@ const EditarPerfilForm = ({
             <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
-            <Button type="submit">
+            <Button type="submit" className="bg-verde hover:bg-verde-escuro text-white">
               Salvar alterações
             </Button>
           </div>
@@ -83,7 +83,7 @@ const EditarPerfilForm = ({
       <AlertDialog open={isPasswordAlertOpen} onOpenChange={onPasswordAlertOpenChange}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Erro na alteração de senha</AlertDialogTitle>
+            <AlertDialogTitle>❌ Erro na alteração de senha</AlertDialogTitle>
             <AlertDialogDescription>
               As senhas não correspondem. Por favor, verifique se a nova senha e a confirmação são idênticas.
             </AlertDialogDescription>

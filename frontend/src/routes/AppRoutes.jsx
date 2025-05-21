@@ -13,6 +13,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import { Toaster } from "@/components/ui/toaster"
 import { ToastProvider } from "@radix-ui/react-toast";
 import FAQPage from "@/pages/FAQPage";
+import AccessDeniedPage from "../pages/AccessDeniedPage"
+import AdminRoute from "./AdminRoute";
+import AdminDashboardPage from "../pages/AdminDashboardPage";
+import UsersAdminPage from "../pages/UsersAdminPage";
 
 export default function AppRoutes() {
   return (
@@ -30,6 +34,7 @@ export default function AppRoutes() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sobre" element={<SobrePage />} />
           <Route path="/duvidas" element={<FAQPage />} />
+          <Route path="/acesso-negado" element={<AccessDeniedPage />} />
 
           {/* rotas protegidas */}
   
@@ -41,6 +46,7 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
+          
           <Route
             path="/perfil"
             element={
@@ -49,16 +55,38 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
+
+        {/* rotas protegidas para administradores */}
+
+          <Route
+            path="/admin/denuncias"
+            element={
+              <AdminRoute>
+                <AdminPage />
+              </AdminRoute>
+            }
+          />
+
           <Route
             path="/admin"
             element={
-              <ProtectedRoute>
-                <AdminPage />
-              </ProtectedRoute>
+              <AdminRoute>
+                <AdminDashboardPage />
+              </AdminRoute>
+            }
+          />
+
+          <Route
+           path="/admin/usuarios"
+            element={
+              <AdminRoute>
+                <UsersAdminPage />
+              </AdminRoute>
             }
           />
   
           <Route path="*" element={<NotFound />} />
+          
         </Routes>
       </ToastProvider>
     </BrowserRouter>
