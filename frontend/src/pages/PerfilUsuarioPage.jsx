@@ -1,13 +1,14 @@
-import Navbar from "@/components/layout/Navbar"
-import Footer from "@/components/layout/Footer"
-import { Dialog } from "@/components/ui/dialog"
-import PerfilHeader from "@/components/perfil/PerfilHeader"
-import PerfilUsuarioCard from "@/components/perfil/PerfilUsuarioCard"
-import EstatisticasCard from "@/components/perfil/EstatisticasCard"
-import MinhasDenuncias from "@/components/perfil/MinhasDenuncias"
-import EditarPerfilForm from "@/components/perfil/EditarPerfilForm"
-import useUserProfile from "@/hooks/useUserProfile"
-import LoadingScreen from "@/components/ui/LoadingScreen"
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import { Dialog } from "@/components/ui/dialog";
+import PerfilHeader from "@/components/perfil/PerfilHeader";
+import PerfilUsuarioCard from "@/components/perfil/PerfilUsuarioCard";
+import EstatisticasCard from "@/components/perfil/EstatisticasCard";
+import MinhasDenuncias from "@/components/perfil/MinhasDenuncias";
+import EditarPerfilForm from "@/components/perfil/EditarPerfilForm";
+import useUserProfile from "@/hooks/useUserProfile";
+import LoadingScreen from "@/components/ui/LoadingScreen";
+import { useAuth } from "@/context/AuthContext";
 
 const PerfilUsuarioPage = () => {
   const {
@@ -21,7 +22,9 @@ const PerfilUsuarioPage = () => {
     calcularPorcentagemResolvidas,
     handleEditProfile,
     loading,
-  } = useUserProfile()
+  } = useUserProfile();
+  const { user } = useAuth();
+  const userId = user?.uid;
 
   if (loading || !usuarioData)
     return (
@@ -30,9 +33,9 @@ const PerfilUsuarioPage = () => {
         <LoadingScreen mensagem="Carregando perfil..." />
         <Footer />
       </div>
-    )
+    );
 
-  const { score } = usuarioData
+  const { reportCount,  } = usuarioData;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -42,7 +45,6 @@ const PerfilUsuarioPage = () => {
 
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-
             {/* coluna de informações do usuário */}
             <div className="md:col-span-1">
               <PerfilUsuarioCard
@@ -50,17 +52,15 @@ const PerfilUsuarioPage = () => {
                 onEditClick={() => setIsEditDialogOpen(true)}
               />
               <EstatisticasCard
-                pontuacao={score}
-                totalDenuncias={minhasDenuncias.length}
+                totalDenuncias={reportCount}
                 porcentagemResolvidas={calcularPorcentagemResolvidas()}
               />
             </div>
 
             {/* coluna de conteúdo principal - "minhas denúncias" */}
             <div className="md:col-span-2">
-              <MinhasDenuncias denuncias={minhasDenuncias} />
+              <MinhasDenuncias userId={userId} />
             </div>
-
           </div>
         </div>
       </main>
@@ -78,7 +78,7 @@ const PerfilUsuarioPage = () => {
         />
       </Dialog>
     </div>
-  )
-}
+  );
+};
 
-export default PerfilUsuarioPage
+export default PerfilUsuarioPage;

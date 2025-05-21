@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react"
-import DenunciaCard from "./DenunciaCard"
-import { Input } from "@/components/ui/input"
+import { useEffect, useState } from "react";
+import DenunciaCard from "./DenunciaCard";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Search } from "lucide-react"
+} from "@/components/ui/select";
+import { Search } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -16,66 +16,66 @@ import {
   PaginationNext,
   PaginationPrevious,
   PaginationLink,
-} from "@/components/ui/pagination"
-import { useReport } from "@/hooks/useReport"
+} from "@/components/ui/pagination";
+import { useReport } from "@/hooks/useReport";
 
-const ITEMS_PER_PAGE = 6
+const ITEMS_PER_PAGE = 6;
 
 const DenunciasList = () => {
-  const { getInitialReports, getMoreReports, loading } = useReport()
+  const { getInitialReports, getMoreReports, loading } = useReport();
 
-  const [denuncias, setDenuncias] = useState([])
-  const [lastVisible, setLastVisible] = useState(null)
-  const [pageHistory, setPageHistory] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [hasMore, setHasMore] = useState(true)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filter, setFilter] = useState("todas")
+  const [denuncias, setDenuncias] = useState([]);
+  const [lastVisible, setLastVisible] = useState(null);
+  const [pageHistory, setPageHistory] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("todas");
 
   useEffect(() => {
     const fetchData = async () => {
-      const { reports, lastVisible } = await getInitialReports(ITEMS_PER_PAGE)
-      setDenuncias(reports)
-      setLastVisible(lastVisible)
-      setPageHistory([])
-      setCurrentPage(1) // reinicia página 
-      setHasMore(reports.length === ITEMS_PER_PAGE)
-    }
+      const { reports, lastVisible } = await getInitialReports(ITEMS_PER_PAGE);
+      setDenuncias(reports);
+      setLastVisible(lastVisible);
+      setPageHistory([]);
+      setCurrentPage(1); // reinicia página
+      setHasMore(reports.length === ITEMS_PER_PAGE);
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const handleLoadMore = async () => {
-    if (!lastVisible || !hasMore) return
+    if (!lastVisible || !hasMore) return;
 
     const { reports: more, lastVisible: newLast } = await getMoreReports(
       lastVisible,
       ITEMS_PER_PAGE
-    )
+    );
 
-    setPageHistory((prev) => [...prev, lastVisible])
-    setDenuncias(more)
-    setLastVisible(newLast)
-    setCurrentPage((prev) => prev + 1) // avança página 
-    setHasMore(more.length === ITEMS_PER_PAGE)
-  }
+    setPageHistory((prev) => [...prev, lastVisible]);
+    setDenuncias(more);
+    setLastVisible(newLast);
+    setCurrentPage((prev) => prev + 1); // avança página
+    setHasMore(more.length === ITEMS_PER_PAGE);
+  };
 
   const handlePreviousPage = async () => {
-    if (pageHistory.length === 0) return
+    if (pageHistory.length === 0) return;
 
-    const newHistory = [...pageHistory]
-    const previousDoc = newHistory[newHistory.length - 2] ?? null
+    const newHistory = [...pageHistory];
+    const previousDoc = newHistory[newHistory.length - 2] ?? null;
 
     const { reports: previousReports, lastVisible: newLast } = previousDoc
       ? await getMoreReports(previousDoc, ITEMS_PER_PAGE)
-      : await getInitialReports(ITEMS_PER_PAGE)
+      : await getInitialReports(ITEMS_PER_PAGE);
 
-    setDenuncias(previousReports)
-    setLastVisible(newLast)
-    setPageHistory(newHistory.slice(0, -1))
-    setCurrentPage((prev) => Math.max(prev - 1, 1)) // volta página 
-    setHasMore(true)
-  }
+    setDenuncias(previousReports);
+    setLastVisible(newLast);
+    setPageHistory(newHistory.slice(0, -1));
+    setCurrentPage((prev) => Math.max(prev - 1, 1)); // volta página
+    setHasMore(true);
+  };
 
   const filteredDenuncias = denuncias.filter((denuncia) => {
     const matchesSearch =
@@ -85,12 +85,12 @@ const DenunciasList = () => {
       (denuncia.descricao || "")
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      (denuncia.local || "").toLowerCase().includes(searchTerm.toLowerCase())
+      (denuncia.local || "").toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesFilter = filter === "todas" || denuncia.status === filter
+    const matchesFilter = filter === "todas" || denuncia.status === filter;
 
-    return matchesSearch && matchesFilter
-  })
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <div>
@@ -144,9 +144,35 @@ const DenunciasList = () => {
                 />
               </PaginationItem>
 
+              {/* Exibe até 2 páginas anteriores */}
+              {currentPage > 2 && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => handlePreviousPage()}>
+                    {currentPage - 2}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
+              {currentPage > 1 && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => handlePreviousPage()}>
+                    {currentPage - 1}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
+
+              {/* Página atual */}
               <PaginationItem>
                 <PaginationLink isActive>{currentPage}</PaginationLink>
               </PaginationItem>
+
+              {/* Próximas páginas (opcional, depende de hasMore) */}
+              {hasMore && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => handleLoadMore()}>
+                    {currentPage + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
 
               <PaginationItem>
                 <PaginationNext
@@ -163,7 +189,7 @@ const DenunciasList = () => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default DenunciasList
+export default DenunciasList;

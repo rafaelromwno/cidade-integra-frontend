@@ -16,8 +16,6 @@ const DenunciaCard = ({ denuncia }) => {
   // pegando o usuário da denúncia
   const { user } = useFetchUser(denuncia.userId)
 
-  console.log(user)
-
   // converte o timestamp do Firebase para Date ou Date padrão
   const parseDate = (data) => {
     if (!data) return null
