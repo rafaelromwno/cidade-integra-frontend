@@ -66,7 +66,7 @@ const DenunciaCard = ({ denuncia }) => {
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-      <Link to={`/denuncias/${denuncia.id}`}>
+      <Link to={`/denuncias/${denuncia.uid}`}>
         {mainImage && (
           <div className="h-48 overflow-hidden">
             <img

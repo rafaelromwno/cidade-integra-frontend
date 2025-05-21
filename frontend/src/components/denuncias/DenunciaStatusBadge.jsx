@@ -1,10 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 
-
-
 const DenunciaStatusBadge = ({ status, className = "" }) => {
   const statusConfig = {
-    pendente: {
+    pending: {
       color: "bg-yellow-500",
       text: "Pendente"
     },
@@ -12,11 +10,11 @@ const DenunciaStatusBadge = ({ status, className = "" }) => {
       color: "bg-blue-500",
       text: "Em Análise"
     },
-    resolvido: {
+    resolved: {
       color: "bg-verde",
       text: "Resolvido"
     },
-    rejeitado: {
+    rejected: {
       color: "bg-vermelho",
       text: "Rejeitado"
     }
