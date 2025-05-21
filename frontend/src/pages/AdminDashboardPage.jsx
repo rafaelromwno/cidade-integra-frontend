@@ -18,7 +18,7 @@ const AdminDashboardPage = () => {
               <h1 className="text-3xl font-bold">Painel de Administração</h1>
             </div>
             <p className="text-lg text-cinza mt-2">
-              Central de gerenciamento da plataforma Cidade Unida
+              Central de gerenciamento da plataforma Urban Watch Verde
             </p>
           </div>
         </div>
@@ -36,24 +36,14 @@ const AdminDashboardPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-6">
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="font-medium">Denúncias pendentes</span>
-                    <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">8</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Em análise</span>
-                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">5</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Resolvidas</span>
-                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded">12</span>
-                  </div>
-                </div>
+                <p className="text-muted-foreground">
+                  Acesse o painel de gerenciamento para visualizar, moderar e responder às denúncias submetidas pelos cidadãos. 
+                  Você pode filtrar por status, categoria e localização.
+                </p>
               </CardContent>
               <CardFooter className="bg-gray-50 border-t">
-                <Button asChild className="w-full bg-verde hover:bg-verde-escuro duration-500">
-                  <Link to="/admin/denuncias" className="flex items-center justify-center">
+                <Button asChild className="w-full">
+                  <Link to="/admin/denuncias" className="flex items-center justify-center bg-verde hover:bg-verde-escuro">
                     Acessar Gestão de Denúncias
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
@@ -72,24 +62,14 @@ const AdminDashboardPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-6">
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="font-medium">Usuários ativos</span>
-                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded">24</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Moderadores</span>
-                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">3</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Usuários bloqueados</span>
-                    <span className="bg-red-100 text-red-800 px-2 py-1 rounded">2</span>
-                  </div>
-                </div>
+                <p className="text-muted-foreground">
+                  Gerencie usuários do sistema, atribua funções e permissões, monitore atividades e 
+                  mantenha a segurança da plataforma com ferramentas administrativas avançadas.
+                </p>
               </CardContent>
               <CardFooter className="bg-gray-50 border-t">
-                <Button asChild className="w-full bg-verde hover:bg-verde-escuro duration-500">
-                  <Link to="/admin/usuarios" className="flex items-center justify-center">
+                <Button asChild className="w-full">
+                  <Link to="/admin/usuarios" className="flex items-center justify-center bg-verde hover:bg-verde-escuro">
                     Acessar Gestão de Usuários
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
@@ -101,7 +81,7 @@ const AdminDashboardPage = () => {
       </div>
       <Footer />
     </>
-  )
-}
+  );
+};
 
 export default AdminDashboardPage
