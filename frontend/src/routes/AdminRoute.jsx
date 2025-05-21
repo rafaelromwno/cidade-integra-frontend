@@ -2,7 +2,6 @@ import { useEffect } from "react"
 import { useCurrentUser } from "@/hooks/useCurrentUser"
 import { useNavigate } from "react-router-dom"
 
-
 export default function AdminRoute({ children }) {
   const navigate = useNavigate()
   const { user, loading } = useCurrentUser()

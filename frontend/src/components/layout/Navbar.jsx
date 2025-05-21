@@ -9,15 +9,21 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { useFetchUser } from "@/hooks/useFetchUser";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { logout } = useAuthentication();
-  const { currentUser: user } = useAuth();
+
+  const { currentUser } = useAuth();
+  const { user } = useFetchUser(currentUser?.uid);
+  
   const isMobile = useIsMobile();
   const { toast } = useToast();
   const navigate = useNavigate();
+
+
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
