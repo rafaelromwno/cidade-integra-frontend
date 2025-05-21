@@ -91,7 +91,7 @@ export function useUserReports(userId) {
       }
 
       const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
+        reportId: doc.id,
         ...(doc.data()),
       }));
 

@@ -10,11 +10,13 @@ import { useReport } from "@/hooks/useReport";
 import { Link, useParams } from "react-router-dom";
 import ComentarioCard from "@/components/denuncias/ComentarioCard";
 import { useEffect, useState } from "react";
+import { useFetchUser } from "@/hooks/useFetchUser";
 
 const DenunciaDetalhes = () => {
   const { id } = useParams();
   const { getReportById, loading: isLoading } = useReport();
   const [denuncia, setDenuncia] = useState(null);
+  const { user } = useFetchUser(denuncia?.userId);
 
   useEffect(() => {
   let isMounted = true;
@@ -139,7 +141,7 @@ const DenunciaDetalhes = () => {
                         {location?.address || "-"}
                       </p>
                       {location?.postalCode && (
-                        <span className="text-xs text-muted-foreground block">
+                        <span className="text-xs text-muted-foreground block font-medi mt-1">
                           CEP: {location.postalCode}
                         </span>
                       )}
@@ -167,7 +169,7 @@ const DenunciaDetalhes = () => {
                     <div>
                       <p className="text-sm text-muted-foreground">Reportado por</p>
                       <p className="font-medium">
-                        {isAnonymous ? "Anônimo" : userId || "Usuário"}
+                        {isAnonymous ? "Anônimo" : user?.displayName || "Usuário não encontrado"}
                       </p>
                     </div>
                   </div>

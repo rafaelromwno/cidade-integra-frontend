@@ -33,7 +33,7 @@ const DenunciaCard = ({ denuncia }) => {
   // pegando a imagem principal (se houver)
   const mainImage = denuncia.imageUrls && denuncia.imageUrls.length > 0 ? denuncia.imageUrls[0] : null
 
-  // status em inglês — faça o mapeamento correto para pt e cores
+  // status em inglês 
   const getStatusColor = (status) => {
     switch (status) {
       case "pending":
@@ -66,7 +66,7 @@ const DenunciaCard = ({ denuncia }) => {
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-      <Link to={`/denuncias/${denuncia.uid}`}>
+      <Link to={`/denuncias/${denuncia.reportId}`}>
         {mainImage && (
           <div className="h-48 overflow-hidden">
             <img

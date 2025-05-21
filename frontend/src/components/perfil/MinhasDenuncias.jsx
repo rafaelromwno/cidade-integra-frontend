@@ -56,7 +56,7 @@ const MinhasDenuncias = () => {
         <>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {denuncias.map((denuncia) => (
-              <DenunciaCard key={denuncia.id} denuncia={denuncia} />
+              <DenunciaCard key={denuncia.reportId} denuncia={denuncia} />
             ))}
           </div>
 
