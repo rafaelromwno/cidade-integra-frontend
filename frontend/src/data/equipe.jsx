@@ -51,24 +51,6 @@ export const students = [
         "https://www.linkedin.com/in/victor-hugo-malipense-testi-994297324/",
       email: "",
     },
-    {
-      name: "Luiz Felipe",
-      role: "Mentor",
-      avatar: "",
-      description: "",
-      github: "",
-      linkedin: "",
-      email: "",
-    },
-    {
-      name: "Lemuel",
-      role: "Mentor",
-      avatar: "",
-      description: "",
-      github: "",
-      linkedin: "",
-      email: "",
-    },
   ];
 
   // Tem sido uma grande experiência fazer parte deste projeto. Trabalhar em equipe para criar uma solução real nos ajuda a crescer como profissionais e a usar a tecnologia para contribuir com cidades mais justas e organizadas.
