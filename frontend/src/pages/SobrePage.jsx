@@ -8,7 +8,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { Button } from "@/components/ui/button";
 
 const SobrePage = () => {
-  
+
 
   return (
      <div className="min-h-screen flex flex-col">
