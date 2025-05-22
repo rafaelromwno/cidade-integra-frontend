@@ -1,31 +1,74 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+import { useUpdateUserStatus } from "@/hooks/useUpdateUserStatus";
+import { useUpdateUserRole } from "@/hooks/useUpdateUserRole";
+import { useAuth } from "@/context/AuthContext";
 
-const UsersTable = ({ users, atualizarStatus, atualizarFuncao }) => {
+const UsersTable = ({ users }) => {
+  const { toast } = useToast();
+  const { updateStatusToActive, updateStatusToBanned, updateStatusToInactive } = useUpdateUserStatus();
+  const { updateToAdmin, updateToUser, loading: roleLoading } = useUpdateUserRole();
+  const { currentUser } = useAuth();
+
   const UserStatusBadge = ({ status }) => {
-    switch (status) {
-      case "ativo":
-        return <Badge className="bg-verde">Ativo</Badge>
-      case "inativo":
-        return <Badge variant="outline" className="text-gray-500">Inativo</Badge>
-      case "bloqueado":
-        return <Badge className="bg-vermelho">Bloqueado</Badge>
-      default:
-        return <Badge variant="outline">Desconhecido</Badge>
-    }
-  }
+    const statusMap = {
+      active: <Badge className="bg-verde">Ativo</Badge>,
+      inactive: <Badge variant="outline" className="text-gray-500">Inativo</Badge>,
+      banned: <Badge className="bg-vermelho">Bloqueado</Badge>,
+    };
+    return statusMap[status] || <Badge variant="outline">Desconhecido</Badge>;
+  };
 
   const UserRoleBadge = ({ role }) => {
-    switch (role) {
-      case "administrador":
-        return <Badge className="bg-azul">Administrador</Badge>
-      case "usuario":
-        return <Badge variant="outline">Usuário</Badge>
-      default:
-        return <Badge variant="outline">Desconhecido</Badge>
+    const roleMap = {
+      admin: <Badge className="bg-azul">Administrador</Badge>,
+      user: <Badge variant="outline">Usuário</Badge>,
+    };
+    return roleMap[role] || <Badge variant="outline">Desconhecido</Badge>;
+  };
+
+  const handleStatusChange = async (uid, value) => {
+    try {
+      if (value === "active") await updateStatusToActive(uid);
+      else if (value === "inactive") await updateStatusToInactive(uid);
+      else if (value === "banned") await updateStatusToBanned(uid);
+
+      toast({
+        title: "Status atualizado",
+        description: `O status do usuário foi alterado para "${value}".`,
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao atualizar status",
+        description: error.message || "Tente novamente mais tarde.",
+      });
     }
-  }
+  };
+
+  const handleRoleChange = async (uid, value) => {
+    try {
+      if (value === "admin") await updateToAdmin(uid);
+      else if (value === "user") await updateToUser(uid);
+
+      toast({
+        title: "Função atualizada",
+        description: `A função do usuário foi alterada para "${value}".`,
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao atualizar função",
+        description: error.message || "Tente novamente mais tarde.",
+      });
+    }
+  };
 
   return (
     <div className="rounded-md border">
@@ -50,45 +93,46 @@ const UsersTable = ({ users, atualizarStatus, atualizarFuncao }) => {
             </TableRow>
           ) : (
             users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell className="font-medium">{user.id}</TableCell>
-                <TableCell>{user.nome}</TableCell>
+              <TableRow key={user.uid}>
+                <TableCell className="font-medium">{user.uid}</TableCell>
+                <TableCell>{user.uid === currentUser?.uid && "(Você)" || user.displayName}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  <UserRoleBadge role={user.role} />
-                </TableCell>
-                <TableCell>
-                  <UserStatusBadge status={user.status} />
-                </TableCell>
-                <TableCell>{user.dataCriacao}</TableCell>
+                <TableCell><UserRoleBadge role={user.role} /></TableCell>
+                <TableCell><UserStatusBadge status={user.status} /></TableCell>
+                <TableCell>{new Date(user.createdAt).toLocaleDateString("pt-BR")}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex flex-col space-y-2">
-                    <Select
-                      defaultValue={user.status}
-                      onValueChange={(value) => atualizarStatus(user.id, value)}
-                    >
-                      <SelectTrigger className="w-full h-8 text-xs">
-                        <SelectValue placeholder="Status" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="ativo">Ativar</SelectItem>
-                        <SelectItem value="inativo">Inativar</SelectItem>
-                        <SelectItem value="bloqueado">Bloquear</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    
-                    <Select
-                      defaultValue={user.role}
-                      onValueChange={(value) => atualizarFuncao(user.id, value)}
-                    >
-                      <SelectTrigger className="w-full h-8 text-xs">
-                        <SelectValue placeholder="Função" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="usuario">Usuário</SelectItem>
-                        <SelectItem value="administrador">Administrador</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    {user.uid !== currentUser?.uid && (
+                      <>
+                        <Select
+                          value={user.status}
+                          onValueChange={(value) => handleStatusChange(user.uid, value)}
+                        >
+                          <SelectTrigger className="w-full h-8 text-xs">
+                            <SelectValue placeholder="Status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="active">Ativar</SelectItem>
+                            <SelectItem value="inactive">Inativar</SelectItem>
+                            <SelectItem value="banned">Bloquear</SelectItem>
+                          </SelectContent>
+                        </Select>
+
+                        <Select
+                          value={user.role}
+                          onValueChange={(value) => handleRoleChange(user.uid, value)}
+                          disabled={roleLoading}
+                        >
+                          <SelectTrigger className="w-full h-8 text-xs">
+                            <SelectValue placeholder="Função" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="user">Usuário</SelectItem>
+                            <SelectItem value="admin">Administrador</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>
@@ -97,7 +141,7 @@ const UsersTable = ({ users, atualizarStatus, atualizarFuncao }) => {
         </TableBody>
       </Table>
     </div>
-  )
-}
+  );
+};
 
-export default UsersTable
+export default UsersTable;
