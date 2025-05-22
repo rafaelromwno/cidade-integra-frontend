@@ -4,13 +4,13 @@ import Miguel from "/miguel-morandini.jpg";
 import Victor from "/victor-hugo.jpg";
 import Pedro from "/pedro-ferreira-leite.png";
 
-export const equipe = [
+export const students = [
     {
       name: "Jeronimo Barbieri",
       role: "Designer UI/UX",
       avatar: Jeronimo,
       description: "",
-      github: "",
+      github: "https://github.com/jeronimobarbieri",
       linkedin: "https://www.instagram.com/jbarbieri__/",
       email: "",
     },
@@ -19,7 +19,7 @@ export const equipe = [
       role: "Gestor de Projeto",
       avatar: Rafael,
       description: "",
-      github: "",
+      github: "https://github.com/rafaelromwno",
       linkedin: "https://www.linkedin.com/in/rafael-romano-silva",
       email: "",
     },
@@ -28,7 +28,7 @@ export const equipe = [
       role: "Desenvolvedor FullStack",
       avatar: Miguel,
       description: "",
-      github: "",
+      github: "https://github.com/miguelmorandini",
       linkedin: "https://www.linkedin.com/in/miguel-morandini-19350128a",
       email: "",
     },
@@ -37,7 +37,7 @@ export const equipe = [
       role: "Designer UI/UX",
       avatar: Pedro,
       description: "",
-      github: "",
+      github: "https://github.com/PedroFerreiraLeite",
       linkedin: "",
       email: "",
     },
@@ -46,7 +46,7 @@ export const equipe = [
       role: "Desenvolvedor FullStack",
       avatar: Victor,
       description: "",
-      github: "",
+      github: "https://github.com/VictorHugoTesti",
       linkedin:
         "https://www.linkedin.com/in/victor-hugo-malipense-testi-994297324/",
       email: "",
@@ -70,3 +70,5 @@ export const equipe = [
       email: "",
     },
   ];
+
+  // Tem sido uma grande experiência fazer parte deste projeto. Trabalhar em equipe para criar uma solução real nos ajuda a crescer como profissionais e a usar a tecnologia para contribuir com cidades mais justas e organizadas.
