@@ -11,7 +11,7 @@ const SobrePage = () => {
 
 
   return (
-     <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
         {/* Hero section */}
@@ -57,19 +57,14 @@ const SobrePage = () => {
               </div>
             </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {students.map((student, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <StudentCard {...student} />
-                </motion.div>
-              ))}
-            </div>
+            <section className="px-4 py-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                {students.map((student, index) => (
+                  <StudentCard key={index} {...student} />
+                ))}
+              </div>
+            </section>
+            
           </div>
         </section>
 
@@ -77,7 +72,7 @@ const SobrePage = () => {
         <section className="py-16 bg-azul text-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -89,7 +84,7 @@ const SobrePage = () => {
                   <div className="h-1 w-16 bg-verde rounded-full"></div>
                 </div>
               </motion.div>
-              
+
               <div className="grid md:grid-cols-3 gap-8 text-center">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -104,7 +99,7 @@ const SobrePage = () => {
                   <h3 className="text-xl font-semibold mb-2 text-verde">Conectar</h3>
                   <p className="text-cinza">Criar uma ponte eficiente entre cidadãos e órgãos responsáveis.</p>
                 </motion.div>
-                
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -118,7 +113,7 @@ const SobrePage = () => {
                   <h3 className="text-xl font-semibold mb-2 text-verde">Facilitar</h3>
                   <p className="text-cinza">Simplificar o processo de denúncia e acompanhamento de problemas urbanos.</p>
                 </motion.div>
-                
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -142,7 +137,7 @@ const SobrePage = () => {
           <div className="container mx-auto px-4">
             <div className="bg-gradient-to-r from-verde/20 to-verde/5 p-8 rounded-lg relative overflow-hidden">
               <div className="absolute right-0 top-0 w-1/3 h-full opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAwIDIwMGMtNTUuMiAwLTEwMC00NC44LTEwMC0xMDBzNDQuOC0xMDAgMTAwLTEwMCAxMDAgNDQuOCAxMDAgMTAwLTQ0LjggMTAwLTEwMCAxMDB6IiBmaWxsPSIjM0I4QzRCIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIG9wYWNpdHk9Ii41Ii8+PC9zdmc+')]"></div>
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
