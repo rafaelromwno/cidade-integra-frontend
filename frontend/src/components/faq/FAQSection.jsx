@@ -14,7 +14,7 @@ const FAQSection = () => {
   return (
     <Card className="mb-8">
       <CardHeader>
-        <CardTitle>Dúvidas sobre o Cidade Unida</CardTitle>
+        <CardTitle>Dúvidas sobre o Cidade Integra</CardTitle>
         <CardDescription>
           Selecione uma categoria para encontrar respostas para suas perguntas.
         </CardDescription>

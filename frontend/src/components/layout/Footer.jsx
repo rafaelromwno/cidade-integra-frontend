@@ -30,7 +30,7 @@ const Footer = () => {
 
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <span className="font-bold text-xl">Cidade Unida</span>
+              <span className="font-bold text-xl">Cidade Integra</span>
             </div>
             <p className="text-cinza mb-4">
               Uma plataforma para cidadãos reportarem problemas urbanos e
@@ -43,13 +43,13 @@ const Footer = () => {
             <p className="text-cinza">
               Para suporte ou informações adicionais:
               <br />
-              suporte@cidadeunida.com
+              suporte@cidadeintegra.com
             </p>
           </div>
         </div>
 
         <div className="border-t border-cinza/30 mt-8 pt-6 text-center text-cinza">
-          <p>&copy; {currentYear} Cidade Unida. Todos os direitos reservados.</p>
+          <p>&copy; {currentYear} Cidade Integra. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
