@@ -1,54 +1,44 @@
-import { useEffect, useState } from "react"
-import { doc, getDoc } from "firebase/firestore"
-import { db } from "../firebase/config"
+import { useEffect, useState } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase/config";
 
 export function useFetchUser(userId) {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!userId) return
+    if (!userId) return;
 
-    setLoading(true)
-    setError(null)
-    let isMounted = true
+    setLoading(true);
+    setError(null);
 
-    async function fetchUser() {
-      try {
-        const docRef = doc(db, "users", userId)
-        const docSnap = await getDoc(docRef)
+    const docRef = doc(db, "users", userId);
 
+    const unsubscribe = onSnapshot(
+      docRef,
+      (docSnap) => {
         if (docSnap.exists()) {
-          if (isMounted) {
-            setUser({
-              uid: docSnap.id, // inclui o UID
-              ...docSnap.data(),
-            })
-          }
+          setUser({
+            uid: docSnap.id,
+            ...docSnap.data(),
+          });
+          setError(null);
         } else {
-          if (isMounted) {
-            setUser(null)
-            setError("Usuário não encontrado.")
-          }
+          setUser(null);
+          setError("Usuário não encontrado.");
         }
-      } catch (err) {
-        console.error("Erro ao buscar o usuário:", err)
-        if (isMounted) {
-          setError("Erro ao buscar o usuário.")
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false)
-        }
+        setLoading(false);
+      },
+      (err) => {
+        console.error("Erro ao escutar usuário em tempo real:", err);
+        setError("Erro ao buscar o usuário.");
+        setLoading(false);
       }
-    }
+    );
 
-    fetchUser()
-    return () => {
-      isMounted = false
-    }
-  }, [userId])
+    return () => unsubscribe();
+  }, [userId]);
 
-  return { user, loading, error }
+  return { user, loading, error };
 }
