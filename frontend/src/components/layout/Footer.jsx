@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import logotipo from '../../../public/logotipo-sem-borda.svg';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -29,8 +30,8 @@ const Footer = () => {
           </div>
 
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <span className="font-bold text-xl">Cidade Integra</span>
+            <div className="flex items-center space-x-2 mb-4 ">
+              <img className='h-16' src={logotipo} alt="logotipo" />
             </div>
             <p className="text-cinza mb-4">
               Uma plataforma para cidadãos reportarem problemas urbanos e
