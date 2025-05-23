@@ -150,13 +150,13 @@ const RegisterForm = ({ resetTrigger }) => {
         <Checkbox id="terms" required />
         <Label htmlFor="terms" className="text-sm">
           Concordo com os{" "}
-          <Link to="/termos" className="text-verde hover:underline">
+          <a href="https://file.notion.so/f/f/fe1e184e-f7fc-4980-83e0-4ae30c90d16b/bf8b3195-396f-49d3-a042-08111ee46c8a/Termo_de_Uso_-_Cidade_Integra.pdf?table=block&id=1e499cfc-6489-809c-b56b-c68f29d19b24&spaceId=fe1e184e-f7fc-4980-83e0-4ae30c90d16b&expirationTimestamp=1748131200000&signature=xIdmujzsX2cpL56G5lJU_kgVPHwZY3d3gwfNet1v9EY&downloadName=Termo+de+Uso+-+Cidade+Integra.pdf" target="_blank" className="text-verde hover:underline">
             termos de uso
-          </Link>{" "}
+          </a>{" "}
           e{" "}
-          <Link to="/privacidade" className="text-verde hover:underline">
+          <a href="https://file.notion.so/f/f/fe1e184e-f7fc-4980-83e0-4ae30c90d16b/bb795f8e-6cf4-4308-ae19-4fed2b24494b/Poltica_de_Privacidade__Cidade_Integra.pdf?table=block&id=1e499cfc-6489-80c0-a2d8-dd6acb182154&spaceId=fe1e184e-f7fc-4980-83e0-4ae30c90d16b&expirationTimestamp=1748131200000&signature=gv7sudFZCKu8uF0YbkH-3nvzgRo8vy8f_dXv5yNKzL0&downloadName=Política+de+Privacidade+—+Cidade+Integra.pdf" target="_blank" className="text-verde hover:underline">
             política de privacidade
-          </Link>
+          </a>
         </Label>
       </div>
 
