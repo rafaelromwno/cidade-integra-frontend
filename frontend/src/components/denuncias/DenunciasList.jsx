@@ -1,20 +1,96 @@
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DenunciaCard from "./DenunciaCard";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Search } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationLink,
+} from "@/components/ui/pagination";
+import { useReport } from "@/hooks/useReport";
 
-const DenunciasList = ({ denuncias }) => {
+const ITEMS_PER_PAGE = 6;
+
+const DenunciasList = () => {
+  const { getInitialReports, getMoreReports, loading } = useReport();
+
+  const [denuncias, setDenuncias] = useState([]);
+  const [lastVisible, setLastVisible] = useState(null);
+  const [pageHistory, setPageHistory] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("todas");
 
+  // Carregar as denúncias iniciais
+  useEffect(() => {
+    const fetchData = async () => {
+      const { reports, lastVisible } = await getInitialReports(ITEMS_PER_PAGE);
+      setDenuncias(reports);
+      setLastVisible(lastVisible);
+      setPageHistory([]);
+      setCurrentPage(1); // reinicia página
+      setHasMore(reports.length === ITEMS_PER_PAGE);
+    };
+
+    fetchData();
+  }, []);
+
+  // Carregar mais denúncias
+  const handleLoadMore = async () => {
+    if (!lastVisible || !hasMore) return;
+
+    const { reports: more, lastVisible: newLast } = await getMoreReports(
+      lastVisible,
+      ITEMS_PER_PAGE
+    );
+
+    setPageHistory((prev) => [...prev, lastVisible]);
+    setDenuncias(more);
+    setLastVisible(newLast);
+    setCurrentPage((prev) => prev + 1); // avança página
+    setHasMore(more.length === ITEMS_PER_PAGE);
+  };
+
+  // Carregar a página anterior
+  const handlePreviousPage = async () => {
+    if (pageHistory.length === 0) return;
+
+    const newHistory = [...pageHistory];
+    const previousDoc = newHistory[newHistory.length - 2] ?? null;
+
+    const { reports: previousReports, lastVisible: newLast } = previousDoc
+      ? await getMoreReports(previousDoc, ITEMS_PER_PAGE)
+      : await getInitialReports(ITEMS_PER_PAGE);
+
+    setDenuncias(previousReports);
+    setLastVisible(newLast);
+    setPageHistory(newHistory.slice(0, -1));
+    setCurrentPage((prev) => Math.max(prev - 1, 1)); // volta página
+    setHasMore(true);
+  };
+
+  // Filtrando as denúncias
   const filteredDenuncias = denuncias.filter((denuncia) => {
-    const matchesSearch = 
-      denuncia.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      denuncia.descricao.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      denuncia.local.toLowerCase().includes(searchTerm.toLowerCase());
-      
+    // Comparando título, descrição e local com o termo de pesquisa
+    const matchesSearch =
+      (denuncia.title || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (denuncia.description || "")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      (denuncia.location?.address || "").toLowerCase().includes(searchTerm.toLowerCase());
+
+    // Filtrando pelas categorias de status
     const matchesFilter = filter === "todas" || denuncia.status === filter;
 
     return matchesSearch && matchesFilter;
@@ -38,24 +114,74 @@ const DenunciasList = ({ denuncias }) => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="todas">Todas</SelectItem>
-            <SelectItem value="pendente">Pendentes</SelectItem>
-            <SelectItem value="em_analise">Em Análise</SelectItem>
-            <SelectItem value="resolvido">Resolvidas</SelectItem>
-            <SelectItem value="rejeitado">Rejeitadas</SelectItem>
+            <SelectItem value="pending">Pendentes</SelectItem>
+            <SelectItem value="review">Em Análise</SelectItem>
+            <SelectItem value="resolved">Resolvidas</SelectItem>
+            <SelectItem value="rejected">Rejeitadas</SelectItem>
           </SelectContent>
         </Select>
       </div>
-      
+
       {filteredDenuncias.length === 0 ? (
         <div className="text-center py-10 text-muted-foreground">
           <p>Nenhuma denúncia encontrada.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredDenuncias.map((denuncia) => (
-            <DenunciaCard key={denuncia.id} denuncia={denuncia} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredDenuncias.map((denuncia) => (
+              <DenunciaCard key={denuncia.reportId} denuncia={denuncia} />
+            ))}
+          </div>
+
+          <Pagination className="mt-8">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={handlePreviousPage}
+                  className={pageHistory.length === 0 || loading ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                />
+              </PaginationItem>
+
+              {/* Exibe até 2 páginas anteriores */}
+              {currentPage > 2 && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => handlePreviousPage()}>
+                    {currentPage - 2}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
+              {currentPage > 1 && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => handlePreviousPage()}>
+                    {currentPage - 1}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
+
+              {/* Página atual */}
+              <PaginationItem>
+                <PaginationLink isActive>{currentPage}</PaginationLink>
+              </PaginationItem>
+
+              {/* Próximas páginas (opcional, depende de hasMore) */}
+              {hasMore && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => handleLoadMore()}>
+                    {currentPage + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
+
+              <PaginationItem>
+                <PaginationNext
+                  onClick={handleLoadMore}
+                  className={!hasMore || loading ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </>
       )}
     </div>
   );

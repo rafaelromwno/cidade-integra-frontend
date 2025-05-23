@@ -17,12 +17,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const EditarPerfilForm = ({
   usuario,
   isOpen,
   isPasswordAlertOpen,
+  isGoogleUser,
   onOpenChange,
   onPasswordAlertOpenChange,
   onSubmit,
@@ -37,7 +38,7 @@ const EditarPerfilForm = ({
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="nome">Nome</Label>
-            <Input id="nome" name="nome" defaultValue={usuario.nome} />
+            <Input id="nome" name="nome" defaultValue={usuario.displayName} />
           </div>
           
           <div className="space-y-2">
@@ -52,28 +53,41 @@ const EditarPerfilForm = ({
           
           <div className="border-t pt-4 mt-6">
             <h3 className="text-lg font-medium mb-4">Alterar Senha</h3>
-            
-            <div className="space-y-2">
-              <Label htmlFor="senha-atual">Senha Atual</Label>
-              <Input id="senha-atual" name="senha-atual" type="password" />
-            </div>
-            
-            <div className="space-y-2 mt-2">
-              <Label htmlFor="nova-senha">Nova Senha</Label>
-              <Input id="nova-senha" name="nova-senha" type="password" />
-            </div>
-            
-            <div className="space-y-2 mt-2">
-              <Label htmlFor="confirmar-senha">Confirmar Nova Senha</Label>
-              <Input id="confirmar-senha" name="confirmar-senha" type="password" />
-            </div>
+
+            {!isGoogleUser ? (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="senha-atual">Senha Atual</Label>
+                  <Input id="senha-atual" name="senha-atual" type="password" />
+                </div>
+                
+                <div className="space-y-2 mt-2">
+                  <Label htmlFor="nova-senha">Nova Senha</Label>
+                  <Input id="nova-senha" name="nova-senha" type="password" />
+                </div>
+                
+                <div className="space-y-2 mt-2">
+                  <Label htmlFor="confirmar-senha">Confirmar Nova Senha</Label>
+                  <Input id="confirmar-senha" name="confirmar-senha" type="password" />
+                </div>
+              </>
+            ) : (
+              <Alert variant="info">
+                <AlertTitle>Conta Google</AlertTitle>
+                <AlertDescription>
+                  Você está logado com uma conta do Google. Para alterar sua senha, acesse as configurações da sua conta Google.
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {console.log("o usuário é Google?", isGoogleUser)}
           </div>
           
           <div className="flex justify-end space-x-2 pt-4">
             <Button variant="outline" type="button" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
-            <Button type="submit">
+            <Button type="submit" className="bg-verde hover:bg-verde-escuro text-white">
               Salvar alterações
             </Button>
           </div>
@@ -83,7 +97,7 @@ const EditarPerfilForm = ({
       <AlertDialog open={isPasswordAlertOpen} onOpenChange={onPasswordAlertOpenChange}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Erro na alteração de senha</AlertDialogTitle>
+            <AlertDialogTitle>❌ Erro na alteração de senha</AlertDialogTitle>
             <AlertDialogDescription>
               As senhas não correspondem. Por favor, verifique se a nova senha e a confirmação são idênticas.
             </AlertDialogDescription>

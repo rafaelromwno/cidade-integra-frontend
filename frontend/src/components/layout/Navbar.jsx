@@ -7,13 +7,23 @@ import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import { useFetchUser } from "@/hooks/useFetchUser";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const { user, logout } = useAuthentication();
+  const { logout } = useAuthentication();
+
+  const { currentUser } = useAuth();
+  const { user } = useFetchUser(currentUser?.uid);
+  
   const isMobile = useIsMobile();
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -27,7 +37,7 @@ const Navbar = () => {
       });
 
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 1000)
     } catch (error) {
       console.error("Erro ao sair:", error);
@@ -42,7 +52,7 @@ const Navbar = () => {
     }
   }; 
 
-  // Evita rolagem do fundo com menu mobile aberto
+  // evita rolagem do fundo com menu mobile aberto
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
