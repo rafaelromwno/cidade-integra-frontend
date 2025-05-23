@@ -1,7 +1,6 @@
-    import { Search } from "lucide-react"
+import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
 
 const DenunciasSearch = ({ searchTerm, setSearchTerm, filter, setFilter }) => {
   return (
@@ -15,18 +14,20 @@ const DenunciasSearch = ({ searchTerm, setSearchTerm, filter, setFilter }) => {
           className="pl-10"
         />
       </div>
+
       <Select value={filter} onValueChange={setFilter}>
         <SelectTrigger className="w-full sm:w-[180px]">
           <SelectValue placeholder="Filtrar por status" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="todas">Todas</SelectItem>
-          <SelectItem value="pendente">Pendentes</SelectItem>
-          <SelectItem value="em_analise">Em Análise</SelectItem>
-          <SelectItem value="resolvido">Resolvidas</SelectItem>
-          <SelectItem value="rejeitado">Rejeitadas</SelectItem>
+          <SelectItem value="pending">Pendentes</SelectItem>
+          <SelectItem value="review">Em Análise</SelectItem>
+          <SelectItem value="resolved">Resolvidas</SelectItem>
+          <SelectItem value="rejected">Rejeitadas</SelectItem>
         </SelectContent>
       </Select>
+
     </div>
   )
 }

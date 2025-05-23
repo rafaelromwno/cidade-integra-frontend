@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "cidadeunida-3ce06"
-  }
+    "default": "cidadeintegra",
+    "cidadeintegra": "cidadeintegra"
+  },
+  "targets": {},
+  "etags": {}
 }

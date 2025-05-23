@@ -5,10 +5,10 @@ const DenunciasDashboard = ({ denuncias }) => {
     
   const estatisticas = {
     total: denuncias.length,
-    pendentes: denuncias.filter(d => d.status === "pendente").length,
-    emAnalise: denuncias.filter(d => d.status === "em_analise").length,
-    resolvidas: denuncias.filter(d => d.status === "resolvido").length,
-    rejeitadas: denuncias.filter(d => d.status === "rejeitado").length,
+    pendentes: denuncias.filter(d => d.status === "pending").length,
+    emAnalise: denuncias.filter(d => d.status === "review").length,
+    resolvidas: denuncias.filter(d => d.status === "resolved").length,
+    rejeitadas: denuncias.filter(d => d.status === "rejected").length,
   }
 
   return (

@@ -2,14 +2,14 @@ import { UserCheck, UserX, User, Shield } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 const UsersStats = ({ users }) => {
+  
   const estatisticas = {
     total: users.length,
-    ativos: users.filter(u => u.status === "ativo").length,
-    inativos: users.filter(u => u.status === "inativo").length,
-    bloqueados: users.filter(u => u.status === "bloqueado").length,
-    administradores: users.filter(u => u.role === "administrador").length,
-    moderadores: users.filter(u => u.role === "moderador").length,
-    usuarios: users.filter(u => u.role === "usuario").length,
+    ativos: users.filter(u => u.status === "active").length,
+    inativos: users.filter(u => u.status === "inactive").length,
+    bloqueados: users.filter(u => u.status === "banned").length,
+    administradores: users.filter(u => u.role === "admin").length,
+    usuarios: users.filter(u => u.role === "user").length,
   }
 
   return (

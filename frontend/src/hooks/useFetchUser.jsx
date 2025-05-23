@@ -1,44 +1,44 @@
-import { useEffect, useState } from "react"
-import { doc, getDoc } from "firebase/firestore"
-import { db } from "../firebase/config"
+import { useEffect, useState } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase/config";
 
 export function useFetchUser(userId) {
-
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    
-    if (!userId) return
+    if (!userId) return;
 
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
 
-    async function fetchUser() {
+    const docRef = doc(db, "users", userId);
 
-      try {
-
-        const docRef = doc(db, "users", userId)
-        const docSnap = await getDoc(docRef)
-
+    const unsubscribe = onSnapshot(
+      docRef,
+      (docSnap) => {
         if (docSnap.exists()) {
-
-          setUser(docSnap.data())
-
+          setUser({
+            uid: docSnap.id,
+            ...docSnap.data(),
+          });
+          setError(null);
         } else {
-          setUser(null)
-          setError("Usuário não encontrado.")
+          setUser(null);
+          setError("Usuário não encontrado.");
         }
-      } catch (err) {
-        setError(err.message)
-      } finally {
-        setLoading(false)
+        setLoading(false);
+      },
+      (err) => {
+        console.error("Erro ao escutar usuário em tempo real:", err);
+        setError("Erro ao buscar o usuário.");
+        setLoading(false);
       }
-    }
+    );
 
-    fetchUser()
-  }, [userId])
+    return () => unsubscribe();
+  }, [userId]);
 
-  return { user, loading, error }
+  return { user, loading, error };
 }

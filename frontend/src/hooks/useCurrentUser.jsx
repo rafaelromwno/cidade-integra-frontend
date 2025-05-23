@@ -2,11 +2,12 @@ import { useAuth } from "@/context/AuthContext"
 import { useFetchUser } from "@/hooks/useFetchUser"
 
 export function useCurrentUser() {
-  const { user } = useAuth()
-  const { user: firestoreUser, loading, error } = useFetchUser(user?.uid)
+
+  const { currentUser } = useAuth()
+  const { user, loading, error } = useFetchUser(currentUser?.uid)
 
   return {
-    user: firestoreUser,
+    user,
     loading,
     error,
   }

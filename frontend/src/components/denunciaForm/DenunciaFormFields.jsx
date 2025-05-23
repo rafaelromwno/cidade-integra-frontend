@@ -118,7 +118,7 @@ const DenunciaFormFields = ({ form }) => {
           name="cep"
           render={({ field }) => (
             <FormItem>
-              <FormLabel htmlFor="cep">CEP</FormLabel>
+              <FormLabel htmlFor="cep">CEP (opcional)</FormLabel>
               <FormControl>
                 <Input
                   id="cep"

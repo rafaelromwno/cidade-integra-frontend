@@ -5,20 +5,31 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { TabsContent } from "@/components/ui/tabs";
+import { motion } from "framer-motion";
 
-const FAQCategory = ({ categoryId, faqItems }) => {
+const FAQCategory = ({ faqItems }) => {
   return (
-    <TabsContent value={categoryId} className="w-full">
+    <div className="w-full">
       <Accordion type="single" collapsible className="w-full">
-        {faqItems.map((item) => (
-          <AccordionItem key={item.id} value={item.id}>
-            <AccordionTrigger>{item.question}</AccordionTrigger>
-            <AccordionContent>{item.answer}</AccordionContent>
-          </AccordionItem>
+        {faqItems.map((item, index) => (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+          >
+            <AccordionItem value={item.id} className="border-b border-gray-100 dark:border-gray-700 py-2">
+              <AccordionTrigger className="text-lg font-medium text-azul hover:text-verde transition-colors duration-200 py-3">
+                {item.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-2">
+                {item.answer}
+              </AccordionContent>
+            </AccordionItem>
+          </motion.div>
         ))}
       </Accordion>
-    </TabsContent>
+    </div>
   );
 };
 

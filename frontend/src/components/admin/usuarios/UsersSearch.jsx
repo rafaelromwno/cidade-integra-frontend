@@ -20,9 +20,9 @@ const UsersSearch = ({ searchTerm, setSearchTerm, filter, setFilter }) => {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="todos">Todos</SelectItem>
-          <SelectItem value="ativo">Ativos</SelectItem>
-          <SelectItem value="inativo">Inativos</SelectItem>
-          <SelectItem value="bloqueado">Bloqueados</SelectItem>
+          <SelectItem value="active">Ativos</SelectItem>
+          <SelectItem value="inactive">Inativos</SelectItem>
+          <SelectItem value="banned">Bloqueados</SelectItem>
         </SelectContent>
       </Select>
     </div>
