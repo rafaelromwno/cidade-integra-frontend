@@ -22,6 +22,7 @@ const PerfilUsuarioPage = () => {
     calcularPorcentagemResolvidas,
     handleEditProfile,
     loading,
+    isGoogleUser,
   } = useUserProfile();
   const { user } = useAuth();
   const userId = user?.uid;
@@ -75,6 +76,7 @@ const PerfilUsuarioPage = () => {
           onOpenChange={setIsEditDialogOpen}
           onPasswordAlertOpenChange={setIsPasswordAlertOpen}
           onSubmit={handleEditProfile}
+          isGoogleUser={isGoogleUser}
         />
       </Dialog>
     </div>

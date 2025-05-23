@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useToast } from "@/hooks/use-toast";
 import useAuth from "@/hooks/UseAuthentication";
 import { useFetchUser } from "@/hooks/useFetchUser";
@@ -18,6 +18,7 @@ import { useUserReports } from "@/hooks/useUserReports";
 export default function useUserProfile() {
   const { toast } = useToast();
   const { user } = useAuth();
+
   const {
     user: usuarioData,
     loading: userLoading,
@@ -27,8 +28,16 @@ export default function useUserProfile() {
   const { updateUser, loading: updateLoading } = useUpdateUser();
   const { reports: minhasDenuncias, loading: denunciasLoading } =
     useUserReports(user?.uid);
+
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isPasswordAlertOpen, setIsPasswordAlertOpen] = useState(false);
+
+  // detecta se o usuário usou Google para login
+  const isGoogleUser = useMemo(() => {
+    return user?.providerData?.some(
+      (provider) => provider.providerId === "google.com"
+    );
+  }, [user]);
 
   const calcularPorcentagemResolvidas = () => {
     const resolvidas = minhasDenuncias.filter(
@@ -41,7 +50,7 @@ export default function useUserProfile() {
 
   const handleEditProfile = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.currentTarget);
     const nome = formData.get("nome");
     const email = formData.get("email");
     const bio = formData.get("bio");
@@ -51,13 +60,16 @@ export default function useUserProfile() {
 
     const currentUser = auth.currentUser;
 
+    if (!currentUser) return;
+
     try {
-      // Atualiza senha, se necessário
-      if (senhaAtual && novaSenha && confirmarNovaSenha) {
+      // atualiza senha (se não for login Google)
+      if (!isGoogleUser && senhaAtual && novaSenha && confirmarNovaSenha) {
         if (novaSenha !== confirmarNovaSenha) {
           setIsPasswordAlertOpen(true);
           return;
         }
+
         const credential = EmailAuthProvider.credential(
           currentUser.email,
           senhaAtual
@@ -70,17 +82,17 @@ export default function useUserProfile() {
         });
       }
 
-      // Atualiza o e-mail, se mudou
+      // atualiza e-mail (se mudou)
       if (email !== currentUser.email) {
         await updateEmail(currentUser, email);
       }
 
-      // Atualiza o displayName no Auth
+      // atualiza displayName no Auth
       if (nome !== currentUser.displayName) {
         await updateProfile(currentUser, { displayName: nome });
       }
 
-      // Atualiza dados no Firestore
+      // atualiza dados no Firestore
       const userRef = doc(db, "users", currentUser.uid);
       await updateDoc(userRef, {
         displayName: nome,
@@ -114,7 +126,9 @@ export default function useUserProfile() {
     minhasDenuncias,
     calcularPorcentagemResolvidas,
     handleEditProfile,
-    loading: userLoading || updateLoading || denunciasLoading,updateLoading,
+    loading: userLoading || updateLoading || denunciasLoading,
+    updateLoading,
     error,
+    isGoogleUser, // retorna essa flag para uso no componente
   };
 }
