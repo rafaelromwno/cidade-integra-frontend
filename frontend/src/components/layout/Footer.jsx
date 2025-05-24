@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logotipo from '../../../public/logotipo-sem-borda.svg';
+import logotipo from '/logotipo-sem-borda.svg';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

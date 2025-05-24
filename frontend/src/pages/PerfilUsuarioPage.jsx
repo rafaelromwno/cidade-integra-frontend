@@ -9,6 +9,8 @@ import EditarPerfilForm from "@/components/perfil/EditarPerfilForm";
 import useUserProfile from "@/hooks/useUserProfile";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { useAuth } from "@/context/AuthContext";
+import { ConfirmDeactivateDialog } from "@/components/perfil/ConfirmDeactivateDialog";
+import { useDeleteAccount } from "@/hooks/useDeleteAccount"; // <--- certifique-se que está implementado
 
 const PerfilUsuarioPage = () => {
   const {
@@ -24,8 +26,10 @@ const PerfilUsuarioPage = () => {
     loading,
     isGoogleUser,
   } = useUserProfile();
+
   const { user } = useAuth();
   const userId = user?.uid;
+  const { deactivateAccount } = useDeleteAccount();
 
   if (loading || !usuarioData)
     return (
@@ -36,7 +40,7 @@ const PerfilUsuarioPage = () => {
       </div>
     );
 
-  const { reportCount,  } = usuarioData;
+  const { reportCount } = usuarioData;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -47,7 +51,7 @@ const PerfilUsuarioPage = () => {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* coluna de informações do usuário */}
-            <div className="md:col-span-1">
+            <div className="md:col-span-1 space-y-4">
               <PerfilUsuarioCard
                 usuario={usuarioData}
                 onEditClick={() => setIsEditDialogOpen(true)}
@@ -56,6 +60,9 @@ const PerfilUsuarioPage = () => {
                 totalDenuncias={reportCount}
                 porcentagemResolvidas={calcularPorcentagemResolvidas()}
               />
+              <div className="flex justify-center mt-4">
+                <ConfirmDeactivateDialog onConfirm={deactivateAccount} />
+              </div>
             </div>
 
             {/* coluna de conteúdo principal - "minhas denúncias" */}
