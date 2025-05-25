@@ -18,7 +18,7 @@ const AdminDashboardPage = () => {
               <h1 className="text-3xl font-bold">Painel de Administração</h1>
             </div>
             <p className="text-lg text-cinza mt-2">
-              Central de gerenciamento da plataforma Urban Watch Verde
+              Central de gerenciamento da plataforma Cidade Integra
             </p>
           </div>
         </div>
