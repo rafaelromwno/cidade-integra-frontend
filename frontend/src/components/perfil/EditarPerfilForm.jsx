@@ -80,7 +80,6 @@ const EditarPerfilForm = ({
               </Alert>
             )}
 
-            {console.log("o usuário é Google?", isGoogleUser)}
           </div>
           
           <div className="flex justify-end space-x-2 pt-4">

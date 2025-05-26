@@ -18,19 +18,17 @@ const Navbar = () => {
 
   const { currentUser } = useAuth();
   const { user } = useFetchUser(currentUser?.uid);
-  
+
   const isMobile = useIsMobile();
   const { toast } = useToast();
   const navigate = useNavigate();
 
-
-
   const handleLogout = async () => {
     setIsLoggingOut(true);
-  
+
     try {
       await logout();
-  
+
       toast({
         title: "👋 Você saiu da conta.",
         description: "Esperamos vê-lo em breve!",
@@ -41,7 +39,7 @@ const Navbar = () => {
       }, 1000)
     } catch (error) {
       console.error("Erro ao sair:", error);
-  
+
       toast({
         title: "🚨 Erro ao sair",
         description: "Ocorreu um problema ao encerrar sua sessão. Tente novamente.",
@@ -50,7 +48,7 @@ const Navbar = () => {
     } finally {
       setIsLoggingOut(false);
     }
-  }; 
+  };
 
   // evita rolagem do fundo com menu mobile aberto
   useEffect(() => {
@@ -83,11 +81,8 @@ const Navbar = () => {
 
             {/* Menu mobile animado */}
             <div
-              className={`fixed top-20 left-0 w-full bg-azul z-40 transition-transform duration-300 ease-in-out transform ${
-                isOpen
-                  ? "translate-y-0 opacity-100"
-                  : "-translate-y-full opacity-0"
-              }`}
+              className={`fixed top-20 left-0 w-full bg-azul z-40 transition-all duration-300 ease-in-out ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+                }`}
             >
               <div className="flex flex-col px-6 py-4 space-y-4">
                 <MobileMenu
