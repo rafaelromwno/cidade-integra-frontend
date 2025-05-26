@@ -3,23 +3,23 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 >
   <url>
-    <loc>https://cidadeunida.web.app/</loc>
+    <loc>https://cidadeintegra.web.app/</loc>
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>https://cidadeunida.web.app/denuncias</loc>
+    <loc>https://cidadeintegra.web.app/denuncias</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://cidadeunida.web.app/sobre</loc>
+    <loc>https://cidadeintegra.web.app/sobre</loc>
     <priority>0.60</priority>
   </url>
   <url>
-    <loc>https://cidadeunida.web.app/login</loc>
+    <loc>https://cidadeintegra.web.app/login</loc>
     <priority>0.50</priority>
   </url>
   <url>
-    <loc>https://cidadeunida.web.app/recuperar-senha</loc>
+    <loc>https://cidadeintegra.web.app/recuperar-senha</loc>
     <priority>0.40</priority>
   </url>
 </urlset>
