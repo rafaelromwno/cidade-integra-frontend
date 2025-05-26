@@ -23,8 +23,6 @@ const Navbar = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-
-
   const handleLogout = async () => {
     setIsLoggingOut(true);
   
