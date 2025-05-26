@@ -43,7 +43,7 @@ const MobileMenu = ({ user, onClickItem, onLogout, isLoggingOut }) => {
 
       <Link
         to="/duvidas"
-        className="hover:text-verde transition-colors flex items-center gap-1"
+        className="hover:text-verde transition-colors py-2 flex items-center gap-2"
       >
         <BookOpen size={18} />
         <span>Dúvidas</span>
