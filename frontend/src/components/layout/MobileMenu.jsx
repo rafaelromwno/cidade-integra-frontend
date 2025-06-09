@@ -1,6 +1,15 @@
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Home, Bell, User, LogIn, Shield, LogOut, Plus } from 'lucide-react';
+import { Link } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import {
+  Home,
+  Bell,
+  User,
+  LogIn,
+  Shield,
+  LogOut,
+  Plus,
+  BookOpen,
+} from "lucide-react"
 
 const MobileMenu = ({ user, onClickItem, onLogout, isLoggingOut }) => {
   return (
@@ -32,6 +41,14 @@ const MobileMenu = ({ user, onClickItem, onLogout, isLoggingOut }) => {
         <span>Sobre</span>
       </Link>
 
+      <Link
+        to="/duvidas"
+        className="hover:text-verde transition-colors py-2 flex items-center gap-2"
+      >
+        <BookOpen size={18} />
+        <span>Dúvidas</span>
+      </Link>
+
       {!user && (
         <Link
           to="/login"
@@ -54,14 +71,16 @@ const MobileMenu = ({ user, onClickItem, onLogout, isLoggingOut }) => {
             <span>Perfil</span>
           </Link>
 
-          <Link
-            to="/admin"
-            onClick={onClickItem}
-            className="hover:text-verde transition-colors py-2 flex items-center gap-2"
-          >
-            <Shield size={18} />
-            <span>Admin</span>
-          </Link>
+          {user.role === "admin" && (
+            <Link
+              to="/admin"
+              onClick={onClickItem}
+              className="hover:text-verde transition-colors py-2 flex items-center gap-2"
+            >
+              <Shield size={18} />
+              <span>Admin</span>
+            </Link>
+          )}
         </>
       )}
 
@@ -83,11 +102,11 @@ const MobileMenu = ({ user, onClickItem, onLogout, isLoggingOut }) => {
           variant="destructive"
         >
           <LogOut size={18} />
-          <span>{isLoggingOut ? 'Saindo...' : 'Sair'}</span>
+          <span>{isLoggingOut ? "Saindo..." : "Sair"}</span>
         </Button>
       )}
     </>
-  );
-};
+  )
+}
 
-export default MobileMenu;
+export default MobileMenu

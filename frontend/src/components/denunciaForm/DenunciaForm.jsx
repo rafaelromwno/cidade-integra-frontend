@@ -1,19 +1,23 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
-import { formSchema } from "./DenunciaFormSchema";
+import { formSchema } from "@/schema/DenunciaFormSchema";
 import DenunciaFormFields from "./DenunciaFormFields";
 import ImageUpload from "./ImageUpload";
+import { useReport } from "@/hooks/useReport";
+import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const DenunciaForm = () => {
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { createReport } = useReport();
+  const { currentUser: user } = useAuth();
+  const { toast } = useToast();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -28,18 +32,57 @@ const DenunciaForm = () => {
   });
 
   const onSubmit = async (values) => {
-    setIsSubmitting(true);
-    
-    // Simula o envio de uma denúncia
-    setTimeout(() => {
-      console.log(values);
+    if (!user) {
       toast({
-        title: "Denúncia enviada com sucesso!",
+        title: "Usuário não autenticado",
+        description: "Faça login para enviar denúncias.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const report = {
+      title: values.titulo,
+      description: values.descricao,
+      category: values.categoria,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      resolvedAt: null,
+      isAnonymous: values.anonima,
+      userId: user.uid,
+      location: {
+        latitude: 0,
+        longitude: 0,
+        address: values.local,
+        ...(values.cep ? { postalCode: values.cep } : {}), // só inclui se existir
+      },
+      imageUrls: [],
+    };
+
+    setIsSubmitting(true);
+
+    try {
+      await createReport(report);
+
+      toast({
+        title: "🌳 Denúncia enviada com sucesso!",
         description: "Sua denúncia foi registrada e será analisada em breve.",
       });
-      setIsSubmitting(false);
+
+      form.reset();
+      setPreviewImage(null);
       navigate("/denuncias");
-    }, 1500);
+    } catch (error) {
+      console.error("Erro ao enviar denúncia:", error);
+      toast({
+        title: "Erro ao enviar denúncia",
+        description: "Tente novamente em instantes.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -48,13 +91,17 @@ const DenunciaForm = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <DenunciaFormFields form={form} />
-            
-            <ImageUpload 
+
+            <ImageUpload
               previewImage={previewImage}
               setPreviewImage={setPreviewImage}
             />
-            
-            <Button type="submit" className="w-full bg-verde hover:bg-verde-escuro" disabled={isSubmitting}>
+
+            <Button
+              type="submit"
+              className="w-full bg-verde hover:bg-verde-escuro"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? (
                 <>
                   <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2"></div>

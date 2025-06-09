@@ -6,26 +6,51 @@ import useAuthentication from "@/hooks/UseAuthentication";
 import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import { useFetchUser } from "@/hooks/useFetchUser";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const { user, logout } = useAuthentication();
+  const { logout } = useAuthentication();
+
+  const { currentUser } = useAuth();
+  const { user } = useFetchUser(currentUser?.uid);
+
   const isMobile = useIsMobile();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
+
     try {
       await logout();
+
+      toast({
+        title: "👋 Você saiu da conta.",
+        description: "Esperamos vê-lo em breve!",
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000)
     } catch (error) {
       console.error("Erro ao sair:", error);
-      alert("Erro ao sair. Tente novamente.");
+
+      toast({
+        title: "🚨 Erro ao sair",
+        description: "Ocorreu um problema ao encerrar sua sessão. Tente novamente.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoggingOut(false);
     }
   };
 
-  // Evita rolagem do fundo com menu mobile aberto
+  // evita rolagem do fundo com menu mobile aberto
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
@@ -56,11 +81,8 @@ const Navbar = () => {
 
             {/* Menu mobile animado */}
             <div
-              className={`fixed top-20 left-0 w-full bg-azul z-40 transition-transform duration-300 ease-in-out transform ${
-                isOpen
-                  ? "translate-y-0 opacity-100"
-                  : "-translate-y-full opacity-0"
-              }`}
+              className={`fixed top-20 left-0 w-full bg-azul z-40 transition-all duration-300 ease-in-out ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+                }`}
             >
               <div className="flex flex-col px-6 py-4 space-y-4">
                 <MobileMenu

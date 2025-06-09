@@ -1,61 +1,7 @@
-
-import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "react-router-dom";
-import { AlertCircle, Droplet, Trash, Lightbulb, Loader, TreeDeciduous } from "lucide-react";
-
-const CategoryCard = ({ icon, title, description, link }) => (
-  <Card className="hover:shadow-lg transition-shadow">
-    <Link to={link}>
-      <CardContent className="p-6 flex flex-col items-center text-center">
-        <div className="mb-4 text-verde-escuro">
-          {icon}
-        </div>
-        <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p className="text-muted-foreground">{description}</p>
-      </CardContent>
-    </Link>
-  </Card>
-);
+import CategoryCard from "./CategoryCard";
+import { categories } from "@/data/categories";
 
 const CategoriesSection = () => {
-  const categories = [
-    {
-      icon: <Droplet className="h-10 w-10" />,
-      title: "Vazamentos",
-      description: "Problemas com água e esgoto, vazamentos e enchentes",
-      link: "/denuncias?categoria=vazamentos"
-    },
-    {
-      icon: <Lightbulb className="h-10 w-10" />,
-      title: "Iluminação",
-      description: "Postes com problemas ou áreas sem iluminação adequada",
-      link: "/denuncias?categoria=iluminacao"
-    },
-    {
-      icon: <Loader className="h-10 w-10" />,
-      title: "Buracos",
-      description: "Buracos em ruas, calçadas e outros espaços públicos",
-      link: "/denuncias?categoria=buracos"
-    },
-    {
-      icon: <Trash className="h-10 w-10" />,
-      title: "Lixo",
-      description: "Acúmulo de lixo, problemas na coleta ou descarte irregular",
-      link: "/denuncias?categoria=lixo"
-    },
-    {
-      icon: <TreeDeciduous className="h-10 w-10" />,
-      title: "Áreas Verdes",
-      description: "Manutenção de praças, parques e áreas verdes",
-      link: "/denuncias?categoria=areas-verdes"
-    },
-    {
-      icon: <AlertCircle className="h-10 w-10" />,
-      title: "Outros",
-      description: "Demais problemas urbanos que precisam de atenção",
-      link: "/denuncias?categoria=outros"
-    }
-  ];
 
   return (
     <section className="py-16">

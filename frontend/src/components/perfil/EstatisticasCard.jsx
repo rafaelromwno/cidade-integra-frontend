@@ -1,9 +1,8 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
+import React from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Star } from "lucide-react"
 
-
-const EstatisticasCard = ({ pontuacao, totalDenuncias, porcentagemResolvidas }) => {
+const EstatisticasCard = ({ totalDenuncias, porcentagemResolvidas }) => {
   return (
     <Card>
       <CardContent className="pt-6">
@@ -16,11 +15,11 @@ const EstatisticasCard = ({ pontuacao, totalDenuncias, porcentagemResolvidas }) 
             <div className="flex justify-between mb-1">
               <span className="text-muted-foreground">Pontuação</span>
               <span className="font-medium flex items-center gap-1">
-                {pontuacao} <Star className="h-4 w-4 text-amber-500" />
+                {totalDenuncias*10} <Star className="h-4 w-4 text-amber-500" />
               </span>
             </div>
             <div className="w-full bg-muted rounded-full h-2.5">
-              <div className="bg-verde h-2.5 rounded-full" style={{ width: `${Math.min(pontuacao/2, 100)}%` }}></div>
+              <div className="bg-verde h-2.5 rounded-full" style={{ width: `${Math.min(totalDenuncias/2, 100)}%` }}></div>
             </div>
           </div>
 
@@ -43,7 +42,7 @@ const EstatisticasCard = ({ pontuacao, totalDenuncias, porcentagemResolvidas }) 
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default EstatisticasCard;
+export default EstatisticasCard

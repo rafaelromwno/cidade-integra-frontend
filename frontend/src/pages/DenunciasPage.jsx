@@ -1,19 +1,24 @@
 import { useState, useEffect } from "react";
-import { mockDenuncias } from "@/data/MockDenunciasComponent";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import DenunciasList from "@/components/denuncias/DenunciasList";
+import { useReport } from "@/hooks/useReport";
 
 const DenunciasPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
+  const { getInitialReports, loading, error } = useReport();
+  const [denuncias, setDenuncias] = useState([]);
+  
   useEffect(() => {
-    // Simula um carregamento de dados
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
+    async function fetchReports() {
+      try {
+        const { reports } = await getInitialReports(6); // definir o limite de denúncias iniciais a buscar
+        setDenuncias(reports);
+      } catch (err) {
+        console.error("Erro ao buscar denúncias:", err);
+      }
+    }
 
-    return () => clearTimeout(timer);
+    fetchReports();
   }, []);
 
   return (
@@ -30,12 +35,17 @@ const DenunciasPage = () => {
         </div>
 
         <div className="container mx-auto px-4 py-10">
-          {isLoading ? (
+          {loading ? (
             <div className="flex justify-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-verde"></div>
             </div>
           ) : (
-            <DenunciasList denuncias={mockDenuncias} />
+            <DenunciasList denuncias={denuncias} />
+          )}
+          {error && (
+            <p className="text-red-600 mt-4">
+              Ocorreu um erro ao carregar as denúncias.
+            </p>
           )}
         </div>
       </main>

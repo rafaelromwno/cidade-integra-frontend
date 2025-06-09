@@ -5,4 +5,4 @@ Disallow: /nova-denuncia
 
 Allow: /
 
-Sitemap: https://cidadeunida.web.app/sitemap.xml
+Sitemap: https://cidadeintegra.web.app/sitemap.xml

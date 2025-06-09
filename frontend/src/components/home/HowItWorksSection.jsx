@@ -12,8 +12,8 @@ const HowItWorksSection = () => {
           <h2 className="text-3xl font-bold text-azul mb-4">Como Funciona?</h2>
 
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Reportar <span className="text-verde font-bold">problemas urbanos</span> nunca foi tão fácil. Com apenas alguns passos,
-            você pode contribuir para melhorar sua cidade!
+            Reportar problemas urbanos nunca foi tão fácil. Com apenas alguns passos,
+            você pode contribuir para <span className="text-azul font-bold">melhorar sua cidade!</span>
           </p>
 
         </div>
