@@ -1,30 +1,54 @@
-
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { FormLabel, FormDescription } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Camera, Upload } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
+
+const MAX_SIZE_MB = 5;
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const ImageUpload = ({ previewImage, setPreviewImage }) => {
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (!ALLOWED_TYPES.includes(file.type)) {
       toast({
-        title: "Imagem muito grande",
-        description: "Por favor, escolha uma imagem com até 5MB.",
+        title: "Formato não suportado",
+        description: "Apenas arquivos JPG, PNG ou WEBP são aceitos.",
         variant: "destructive",
       });
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewImage(reader.result);
-    };
-    reader.readAsDataURL(file);
+    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+      toast({
+        title: "Imagem muito grande",
+        description: "Escolha uma imagem com até 5MB.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setPreviewImage(file);
   };
+
+  // Gera a URL de preview de forma segura
+  const previewUrl = useMemo(() => {
+    if (previewImage instanceof File) {
+      return URL.createObjectURL(previewImage);
+    }
+    return null;
+  }, [previewImage]);
+
+  // Libera o objeto da URL da memória quando o componente desmontar ou mudar
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   return (
     <div className="space-y-2">
@@ -32,11 +56,13 @@ const ImageUpload = ({ previewImage, setPreviewImage }) => {
       <div className="border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center">
         {previewImage ? (
           <div className="relative w-full">
-            <img 
-              src={previewImage} 
-              alt="Preview" 
-              className="w-full h-auto rounded-lg" 
-            />
+            {previewUrl && (
+              <img
+                src={previewUrl}
+                alt="Preview"
+                className="w-full h-auto rounded-lg"
+              />
+            )}
             <Button
               type="button"
               variant="destructive"
@@ -61,7 +87,7 @@ const ImageUpload = ({ previewImage, setPreviewImage }) => {
               <input
                 id="file-upload"
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp"
                 className="hidden"
                 onChange={handleImageChange}
               />
