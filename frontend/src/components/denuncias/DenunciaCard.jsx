@@ -31,7 +31,9 @@ const DenunciaCard = ({ denuncia }) => {
     : "Data inválida"
 
   // pegando a imagem principal (se houver)
-  const mainImage = denuncia.imageUrls && denuncia.imageUrls.length > 0 ? denuncia.imageUrls[0] : null
+  const mainImage = denuncia.imagemUrl || null
+
+  console.log(mainImage)
 
   // status em inglês 
   const getStatusColor = (status) => {
@@ -67,15 +69,17 @@ const DenunciaCard = ({ denuncia }) => {
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
       <Link to={`/denuncias/${denuncia.reportId}`}>
-        {mainImage && (
-          <div className="h-48 overflow-hidden">
+        <div className="h-48 overflow-hidden bg-gray-200 flex items-center justify-center">
+          {mainImage ? (
             <img
               src={mainImage}
               alt={denuncia.title}
               className="w-full h-full object-cover"
             />
-          </div>
-        )}
+          ) : (
+            <span className="text-gray-500 text-sm">Sem imagem</span>
+          )}
+        </div>
         <CardHeader className="pb-2">
           <div className="flex justify-between items-start">
             <h3 className="font-medium text-lg line-clamp-1">{denuncia.title}</h3>

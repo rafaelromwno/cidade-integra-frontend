@@ -32,7 +32,7 @@ export function useReport() {
   
     try {
       const now = Timestamp.now()
-      let imagemUrl = null
+      let imagemUrlSupabase = null
   
       // se houver imagem, faz upload no Supabase
       if (report.imagemFile && report.userId) {
@@ -45,13 +45,13 @@ export function useReport() {
           throw new Error(uploadResult.error || "Falha ao fazer upload da imagem.")
         }
   
-        imagemUrl = uploadResult.url
+        imagemUrlSupabase = uploadResult.url
       }
   
       // monta o objeto da denúncia
       const reportData = {
         ...report,
-        imagemUrl: imagemUrl || null,
+        imagemUrl: imagemUrlSupabase || null,
         createdAt: now,
         updatedAt: now,
         status: "pending",

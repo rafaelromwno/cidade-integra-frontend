@@ -22,7 +22,7 @@ export async function useUploadImageReport(file, userId) {
 
   // geração de nome seguro
   const fileExt = file.name.split(".").pop();
-  const fileName = `${userId}/${uuidv4()}.${fileExt}`;
+  const fileName = `public/${uuidv4()}.${fileExt}`;
   const bucket = "reports";
 
   // upload
