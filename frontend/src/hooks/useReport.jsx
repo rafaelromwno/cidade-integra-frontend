@@ -16,6 +16,7 @@ import {
 } from "firebase/firestore"
 import { db } from "../firebase/config"
 import { useState } from "react"
+import { useUploadImageReport } from "./useUploadImageReport"
 
 const REPORT_COLLECTION = "reports"
 
@@ -28,30 +29,51 @@ export function useReport() {
   const createReport = async (report) => {
     setLoading(true)
     setError(null)
-
+  
     try {
       const now = Timestamp.now()
-
-      const docRef = await addDoc(reportsRef, {
+      let imagemUrlSupabase = null
+  
+      // se houver imagem, faz upload no Supabase
+      if (report.imagemFile && report.userId) {
+        const uploadResult = await useUploadImageReport(
+          report.imagemFile,
+          report.userId
+        )
+  
+        if (!uploadResult.success) {
+          throw new Error(uploadResult.error || "Falha ao fazer upload da imagem.")
+        }
+  
+        imagemUrlSupabase = uploadResult.url
+      }
+  
+      // monta o objeto da denúncia
+      const reportData = {
         ...report,
+        imagemUrl: imagemUrlSupabase || null,
         createdAt: now,
         updatedAt: now,
         status: "pending",
         resolvedAt: null,
-      })
-
-      // incrementa o contador de denúncias, mesmo se for anônima (desde que tenha userId)
+      }
+  
+      delete reportData.imagemFile // remover o File do objeto antes de salvar no Firestore
+  
+      const docRef = await addDoc(reportsRef, reportData)
+  
+      // atualiza contador de denúncias do usuário, se aplicável
       if (report.userId) {
         const userRef = doc(db, "users", report.userId)
         await updateDoc(userRef, {
           reportCount: increment(1),
         })
       }
-
+  
       return docRef.id
     } catch (err) {
-      setError(err)
       console.error("Erro ao criar denúncia:", err)
+      setError(err.message || "Erro desconhecido ao criar denúncia.")
       throw err
     } finally {
       setLoading(false)
