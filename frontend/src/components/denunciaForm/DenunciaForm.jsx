@@ -40,36 +40,41 @@ const DenunciaForm = () => {
       });
       return;
     }
-
+  
+    if (!previewImage) {
+      toast({
+        title: "Imagem obrigatória",
+        description: "Por favor, adicione uma imagem da ocorrência.",
+        variant: "destructive",
+      });
+      return;
+    }
+  
     const report = {
       title: values.titulo,
       description: values.descricao,
       category: values.categoria,
-      status: "pending",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      resolvedAt: null,
       isAnonymous: values.anonima,
       userId: user.uid,
       location: {
         latitude: 0,
         longitude: 0,
         address: values.local,
-        ...(values.cep ? { postalCode: values.cep } : {}), // só inclui se existir
+        ...(values.cep ? { postalCode: values.cep } : {}),
       },
-      imageUrls: [],
+      imagemFile: previewImage, // aqui vai a imagem que será tratado no supabase
     };
-
+  
     setIsSubmitting(true);
-
+  
     try {
       await createReport(report);
-
+  
       toast({
         title: "🌳 Denúncia enviada com sucesso!",
         description: "Sua denúncia foi registrada e será analisada em breve.",
       });
-
+  
       form.reset();
       setPreviewImage(null);
       navigate("/denuncias");
@@ -84,6 +89,7 @@ const DenunciaForm = () => {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div className="container mx-auto px-4 py-10">
