@@ -33,8 +33,6 @@ const DenunciaCard = ({ denuncia }) => {
   // pegando a imagem principal (se houver)
   const mainImage = denuncia.imagemUrl || null
 
-  console.log(mainImage)
-
   // status em inglês 
   const getStatusColor = (status) => {
     switch (status) {

@@ -19,15 +19,15 @@ const DenunciaDetalhes = () => {
   const { user } = useFetchUser(denuncia?.userId);
 
   useEffect(() => {
-  let isMounted = true;
-  const fetchDenuncia = async () => {
-    const result = await getReportById(id);
-    if (isMounted) setDenuncia(result ?? null);
-  };
-  if (id) fetchDenuncia();
-  return () => { isMounted = false; };
-  // Remova getReportById das dependências
-}, [id]);
+    let isMounted = true;
+    const fetchDenuncia = async () => {
+      const result = await getReportById(id);
+      if (isMounted) setDenuncia(result ?? null);
+    };
+    if (id) fetchDenuncia();
+    return () => { isMounted = false; };
+    // Remova getReportById das dependências
+  }, [id]);
 
   if (isLoading) {
     return (
@@ -73,11 +73,13 @@ const DenunciaDetalhes = () => {
     updatedAt,
     resolvedAt,
     status,
-    imageUrls,
+    imagemUrl,
     isAnonymous,
     userId,
     location,
   } = denuncia;
+
+  const mainImage = imagemUrl || null
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -99,17 +101,18 @@ const DenunciaDetalhes = () => {
         <div className="container mx-auto px-4 py-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              {Array.isArray(imageUrls) && imageUrls.length > 0 && (
-                <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {imageUrls.map((url, idx) => (
-                    <img
-                      key={idx}
-                      src={url}
-                      alt={`Imagem da denúncia ${title}`}
-                      className="w-full h-auto rounded-lg shadow-sm"
-                    />
-                  ))}
-                </div>
+              {mainImage ? (
+                <img
+                  src={mainImage}
+                  alt={denuncia.title || "Imagem da denúncia"}
+                  className="w-full max-h-96 object-cover rounded-lg"
+                  onError={(e) => {
+                    e.target.src = "/images/default-image.jpg"; // Substitua pelo caminho da imagem padrão
+                    e.target.alt = "Imagem não disponível";
+                  }}
+                />
+              ) : (
+                <span className="text-gray-500 text-sm">Sem imagem</span>
               )}
 
               <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
@@ -155,10 +158,10 @@ const DenunciaDetalhes = () => {
                       <p className="font-medium">
                         {createdAt
                           ? format(
-                              createdAt.toDate ? createdAt.toDate() : createdAt,
-                              "PPP",
-                              { locale: ptBR }
-                            )
+                            createdAt.toDate ? createdAt.toDate() : createdAt,
+                            "PPP",
+                            { locale: ptBR }
+                          )
                           : "-"}
                       </p>
                     </div>
