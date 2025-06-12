@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import useAuthentication from "@/hooks/UseAuthentication";
 import { z } from "zod";
+import TermsModal from "@/components/ui/terms-modal"
 
 const RegisterForm = ({ resetTrigger }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +17,9 @@ const RegisterForm = ({ resetTrigger }) => {
   const { registerWithEmail } = useAuthentication();
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  const [showTermsModal, setShowTermsModal] = useState(false)
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false)
 
   useEffect(() => {
     setRegisterError(null);
@@ -95,83 +99,105 @@ const RegisterForm = ({ resetTrigger }) => {
   };
 
   return (
-    <form onSubmit={handleRegister} className="space-y-4 mb-6">
-      <div className="space-y-2">
-        <Label htmlFor="name">Nome completo</Label>
-        <Input id="name" name="name" placeholder="Seu nome completo" required />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="register-email">Email</Label>
-        <div className="relative">
-          <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-          <Input
-            id="register-email"
-            name="register-email"
-            type="email"
-            placeholder="lyoto@email.com"
-            className="pl-10"
-            required
-          />
+    <>
+      <form onSubmit={handleRegister} className="space-y-4 mb-6">
+        <div className="space-y-2">
+          <Label htmlFor="name">Nome completo</Label>
+          <Input id="name" name="name" placeholder="Seu nome completo" required />
         </div>
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="register-password">Senha</Label>
-        <div className="relative">
-          <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-          <Input
-            id="register-password"
-            name="register-password"
-            type="password"
-            className="pl-10"
-            required
-            placeholder="••••••••"
-          />
+        <div className="space-y-2">
+          <Label htmlFor="register-email">Email</Label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <Input
+              id="register-email"
+              name="register-email"
+              type="email"
+              placeholder="lyoto@email.com"
+              className="pl-10"
+              required
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="confirm-password">Confirme a senha</Label>
-        <div className="relative">
-          <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-          <Input
-            id="confirm-password"
-            name="confirm-password"
-            type="password"
-            className="pl-10"
-            required
-            placeholder="••••••••"
-          />
+        <div className="space-y-2">
+          <Label htmlFor="register-password">Senha</Label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <Input
+              id="register-password"
+              name="register-password"
+              type="password"
+              className="pl-10"
+              required
+              placeholder="••••••••"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="flex items-center space-x-2">
-        <Checkbox id="terms" required />
-        <Label htmlFor="terms" className="text-sm">
-          Concordo com os{" "}
-          <a href="https://file.notion.so/f/f/fe1e184e-f7fc-4980-83e0-4ae30c90d16b/bf8b3195-396f-49d3-a042-08111ee46c8a/Termo_de_Uso_-_Cidade_Integra.pdf?table=block&id=1e499cfc-6489-809c-b56b-c68f29d19b24&spaceId=fe1e184e-f7fc-4980-83e0-4ae30c90d16b&expirationTimestamp=1748131200000&signature=xIdmujzsX2cpL56G5lJU_kgVPHwZY3d3gwfNet1v9EY&downloadName=Termo+de+Uso+-+Cidade+Integra.pdf" target="_blank" className="text-verde hover:underline">
-            termos de uso
-          </a>{" "}
-          e{" "}
-          <a href="https://file.notion.so/f/f/fe1e184e-f7fc-4980-83e0-4ae30c90d16b/bb795f8e-6cf4-4308-ae19-4fed2b24494b/Poltica_de_Privacidade__Cidade_Integra.pdf?table=block&id=1e499cfc-6489-80c0-a2d8-dd6acb182154&spaceId=fe1e184e-f7fc-4980-83e0-4ae30c90d16b&expirationTimestamp=1748131200000&signature=gv7sudFZCKu8uF0YbkH-3nvzgRo8vy8f_dXv5yNKzL0&downloadName=Política+de+Privacidade+—+Cidade+Integra.pdf" target="_blank" className="text-verde hover:underline">
-            política de privacidade
-          </a>
-        </Label>
-      </div>
+        <div className="space-y-2">
+          <Label htmlFor="confirm-password">Confirme a senha</Label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <Input
+              id="confirm-password"
+              name="confirm-password"
+              type="password"
+              className="pl-10"
+              required
+              placeholder="••••••••"
+            />
+          </div>
+        </div>
 
-      <Button
-        type="submit"
-        className="w-full bg-verde hover:bg-verde-escuro"
-        disabled={isLoading}
-      >
-        {isLoading ? "Cadastrando..." : "Cadastrar"}
-      </Button>
+        <div className="flex items-center space-x-2">
+          <Checkbox id="terms" required />
+          <Label htmlFor="terms" className="text-sm">
+            Concordo com os{" "}
+            <button
+              type="button"
+              onClick={() => setShowTermsModal(true)}
+              className="text-verde hover:underline"
+            >
+              termos de uso
+            </button>{" "}
+            e{" "}
+            <button
+              type="button"
+              onClick={() => setShowPrivacyModal(true)}
+              className="text-verde hover:underline"
+            >
+              política de privacidade
+            </button>
+          </Label>
+        </div>
 
-      {registerError && (
-        <p className="text-sm text-red-500 mt-2 text-center">{registerError}</p>
-      )}
-    </form>
+        <Button
+          type="submit"
+          className="w-full bg-verde hover:bg-verde-escuro"
+          disabled={isLoading}
+        >
+          {isLoading ? "Cadastrando..." : "Cadastrar"}
+        </Button>
+
+        {registerError && (
+          <p className="text-sm text-red-500 mt-2 text-center">{registerError}</p>
+        )}
+      </form>
+
+      <TermsModal
+        open={showTermsModal}
+        onOpenChange={setShowTermsModal}
+        type="terms"
+      />
+      <TermsModal
+        open={showPrivacyModal}
+        onOpenChange={setShowPrivacyModal}
+        type="privacy"
+      />
+
+    </>
   );
 };
 
