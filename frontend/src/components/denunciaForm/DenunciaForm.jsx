@@ -41,15 +41,6 @@ const DenunciaForm = () => {
       return;
     }
   
-    if (!previewImage) {
-      toast({
-        title: "Imagem obrigatória",
-        description: "Por favor, adicione uma imagem da ocorrência.",
-        variant: "destructive",
-      });
-      return;
-    }
-  
     const report = {
       title: values.titulo,
       description: values.descricao,
@@ -62,7 +53,7 @@ const DenunciaForm = () => {
         address: values.local,
         ...(values.cep ? { postalCode: values.cep } : {}),
       },
-      imagemFile: previewImage, // aqui vai a imagem que será tratado no supabase
+      ...(previewImage && { imagemFile: previewImage }), // aqui vai a imagem que será tratado no supabase
     };
   
     setIsSubmitting(true);

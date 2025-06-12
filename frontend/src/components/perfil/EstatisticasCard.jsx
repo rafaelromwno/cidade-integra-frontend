@@ -1,6 +1,7 @@
 import React from "react"
 import { Card, CardContent } from "@/components/ui/card"
-import { Star } from "lucide-react"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Star, Info } from "lucide-react";
 
 const EstatisticasCard = ({ totalDenuncias, porcentagemResolvidas }) => {
   return (
@@ -13,7 +14,28 @@ const EstatisticasCard = ({ totalDenuncias, porcentagemResolvidas }) => {
         <div className="space-y-4">
           <div>
             <div className="flex justify-between mb-1">
-              <span className="text-muted-foreground">Pontuação</span>
+            <span className="text-muted-foreground flex items-center gap-1">
+                Pontuação
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer transition-colors" />
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="max-w-xs">
+                      <div className="space-y-2 text-sm">
+                        <p className="font-medium">Como funciona a pontuação:</p>
+                        <ul className="space-y-1 text-xs">
+                          <li>• +10 pontos por denúncia criada</li>
+                          <li>• +20 pontos por denúncia resolvida</li>
+                        </ul>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Acumule pontos para subir de nível e ganhar distintivos especiais!
+                        </p>
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </span>
               <span className="font-medium flex items-center gap-1">
                 {totalDenuncias*10} <Star className="h-4 w-4 text-amber-500" />
               </span>
