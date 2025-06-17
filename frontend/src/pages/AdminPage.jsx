@@ -48,7 +48,8 @@ const AdminPage = () => {
         <AdminHeader />
         
         <div className="container mx-auto px-4 py-8">
-          {/* Dashboard */}
+
+          {/* dashboard */}
           <DenunciasDashboard denuncias={denuncias} />
 
           <Tabs defaultValue="lista" className="w-full">
@@ -63,6 +64,7 @@ const AdminPage = () => {
                 setSearchTerm={setSearchTerm}
                 filter={filter}
                 setFilter={setFilter}
+                denuncias={filteredDenuncias}
               />
               <DenunciasTable denuncias={filteredDenuncias}  setDenuncias={setDenuncias}/>
             </TabsContent>
@@ -71,6 +73,7 @@ const AdminPage = () => {
               <DenunciasStats denuncias={denuncias} />
             </TabsContent>
           </Tabs>
+
         </div>
       </main>
       <Footer />
