@@ -5,6 +5,7 @@ import CategoriesSection from "@/components/home/CategoriesSection";
 import HowItWorksSection from "@/components/home/HowItWorksSection";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Chatbot from "@/components/home/Chatbot";
 
 const Index = () => {
   return (
@@ -17,6 +18,7 @@ const Index = () => {
         <HowItWorksSection />
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 };
