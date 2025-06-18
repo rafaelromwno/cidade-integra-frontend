@@ -31,7 +31,9 @@ const Footer = () => {
 
           <div>
             <div className="flex items-center space-x-2 mb-4 ">
-              <img className='h-16' src={logotipo} alt="logotipo" />
+              <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                <img className='h-16' src={logotipo} alt="logotipo" />
+              </Link>
             </div>
             <p className="text-cinza mb-4">
               Uma plataforma para cidadãos reportarem problemas urbanos e
