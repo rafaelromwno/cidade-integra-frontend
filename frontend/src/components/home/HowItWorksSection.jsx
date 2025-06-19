@@ -22,7 +22,7 @@ const HowItWorksSection = () => {
 
           <div className="flex flex-col items-center text-center">
 
-            <Link to="/nova-denuncia">
+            <Link to="/nova-denuncia" aria-label="Ir para a página de Nova Denúncia">
               <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">1</Badge>
             </Link>
 
@@ -39,7 +39,7 @@ const HowItWorksSection = () => {
 
           <div className="flex flex-col items-center text-center">
 
-            <Link to="/perfil">
+            <Link to="/perfil" aria-label="Ir para a página de Perfil">
               <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">2</Badge>
             </Link>
 
@@ -56,7 +56,7 @@ const HowItWorksSection = () => {
 
           <div className="flex flex-col items-center text-center">
 
-            <Link to="/denuncias">
+            <Link to="/denuncias" aria-label="Ir para a página de Denúncias">
               <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">3</Badge>
             </Link>
 
