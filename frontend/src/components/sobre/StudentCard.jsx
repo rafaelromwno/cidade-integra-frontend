@@ -64,7 +64,7 @@ const StudentCard = ({
                 href={github}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub"
+                aria-label={`Acesse o GitHub de ${name}`}
               >
                 <Github className="h-5 w-5" />
               </a>
@@ -81,7 +81,7 @@ const StudentCard = ({
                 href={linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="LinkedIn"
+                aria-label={`Acesse o LinkedIn de ${name}`}
               >
                 <Linkedin className="h-5 w-5" />
               </a>
@@ -94,7 +94,7 @@ const StudentCard = ({
               asChild
               className="hover:bg-verde/10 hover:text-verde-escuro"
             >
-              <a href={`mailto:${email}`} aria-label="Email">
+              <a href={`mailto:${email}`} aria-label={`Envie um e-mail para ${email}`}>
                 <Mail className="h-5 w-5" />
               </a>
             </Button>
