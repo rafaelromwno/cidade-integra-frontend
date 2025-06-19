@@ -10,8 +10,49 @@ import FAQCategory from "./FAQCategory";
 import { faqCategories } from "@/data/faqData";
 import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
+import { Monitor, MessageSquare, User } from "lucide-react";
 
 const FAQSection = () => {
+
+  const getCategoryIcon = (categoryId) => {
+    switch (categoryId) {
+      case "platform":
+        return <Monitor className="h-5 w-5" />;
+      case "reports":
+        return <MessageSquare className="h-5 w-5" />;
+      case "account":
+        return <User className="h-5 w-5" />;
+      default:
+        return null;
+    }
+  };
+
+  const getCategoryColor = (categoryId) => {
+    switch (categoryId) {
+      case "platform":
+        return "text-blue-600 dark:text-blue-400";
+      case "reports":
+        return "text-green-600 dark:text-green-400";
+      case "account":
+        return "text-purple-600 dark:text-purple-400";
+      default:
+        return "text-azul";
+    }
+  };
+
+  const getCategoryBgColor = (categoryId) => {
+    switch (categoryId) {
+      case "platform":
+        return "bg-blue-50 dark:bg-blue-900/20";
+      case "reports":
+        return "bg-green-50 dark:bg-green-900/20";
+      case "account":
+        return "bg-purple-50 dark:bg-purple-900/20";
+      default:
+        return "bg-gray-50 dark:bg-gray-800";
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -34,9 +75,16 @@ const FAQSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
               >
-                <div className="mb-4">
-                  <h3 className="text-lg md:text-xl font-semibold text-azul">{category.label}</h3>
-                  <Separator className="mt-2 bg-gray-100 dark:bg-gray-700" />
+                <div className={`mb-4 p-4 rounded-lg ${getCategoryBgColor(category.id)}`}>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className={`${getCategoryColor(category.id)}`}>
+                      {getCategoryIcon(category.id)}
+                    </div>
+                    <h3 className={`text-lg md:text-xl font-semibold ${getCategoryColor(category.id)}`}>
+                      {category.label}
+                    </h3>
+                  </div>
+                  <Separator className="bg-gray-200 dark:bg-gray-600" />
                 </div>
                 <div className="pl-1">
                   <FAQCategory 
