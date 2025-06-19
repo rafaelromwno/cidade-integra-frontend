@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export const faqCategories = [
   {
@@ -28,7 +29,11 @@ export const faqCategories = [
       {
         id: "item-1",
         question: "Como faço uma denúncia?",
-        answer: "Para fazer uma denúncia, clique no botão \"Nova Denúncia\" disponível no menu superior. Preencha o formulário com os detalhes do problema, adicione fotos que mostrem claramente a situação e marque a localização exata. Quanto mais informações você fornecer, mais rapidamente o problema poderá ser resolvido."
+        answer: (
+          <>
+            Para fazer uma denúncia, clique no botão <Link to="/nova-denuncia" className="text-verde font-bold hover:text-verde-escuro hover:underline">Nova Denúncia</Link> disponível no menu superior. Preencha o formulário com os detalhes do problema, adicione fotos que mostrem claramente a situação e marque a localização exata. Quanto mais informações você fornecer, mais rapidamente o problema poderá ser resolvido.
+          </>
+        )
       },
       {
         id: "item-2",
@@ -38,7 +43,11 @@ export const faqCategories = [
       {
         id: "item-3",
         question: "Como acompanho o status da minha denúncia?",
-        answer: "Você pode acompanhar suas denúncias através da seção \"Minhas Denúncias\" no seu perfil. Lá você encontrará todas as suas denúncias e seus respectivos status atuais. Também enviamos notificações por email quando houver atualizações importantes sobre o andamento da solução."
+        answer: (
+          <>
+            Você pode acompanhar suas denúncias através da seção <Link to="/perfil" className="text-verde font-bold hover:text-verde-escuro hover:underline">Minhas Denúncias</Link> no seu perfil. Lá você encontrará todas as suas denúncias e seus respectivos status atuais. Também enviamos notificações por email quando houver atualizações importantes sobre o andamento da solução.
+          </>
+        )
       }
     ]
   },
@@ -49,17 +58,29 @@ export const faqCategories = [
       {
         id: "item-1",
         question: "Como criar uma conta no Cidade Integra?",
-        answer: "Para criar uma conta, clique em \"Entrar\" no menu superior e depois selecione a opção \"Cadastrar\". Você precisará fornecer seu nome, email e criar uma senha. Também é possível se cadastrar utilizando sua conta do Google ou Facebook para maior praticidade."
+        answer: (
+          <>
+            Para criar uma conta, clique em <Link to="/login" className="text-verde font-bold hover:text-verde-escuro hover:underline">Entrar</Link> no menu superior e depois selecione a opção "Cadastrar". Você precisará fornecer seu nome, email e criar uma senha. Também é possível se cadastrar utilizando sua conta do Google ou Facebook para maior praticidade.
+          </>
+        )
       },
       {
         id: "item-2",
         question: "Como editar meus dados pessoais?",
-        answer: "Para editar seus dados pessoais, acesse a página de \"Perfil\" e clique no botão \"Editar Perfil\". Lá você poderá atualizar seu nome, email, telefone e senha. Após fazer as alterações desejadas, clique em \"Salvar\" para confirmar as mudanças."
+        answer: (
+          <>
+            Para editar seus dados pessoais, acesse a página de <Link to="/perfil" className="text-verde font-bold hover:text-verde-escuro hover:underline">Perfil</Link> e clique no botão "Editar Perfil". Lá você poderá atualizar seu nome, email, telefone e senha. Após fazer as alterações desejadas, clique em "Salvar" para confirmar as mudanças.
+          </>
+        )
       },
       {
         id: "item-3",
         question: "Esqueci minha senha. Como recuperá-la?",
-        answer: "Se você esqueceu sua senha, clique em \"Entrar\" e depois na opção \"Esqueceu sua senha?\". Você será redirecionado para a página de recuperação, onde deverá informar o email cadastrado. Enviaremos um link para você criar uma nova senha de acesso."
+        answer: (
+          <>
+            Se você esqueceu sua senha, clique em <Link to="/login" className="text-verde font-bold hover:text-verde-escuro hover:underline">Entrar</Link> e depois na opção <Link to="/login" className="text-verde font-bold hover:text-verde-escuro hover:underline">Esqueceu a senha?</Link>. Você será redirecionado para a página de recuperação, onde deverá informar o email cadastrado. Enviaremos um link para você criar uma nova senha de acesso.
+          </>
+        )
       }
     ]
   }
