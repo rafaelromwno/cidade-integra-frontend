@@ -64,7 +64,7 @@ const SobrePage = () => {
                 ))}
               </div>
             </section>
-            
+
           </div>
         </section>
 
@@ -151,7 +151,9 @@ const SobrePage = () => {
                   de vida nas cidades através da tecnologia e participação cidadã.
                 </p>
                 <div className="flex justify-center mt-8">
-                  <Button className="bg-verde hover:bg-verde-escuro">Saiba mais sobre nossa iniciativa</Button>
+                  <a href="/article-cidade-integra.pdf" target="_blank" rel="noopener noreferrer">
+                    <Button className="bg-verde hover:bg-verde-escuro">Saiba mais sobre nossa iniciativa</Button>
+                  </a>
                 </div>
               </motion.div>
             </div>
