@@ -20,6 +20,7 @@ import {
 import { useReport } from "@/hooks/useReport";
 
 const ITEMS_PER_PAGE = 6;
+const SEARCH_ITEMS_LIMIT = 7
 
 const DenunciasList = () => {
   const { getInitialReports, getMoreReports, loading } = useReport();
@@ -35,12 +36,12 @@ const DenunciasList = () => {
   // Carregar as denúncias iniciais
   useEffect(() => {
     const fetchData = async () => {
-      const { reports, lastVisible } = await getInitialReports(ITEMS_PER_PAGE);
+      const {verify, reports, lastVisible } = await getInitialReports(SEARCH_ITEMS_LIMIT, ITEMS_PER_PAGE);
       setDenuncias(reports);
       setLastVisible(lastVisible);
       setPageHistory([]);
       setCurrentPage(1); // reinicia página
-      setHasMore(reports.length === ITEMS_PER_PAGE);
+      setHasMore(verify.length > ITEMS_PER_PAGE);
     };
 
     fetchData();
@@ -50,28 +51,31 @@ const DenunciasList = () => {
   const handleLoadMore = async () => {
     if (!lastVisible || !hasMore) return;
 
-    const { reports: more, lastVisible: newLast } = await getMoreReports(
+    const {verify: moreVerify, reports: more, lastVisible: newLast } = await getMoreReports(
       lastVisible,
+      SEARCH_ITEMS_LIMIT,
       ITEMS_PER_PAGE
     );
 
-    setPageHistory((prev) => [...prev, lastVisible]);
+    setPageHistory((prev) => [...prev, {      
+      lastVisible: lastVisible
+    }]);
     setDenuncias(more);
     setLastVisible(newLast);
     setCurrentPage((prev) => prev + 1); // avança página
-    setHasMore(more.length === ITEMS_PER_PAGE);
+    setHasMore(moreVerify.length > ITEMS_PER_PAGE);
   };
 
   // Carregar a página anterior
   const handlePreviousPage = async () => {
     if (pageHistory.length === 0) return;
-
+    
     const newHistory = [...pageHistory];
-    const previousDoc = newHistory[newHistory.length - 2] ?? null;
+    const previousDoc = newHistory[newHistory.length - 2]?.lastVisible ?? null;
 
-    const { reports: previousReports, lastVisible: newLast } = previousDoc
-      ? await getMoreReports(previousDoc, ITEMS_PER_PAGE)
-      : await getInitialReports(ITEMS_PER_PAGE);
+    const {reports: previousReports, lastVisible: newLast } = previousDoc
+      ? await getMoreReports(previousDoc, SEARCH_ITEMS_LIMIT, ITEMS_PER_PAGE)
+      : await getInitialReports(SEARCH_ITEMS_LIMIT, ITEMS_PER_PAGE);
 
     setDenuncias(previousReports);
     setLastVisible(newLast);

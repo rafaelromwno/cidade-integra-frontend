@@ -128,14 +128,26 @@ export function useReport() {
   }
 
   // buscar as primeiras denúncias
-  const getInitialReports = async (limitCount) => {
+  const getInitialReports = async (verifyLimitCount, limitCount) => {
     try {
-      const q = query(
+      const qVerify = query(
+        collection(db, REPORT_COLLECTION),
+        orderBy("createdAt", "desc"),
+        limit(verifyLimitCount)
+      )
+      const snapshotVerify = await getDocs(qVerify)
+
+      const verify = snapshotVerify.docs.map((doc) => ({
+        reportId: doc.id,
+        ...doc.data(),
+      }))
+
+      const qReports = query(
         collection(db, REPORT_COLLECTION),
         orderBy("createdAt", "desc"),
         limit(limitCount)
       )
-      const snapshot = await getDocs(q)
+      const snapshot = await getDocs(qReports)
 
       const reports = snapshot.docs.map((doc) => ({
         reportId: doc.id,
@@ -144,22 +156,35 @@ export function useReport() {
 
       const lastVisible = snapshot.docs[snapshot.docs.length - 1] ?? null
 
-      return { reports, lastVisible }
+      return {verify, reports, lastVisible }
     } catch (err) {
       throw err
     }
   }
 
   // buscar mais denúncias
-  const getMoreReports = async (lastDoc, limitCount) => {
+  const getMoreReports = async (lastDoc, verifyLimitCount, limitCount) => {
     try {
-      const q = query(
+      const qMoreVerify = query (
+        collection(db, REPORT_COLLECTION),
+        orderBy("createdAt", "desc"),
+        startAfter(lastDoc),
+        limit(verifyLimitCount)
+      )
+      const snapshotVerify = await getDocs(qMoreVerify)
+
+      const verify = snapshotVerify.docs.map((doc) => ({
+        reportId: doc.id,
+        ...doc.data(),
+      }))
+
+      const qMoreReports = query(
         collection(db, REPORT_COLLECTION),
         orderBy("createdAt", "desc"),
         startAfter(lastDoc),
         limit(limitCount)
       )
-      const snapshot = await getDocs(q)
+      const snapshot = await getDocs(qMoreReports)
 
       const reports = snapshot.docs.map((doc) => ({
         reportId: doc.id,
@@ -168,7 +193,7 @@ export function useReport() {
 
       const newLastVisible = snapshot.docs[snapshot.docs.length - 1] ?? null
 
-      return { reports, lastVisible: newLastVisible }
+      return {verify, reports, lastVisible: newLastVisible }
     } catch (err) {
       throw err
     }
