@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import DenunciaCard from "./DenunciaCard";
+import DenunciaCard from "./CardDenuncia";
 import { Input } from "@/components/ui/input";
 import {
   Select,

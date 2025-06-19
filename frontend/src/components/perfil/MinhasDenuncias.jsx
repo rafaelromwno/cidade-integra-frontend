@@ -1,7 +1,7 @@
 import React from "react";
 import { FileText } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import DenunciaCard from "@/components/denuncias/DenunciaCard";
+import DenunciaCard from "@/components/denuncias/CardDenuncia";
 import { useUserReports } from "@/hooks/useUserReports";
 import { useAuth } from "@/context/AuthContext";
 
