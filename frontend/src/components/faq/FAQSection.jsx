@@ -41,31 +41,6 @@ const FAQSection = () => {
       transition={{ duration: 0.5, delay: 0.2 }}
       className="flex flex-col md:flex-row gap-8"
     >
-      {/* ScrollSpy Menu */}
-      <aside className="md:w-1/4 sticky top-4 h-fit">
-        <nav>
-          <ul className="space-y-2">
-            {faqCategories.map((category) => (
-              <li key={category.id} className="relative pl-4">
-                {activeId === category.id && (
-                  <span className="absolute left-0 top-2 h-6 w-1 rounded-full bg-primary" />
-                )}
-                <a
-                  href={`#${category.id}`}
-                  className={`block px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                    activeId === category.id
-                      ? "bg-muted text-primary"
-                      : "text-muted-foreground hover:text-primary hover:bg-muted/50"
-                  }`}
-                >
-                  {category.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
-
       {/* FAQ Content */}
       <div className="md:w-3/4 space-y-10">
         <Card className="border-none shadow-lg">
@@ -88,12 +63,8 @@ const FAQSection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
               >
-                <div className="mb-4">
-                  <h3 className="text-lg md:text-xl font-semibold text-azul">
-                    {category.label}
-                  </h3>
-                  <Separator className="mt-2 bg-gray-100 dark:bg-gray-700" />
-                </div>
+                
+                <Separator className="mb-6 bg-gray-100 dark:bg-gray-700" />
                 <div className="pl-1">
                   <FAQCategory
                     id={category.id}
