@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, X, Eye, EyeOff, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -10,9 +10,15 @@ import useAuthentication from "@/hooks/UseAuthentication";
 import { z } from "zod";
 import TermsModal from "@/components/ui/terms-modal"
 
+
 const RegisterForm = ({ resetTrigger }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [registerError, setRegisterError] = useState(null);
+
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { registerWithEmail } = useAuthentication();
   const { toast } = useToast();
@@ -24,6 +30,15 @@ const RegisterForm = ({ resetTrigger }) => {
   useEffect(() => {
     setRegisterError(null);
   }, [resetTrigger]);
+
+  const calculatePasswordStrength = (password) => {
+    const checks = {
+      length: password.length >= 6,
+    }
+    return { checks };
+  };
+
+  const passwordStrength = calculatePasswordStrength(password);
 
   const registerSchema = z.object({
     name: z
@@ -128,12 +143,32 @@ const RegisterForm = ({ resetTrigger }) => {
             <Input
               id="register-password"
               name="register-password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="pl-10"
               required
               placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
+            <button
+              type="button"
+              className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+              onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
           </div>
+
+          {/*Feedback visual para validação da senha*/}
+          {password && (
+            <div className="mt-2 space-y-2">
+              <div className="space-y-1 text-sm">
+                <div className={`flex items-center gap-2 ${passwordStrength.checks.length ? "text-green-600" : "text-red-600"}`}>
+                  {passwordStrength.checks.length ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
+                  <span>A senha deve ter 6 caracteres ou mais</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -143,13 +178,39 @@ const RegisterForm = ({ resetTrigger }) => {
             <Input
               id="confirm-password"
               name="confirm-password"
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               className="pl-10"
               required
               placeholder="••••••••"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
+            <button
+              type="button"
+              className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+              {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
           </div>
+
+          {/*Feedback de confirmação da senha*/}
+          {confirmPassword && (
+            <div className="mt-2">
+              {password === confirmPassword ? (
+              <div className="text-green-600 text-sm flex items-center gap-2 text-green-600 text-sm">
+          <Check className="h-4 w-4" />
+          <span>As senhas coincidem</span>
         </div>
+        ) : (
+        <div className="flex items-center gap-2 text-red-600 text-sm">
+          <X className="h-4 w-4" />
+          <span>As senhas não são iguais</span>
+        </div>
+            )}
+      </div>
+          )}
+
+    </div >
 
         <div className="flex items-center space-x-2">
           <Checkbox id="terms" required />
@@ -181,10 +242,12 @@ const RegisterForm = ({ resetTrigger }) => {
           {isLoading ? "Cadastrando..." : "Cadastrar"}
         </Button>
 
-        {registerError && (
-          <p className="text-sm text-red-500 mt-2 text-center">{registerError}</p>
-        )}
-      </form>
+  {
+    registerError && (
+      <p className="text-sm text-red-500 mt-2 text-center">{registerError}</p>
+    )
+  }
+      </form >
 
       <TermsModal
         open={showTermsModal}

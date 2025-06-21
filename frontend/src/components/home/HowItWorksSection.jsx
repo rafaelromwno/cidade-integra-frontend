@@ -1,5 +1,5 @@
-
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 const HowItWorksSection = () => {
   return (
@@ -17,14 +17,18 @@ const HowItWorksSection = () => {
           </p>
 
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 m-6">
 
           <div className="flex flex-col items-center text-center">
 
-            <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">1</Badge>
+            <Link to="/nova-denuncia" aria-label="Ir para a página de Nova Denúncia">
+              <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">1</Badge>
+            </Link>
 
-            <h3 className="text-xl font-semibold mb-3">Registre o Problema</h3>
+            <Link to="/nova-denuncia">
+              <h3 className="text-xl font-semibold mb-3 hover:text-verde-escuro hover:underline">Registre o Problema</h3>
+            </Link>
 
             <p className="text-muted-foreground">
               Utilize nosso aplicativo para registrar o problema. Adicione fotos, descrição
@@ -32,12 +36,16 @@ const HowItWorksSection = () => {
             </p>
 
           </div>
-          
+
           <div className="flex flex-col items-center text-center">
 
-            <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">2</Badge>
+            <Link to="/perfil" aria-label="Ir para a página de Perfil">
+              <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">2</Badge>
+            </Link>
 
-            <h3 className="text-xl font-semibold mb-3">Acompanhe o Status</h3>
+            <Link to="/perfil">
+              <h3 className="text-xl font-semibold mb-3 hover:text-verde-escuro hover:underline">Acompanhe o Status</h3>
+            </Link>
 
             <p className="text-muted-foreground">
               Nossa equipe analisa e encaminha a denúncia para o órgão responsável.
@@ -45,15 +53,18 @@ const HowItWorksSection = () => {
             </p>
 
           </div>
-          
+
           <div className="flex flex-col items-center text-center">
 
-            <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">3</Badge>
+            <Link to="/denuncias" aria-label="Ir para a página de Denúncias">
+              <Badge className="bg-verde text-white mb-4 text-lg h-10 w-10 rounded-full flex items-center justify-center">3</Badge>
+            </Link>
 
-            <h3 className="text-xl font-semibold mb-3">Problema Resolvido</h3>
-
+            <Link to="/denuncias">
+              <h3 className="text-xl font-semibold mb-3 hover:text-verde-escuro hover:underline">Problema Resolvido</h3>
+            </Link>
             <p className="text-muted-foreground">
-              Após resolvido, você receberá uma notificação. Você também pode 
+              Após resolvido, você receberá uma notificação. Você também pode
               confirmar se o problema foi corretamente solucionado.
             </p>
 

@@ -17,14 +17,16 @@ import AccessDeniedPage from "../pages/AccessDeniedPage"
 import AdminRoute from "./AdminRoute";
 import AdminDashboardPage from "../pages/AdminDashboardPage";
 import UsersAdminPage from "../pages/UsersAdminPage";
+import ScrollToTop from "@/utils/ScrollToTop";
 
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
+    <BrowserRouter>    
       <ToastProvider>
+        <ScrollToTop />
         <Toaster />
         <Routes>
-  
+        
           {/* rotas publicas */}
   
           <Route path="/" element={<Index />} />

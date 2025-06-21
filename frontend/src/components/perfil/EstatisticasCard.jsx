@@ -19,7 +19,7 @@ const EstatisticasCard = ({ totalDenuncias, porcentagemResolvidas }) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Info className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer transition-colors" />
+                      <Info className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer transition-colors" aria-label="Clique para saber como funciona os critérios de pontuação"/>
                     </TooltipTrigger>
                     <TooltipContent side="top" className="max-w-xs">
                       <div className="space-y-2 text-sm">

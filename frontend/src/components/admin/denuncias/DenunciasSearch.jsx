@@ -1,8 +1,15 @@
-import { Search } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import ExportCSV from "@/components/admin/denuncias/ExportCSV";
 
-const DenunciasSearch = ({ searchTerm, setSearchTerm, filter, setFilter }) => {
+const DenunciasSearch = ({ searchTerm, setSearchTerm, filter, setFilter, denuncias }) => {
   return (
     <div className="mb-6 flex flex-col sm:flex-row gap-4">
       <div className="relative flex-grow">
@@ -28,8 +35,10 @@ const DenunciasSearch = ({ searchTerm, setSearchTerm, filter, setFilter }) => {
         </SelectContent>
       </Select>
 
+      {/* exportar CSV */}
+      <ExportCSV denuncias={denuncias} />
     </div>
-  )
-}
+  );
+};
 
-export default DenunciasSearch
+export default DenunciasSearch;
