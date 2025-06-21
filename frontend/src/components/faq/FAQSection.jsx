@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -8,9 +8,8 @@ import {
 } from "@/components/ui/card";
 import FAQCategory from "./FAQCategory";
 import { faqCategories } from "@/data/faqData";
-import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
-import { db } from "@/firebase/config";
+import { Separator } from "@/components/ui/separator";
 
 const FAQSection = () => {
   const [activeId, setActiveId] = useState(null);

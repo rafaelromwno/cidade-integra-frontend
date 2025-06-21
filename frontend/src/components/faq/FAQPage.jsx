@@ -2,7 +2,6 @@ import React from "react";
 import FAQHeader from "./FAQHeader";
 import FAQSection from "./FAQSection";
 import ContactSection from "./ContactSection";
-import { db } from "@/firebase/config";
 
 const FAQPage = () => {
   return (
