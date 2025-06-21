@@ -11,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import ComentarioCard from "@/components/denuncias/ComentarioCard";
 import { useEffect, useState } from "react";
 import { useFetchUser } from "@/hooks/useFetchUser";
+import MapaEstatico from "@/components/denuncias/MapaEstatico";
 
 const DenunciaDetalhes = () => {
   const { id } = useParams();
@@ -25,7 +26,9 @@ const DenunciaDetalhes = () => {
       if (isMounted) setDenuncia(result ?? null);
     };
     if (id) fetchDenuncia();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
     // Remova getReportById das dependências
   }, [id]);
 
@@ -79,7 +82,7 @@ const DenunciaDetalhes = () => {
     location,
   } = denuncia;
 
-  const mainImage = imagemUrl || null
+  const mainImage = imagemUrl || null;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -87,7 +90,10 @@ const DenunciaDetalhes = () => {
       <main className="flex-grow">
         <div className="bg-azul text-white py-8">
           <div className="container mx-auto px-4">
-            <Link to="/denuncias" className="flex items-center text-cinza hover:text-white mb-4 w-fit">
+            <Link
+              to="/denuncias"
+              className="flex items-center text-cinza hover:text-white mb-4 w-fit"
+            >
               <ArrowLeft className="h-4 w-4 mr-1" />
               <span>Voltar para Denúncias</span>
             </Link>
@@ -139,29 +145,34 @@ const DenunciaDetalhes = () => {
                   <div className="flex items-start gap-2">
                     <MapPin className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Localização</p>
-                      <p className="font-medium">
-                        {location?.address || "-"}
+                      <p className="text-sm text-muted-foreground">
+                        Localização
                       </p>
+                      <p className="font-medium">{location?.address || "-"}</p>
                       {location?.postalCode && (
                         <span className="text-xs text-muted-foreground block font-medi mt-1">
                           CEP: {location.postalCode}
                         </span>
                       )}
                     </div>
+                    <div className="mt-4">
+                      <MapaEstatico local={location.address} />
+                    </div>
                   </div>
                   <Separator />
                   <div className="flex items-start gap-2">
                     <Calendar className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Data de Registro</p>
+                      <p className="text-sm text-muted-foreground">
+                        Data de Registro
+                      </p>
                       <p className="font-medium">
                         {createdAt
                           ? format(
-                            createdAt.toDate ? createdAt.toDate() : createdAt,
-                            "PPP",
-                            { locale: ptBR }
-                          )
+                              createdAt.toDate ? createdAt.toDate() : createdAt,
+                              "PPP",
+                              { locale: ptBR }
+                            )
                           : "-"}
                       </p>
                     </div>
@@ -170,9 +181,13 @@ const DenunciaDetalhes = () => {
                   <div className="flex items-start gap-2">
                     <User className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Reportado por</p>
+                      <p className="text-sm text-muted-foreground">
+                        Reportado por
+                      </p>
                       <p className="font-medium">
-                        {isAnonymous ? "Anônimo" : user?.displayName || "Usuário não encontrado"}
+                        {isAnonymous
+                          ? "Anônimo"
+                          : user?.displayName || "Usuário não encontrado"}
                       </p>
                     </div>
                   </div>
@@ -182,10 +197,14 @@ const DenunciaDetalhes = () => {
                       <div className="flex items-start gap-2">
                         <Calendar className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-sm text-muted-foreground">Resolvida em</p>
+                          <p className="text-sm text-muted-foreground">
+                            Resolvida em
+                          </p>
                           <p className="font-medium">
                             {format(
-                              resolvedAt.toDate ? resolvedAt.toDate() : resolvedAt,
+                              resolvedAt.toDate
+                                ? resolvedAt.toDate()
+                                : resolvedAt,
                               "PPP",
                               { locale: ptBR }
                             )}
