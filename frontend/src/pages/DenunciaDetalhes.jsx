@@ -19,9 +19,11 @@ import { Link, useParams } from "react-router-dom";
 import ComentarioCard from "@/components/denuncias/ComentarioCard";
 import { useEffect, useState } from "react";
 import { useFetchUser } from "@/hooks/useFetchUser";
+import MapaEstatico from "@/components/denuncias/MapaEstatico";
 import { useAuth } from "@/context/AuthContext";
 import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
+
 
 const DenunciaDetalhes = () => {
   const { id } = useParams();
@@ -39,10 +41,12 @@ const DenunciaDetalhes = () => {
       const result = await getReportById(id);
       if (isMounted) setDenuncia(result ?? null);
     };
+
     if (id) fetchDenuncia();
     return () => {
       isMounted = false;
     };
+
   }, [id]);
 
   useEffect(() => {
@@ -208,6 +212,9 @@ const DenunciaDetalhes = () => {
                         Localização
                       </p>
                       <p className="font-medium">{location?.address || "-"}</p>
+                    </div>
+                    <div className="mt-4">
+                      <MapaEstatico local={location.address} />
                     </div>
                   </div>
                   <Separator />
