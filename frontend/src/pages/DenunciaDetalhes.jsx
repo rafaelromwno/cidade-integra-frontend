@@ -11,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import ComentarioCard from "@/components/denuncias/ComentarioCard";
 import { useEffect, useState } from "react";
 import { useFetchUser } from "@/hooks/useFetchUser";
+import MapaEstatico from "@/components/denuncias/MapaEstatico";
 
 const DenunciaDetalhes = () => {
   const { id } = useParams();
@@ -24,7 +25,7 @@ const DenunciaDetalhes = () => {
       const result = await getReportById(id);
       if (isMounted) setDenuncia(result ?? null);
     };
-    if (id) fetchDenuncia();
+    if (id) fetchDenuncia();    
     return () => { isMounted = false; };
     // Remova getReportById das dependências
   }, [id]);
@@ -149,12 +150,17 @@ const DenunciaDetalhes = () => {
                         </span>
                       )}
                     </div>
+                    <div className="mt-4">
+                      <MapaEstatico local={location.address} />
+                    </div>
                   </div>
                   <Separator />
                   <div className="flex items-start gap-2">
                     <Calendar className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Data de Registro</p>
+                      <p className="text-sm text-muted-foreground">
+                        Data de Registro
+                      </p>
                       <p className="font-medium">
                         {createdAt
                           ? format(
@@ -170,7 +176,9 @@ const DenunciaDetalhes = () => {
                   <div className="flex items-start gap-2">
                     <User className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Reportado por</p>
+                      <p className="text-sm text-muted-foreground">
+                        Reportado por
+                      </p>
                       <p className="font-medium">
                         {isAnonymous ? "Anônimo" : user?.displayName || "Usuário não encontrado"}
                       </p>
@@ -182,7 +190,9 @@ const DenunciaDetalhes = () => {
                       <div className="flex items-start gap-2">
                         <Calendar className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-sm text-muted-foreground">Resolvida em</p>
+                          <p className="text-sm text-muted-foreground">
+                            Resolvida em
+                          </p>
                           <p className="font-medium">
                             {format(
                               resolvedAt.toDate ? resolvedAt.toDate() : resolvedAt,
