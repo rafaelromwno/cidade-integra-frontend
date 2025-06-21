@@ -8,19 +8,22 @@ export const faqCategories = [
       {
         id: "item-1",
         question: "O que é o Cidade Integra?",
-        answer: "O Cidade Integra é uma plataforma que permite aos cidadãos reportar problemas ambientais e urbanos em sua cidade. Nossa missão é conectar a comunidade aos órgãos responsáveis para solucionar questões como poluição, descarte irregular de lixo, problemas de infraestrutura urbana e outros desafios ambientais."
+        answer:
+          "O Cidade Integra é uma plataforma que permite aos cidadãos reportar problemas ambientais e urbanos em sua cidade. Nossa missão é conectar a comunidade aos órgãos responsáveis para solucionar questões como poluição, descarte irregular de lixo, problemas de infraestrutura urbana e outros desafios ambientais.",
       },
       {
         id: "item-2",
         question: "Como a plataforma funciona?",
-        answer: "O funcionamento é simples: você registra o problema encontrado através do aplicativo, adicionando fotos, descrição e localização precisa. Nossa equipe analisa e encaminha a denúncia para o órgão responsável. Você pode acompanhar todo o processo de solução e será notificado quando o problema for resolvido."
+        answer:
+          "O funcionamento é simples: você registra o problema encontrado através do aplicativo, adicionando fotos, descrição e localização precisa. Nossa equipe analisa e encaminha a denúncia para o órgão responsável. Você pode acompanhar todo o processo de solução e será notificado quando o problema for resolvido.",
       },
       {
         id: "item-3",
         question: "É necessário pagar para usar o Cidade Integra?",
-        answer: "Não! O Cidade Integra é uma plataforma totalmente gratuita para todos os cidadãos. Nosso objetivo é facilitar a comunicação entre a população e os órgãos públicos responsáveis por solucionar os problemas reportados."
-      }
-    ]
+        answer:
+          "Não! O Cidade Integra é uma plataforma totalmente gratuita para todos os cidadãos. Nosso objetivo é facilitar a comunicação entre a população e os órgãos públicos responsáveis por solucionar os problemas reportados.",
+      },
+    ],
   },
   {
     id: "reports",
@@ -38,7 +41,8 @@ export const faqCategories = [
       {
         id: "item-2",
         question: "Posso fazer denúncias anônimas?",
-        answer: "Sim, você pode optar por fazer denúncias anônimas. Durante o preenchimento do formulário de denúncia, há uma opção para manter sua identidade privada. Mesmo em denúncias anônimas, você poderá acompanhar o progresso de solução através de um código único fornecido ao final do envio."
+        answer:
+          "Sim, você pode optar por fazer denúncias anônimas. Durante o preenchimento do formulário de denúncia, há uma opção para manter sua identidade privada. Mesmo em denúncias anônimas, você poderá acompanhar o progresso de solução através de um código único fornecido ao final do envio.",
       },
       {
         id: "item-3",

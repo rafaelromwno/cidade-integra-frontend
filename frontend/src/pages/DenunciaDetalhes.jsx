@@ -3,7 +3,15 @@ import { Separator } from "@/components/ui/separator";
 import DenunciaStatusBadge from "@/components/denuncias/DenunciaStatusBadge";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { MapPin, Calendar, ArrowLeft, MessageSquare, User } from "lucide-react";
+import {
+  MapPin,
+  Calendar,
+  ArrowLeft,
+  MessageSquare,
+  User,
+  Bookmark,
+  BookmarkCheck,
+} from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { useReport } from "@/hooks/useReport";
@@ -11,12 +19,19 @@ import { Link, useParams } from "react-router-dom";
 import ComentarioCard from "@/components/denuncias/ComentarioCard";
 import { useEffect, useState } from "react";
 import { useFetchUser } from "@/hooks/useFetchUser";
+import { useAuth } from "@/context/AuthContext";
+import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase/config";
 
 const DenunciaDetalhes = () => {
   const { id } = useParams();
   const { getReportById, loading: isLoading } = useReport();
   const [denuncia, setDenuncia] = useState(null);
   const { user } = useFetchUser(denuncia?.userId);
+  const { currentUser } = useAuth();
+  const [isSaved, setIsSaved] = useState(false);
+  const [isLoadingSave, setIsLoadingSave] = useState(false);
+  
 
   useEffect(() => {
     let isMounted = true;
@@ -25,9 +40,69 @@ const DenunciaDetalhes = () => {
       if (isMounted) setDenuncia(result ?? null);
     };
     if (id) fetchDenuncia();
-    return () => { isMounted = false; };
-    // Remova getReportById das dependências
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
+
+  useEffect(() => {
+    if (!currentUser?.uid || !id) return;
+
+    const checkSaved = async () => {
+      const docRef = doc(
+        db,
+        "usuarios",
+        currentUser.uid,
+        "denunciasSalvas",
+        id
+      );
+      const docSnap = await getDoc(docRef);
+      setIsSaved(docSnap.exists());
+    };
+
+    checkSaved();
+  }, [currentUser?.uid, id]);
+
+  const handleToggleSave = async () => {
+    if (!currentUser?.uid || !denuncia) return;
+
+    setIsLoadingSave(true);
+    const docRef = doc(db, "usuarios", currentUser.uid, "denunciasSalvas", id);
+
+    try {
+      if (isSaved) {
+        await deleteDoc(docRef);
+        setIsSaved(false);
+      } else {
+        const {
+          title,
+          description,
+          location,
+          imagemUrl,
+          createdAt,
+          status,
+          userId,
+          isAnonymous,
+        } = denuncia;
+        await setDoc(docRef, {
+          reportId: id,
+          title,
+          description,
+          location,
+          imagemUrl: imagemUrl || null,
+          createdAt,
+          status,
+          userId,
+          isAnonymous,
+        });
+        setIsSaved(true);
+      }
+    } catch (error) {
+      console.error("Erro ao salvar denúncia:", error);
+    } finally {
+      setIsLoadingSave(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -64,22 +139,17 @@ const DenunciaDetalhes = () => {
     );
   }
 
-  // Extrai os dados conforme o novo modelo
   const {
     title,
     description,
     category,
     createdAt,
-    updatedAt,
     resolvedAt,
     status,
     imagemUrl,
     isAnonymous,
-    userId,
     location,
   } = denuncia;
-
-  const mainImage = imagemUrl || null
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -87,7 +157,10 @@ const DenunciaDetalhes = () => {
       <main className="flex-grow">
         <div className="bg-azul text-white py-8">
           <div className="container mx-auto px-4">
-            <Link to="/denuncias" className="flex items-center text-cinza hover:text-white mb-4 w-fit">
+            <Link
+              to="/denuncias"
+              className="flex items-center text-cinza hover:text-white mb-4 w-fit"
+            >
               <ArrowLeft className="h-4 w-4 mr-1" />
               <span>Voltar para Denúncias</span>
             </Link>
@@ -101,15 +174,11 @@ const DenunciaDetalhes = () => {
         <div className="container mx-auto px-4 py-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              {mainImage ? (
+              {imagemUrl ? (
                 <img
-                  src={mainImage}
-                  alt={denuncia.title || "Imagem da denúncia"}
+                  src={imagemUrl}
+                  alt={title}
                   className="w-full max-h-96 object-cover rounded-lg"
-                  onError={(e) => {
-                    e.target.src = "/images/default-image.jpg"; // Substitua pelo caminho da imagem padrão
-                    e.target.alt = "Imagem não disponível";
-                  }}
                 />
               ) : (
                 <span className="text-gray-500 text-sm">Sem imagem</span>
@@ -129,39 +198,32 @@ const DenunciaDetalhes = () => {
                 <div className="space-y-4">
                   <div>
                     <p className="text-sm text-muted-foreground">Categoria</p>
-                    <p className="font-medium">
-                      {category
-                        ? category.charAt(0).toUpperCase() + category.slice(1)
-                        : "-"}
-                    </p>
+                    <p className="font-medium">{category}</p>
                   </div>
                   <Separator />
                   <div className="flex items-start gap-2">
                     <MapPin className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Localização</p>
-                      <p className="font-medium">
-                        {location?.address || "-"}
+                      <p className="text-sm text-muted-foreground">
+                        Localização
                       </p>
-                      {location?.postalCode && (
-                        <span className="text-xs text-muted-foreground block font-medi mt-1">
-                          CEP: {location.postalCode}
-                        </span>
-                      )}
+                      <p className="font-medium">{location?.address || "-"}</p>
                     </div>
                   </div>
                   <Separator />
                   <div className="flex items-start gap-2">
                     <Calendar className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Data de Registro</p>
+                      <p className="text-sm text-muted-foreground">
+                        Data de Registro
+                      </p>
                       <p className="font-medium">
                         {createdAt
                           ? format(
-                            createdAt.toDate ? createdAt.toDate() : createdAt,
-                            "PPP",
-                            { locale: ptBR }
-                          )
+                              createdAt.toDate ? createdAt.toDate() : createdAt,
+                              "PPP",
+                              { locale: ptBR }
+                            )
                           : "-"}
                       </p>
                     </div>
@@ -170,9 +232,13 @@ const DenunciaDetalhes = () => {
                   <div className="flex items-start gap-2">
                     <User className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Reportado por</p>
+                      <p className="text-sm text-muted-foreground">
+                        Reportado por
+                      </p>
                       <p className="font-medium">
-                        {isAnonymous ? "Anônimo" : user?.displayName || "Usuário não encontrado"}
+                        {isAnonymous
+                          ? "Anônimo"
+                          : user?.displayName || "Usuário não encontrado"}
                       </p>
                     </div>
                   </div>
@@ -182,10 +248,14 @@ const DenunciaDetalhes = () => {
                       <div className="flex items-start gap-2">
                         <Calendar className="h-5 w-5 text-verde-escuro shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-sm text-muted-foreground">Resolvida em</p>
+                          <p className="text-sm text-muted-foreground">
+                            Resolvida em
+                          </p>
                           <p className="font-medium">
                             {format(
-                              resolvedAt.toDate ? resolvedAt.toDate() : resolvedAt,
+                              resolvedAt.toDate
+                                ? resolvedAt.toDate()
+                                : resolvedAt,
                               "PPP",
                               { locale: ptBR }
                             )}
@@ -204,8 +274,23 @@ const DenunciaDetalhes = () => {
                     <MessageSquare className="h-4 w-4 mr-2" />
                     <span>Adicionar Comentário</span>
                   </Button>
-                  <Button variant="outline" className="w-full">
-                    Compartilhar
+                  <Button
+                    variant={isSaved ? "default" : "outline"}
+                    className="w-full"
+                    onClick={handleToggleSave}
+                    disabled={isLoadingSave}
+                  >
+                    {isSaved ? (
+                      <>
+                        <BookmarkCheck className="h-4 w-4 mr-2" />
+                        Salva
+                      </>
+                    ) : (
+                      <>
+                        <Bookmark className="h-4 w-4 mr-2" />
+                        Salvar denúncia
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>

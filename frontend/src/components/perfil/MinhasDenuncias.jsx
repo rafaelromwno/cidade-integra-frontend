@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { FileText } from "lucide-react";
+import React, { useEffect, useState }, { useState } from "react";
+import { FileText, Bookmark } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import DenunciaCard from "@/components/denuncias/CardDenuncia";
 import { useUserReports } from "@/hooks/useUserReports";
 import { useAuth } from "@/context/AuthContext";
+import { db } from "@/firebase/config";
+import { collection, getDocs } from "firebase/firestore";
 
 import {
   Select,
@@ -15,7 +17,11 @@ import {
 
 const MinhasDenuncias = () => {
   const { currentUser: user, loading: authLoading } = useAuth();
-  const { reports: denuncias, loading, error } = useUserReports(user?.uid || null);
+  const {
+    reports: denuncias,
+    loading,
+    error,
+  } = useUserReports(user?.uid || null);
 
   const [filter, setFilter] = useState("todas")
 
@@ -28,13 +34,44 @@ const MinhasDenuncias = () => {
   })
 
 
-  if (authLoading) {
-    return <p>Carregando autenticação...</p>;
-  }
+  const [savedReports, setSavedReports] = useState([]);
+  const [loadingSaved, setLoadingSaved] = useState(true);
 
-  if (!user) {
-    return <p>Você precisa estar logado para ver suas denúncias.</p>;
-  }
+  // Função para remover denúncia salva da interface
+  const handleRemoveSavedReport = (reportId) => {
+    setSavedReports((prev) => prev.filter((r) => r.reportId !== reportId));
+  };
+
+  useEffect(() => {
+    const fetchSavedReports = async () => {
+      if (!user) {
+        setSavedReports([]);
+        setLoadingSaved(false);
+        return;
+      }
+
+      try {
+        const colRef = collection(db, "users", user.uid, "denunciasSalvas");
+        const snap = await getDocs(colRef);
+        const saved = snap.docs.map((doc) => ({
+          reportId: doc.id,
+          ...doc.data(),
+        }));
+        setSavedReports(saved);
+      } catch (error) {
+        console.error("Erro ao buscar denúncias salvas:", error);
+        setSavedReports([]);
+      } finally {
+        setLoadingSaved(false);
+      }
+    };
+
+    fetchSavedReports();
+  }, [user]);
+
+  if (authLoading) return <p>Carregando autenticação...</p>;
+
+  if (!user) return <p>Você precisa estar logado para ver suas denúncias.</p>;
 
   return (
     <>
@@ -67,7 +104,7 @@ const MinhasDenuncias = () => {
       {loading && <p>Carregando denúncias...</p>}
       {error && <p className="text-red-600">{error}</p>}
 
-      {denuncias.length === 0 && !loading ? (
+      {!loading && denuncias.length === 0 && (
         <Card>
           <CardContent className="pt-6">
             <div className="text-center py-10 text-muted-foreground">
