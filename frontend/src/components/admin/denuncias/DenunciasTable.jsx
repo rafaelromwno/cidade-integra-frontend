@@ -62,6 +62,7 @@ const DenunciasTable = ({ denuncias, setDenuncias }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
+          <>
           {denuncias.length === 0 ? (
             <TableRow>
               <TableCell colSpan={6} className="text-center py-10 text-muted-foreground">
@@ -70,7 +71,7 @@ const DenunciasTable = ({ denuncias, setDenuncias }) => {
             </TableRow>
           ) : (
             denuncias.map((denuncia) => (
-              <TableRow key={denuncia.reportId}> {/* Alterado para 'reportId' */}
+              <TableRow key={denuncia.reportId}>
                 <TableCell className="font-medium">{denuncia.reportId}</TableCell>
                 <TableCell>{denuncia.title}</TableCell>
                 <TableCell>{denuncia.location?.address}</TableCell>
@@ -122,6 +123,7 @@ const DenunciasTable = ({ denuncias, setDenuncias }) => {
               </TableRow>
             ))
           )}
+          </>
         </TableBody>
       </Table>
     </div>
